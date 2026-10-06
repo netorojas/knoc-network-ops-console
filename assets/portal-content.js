@@ -172,6 +172,13 @@ var FAQ = {
 
 /* changelog — [product, version, date, title L3, bullets L3[]] */
 var LOG = [
+ ['knoc', '5.1', '2026-10-07', L3('Mais leve, ícones novos, Gestão e guia de demanda', 'Más liviano, íconos nuevos, Gestión y guía de demanda', 'Lighter, new icons, Management and a work guide'),
+  [L3('Mapa e topologia fluidos: zoom e arraste sem travar (até 6× menos quadros travados no mapa)', 'Mapa y topología fluidos: zoom y arrastre sin trabas (hasta 6× menos cuadros trabados)', 'Smooth map and topology: zoom and pan without stutter (up to 6× fewer janky frames on the map)'),
+   L3('Ícone e formato próprios por tipo (firewall, NSG, switch, VM, banco…) e selo de nuvem', 'Ícono y forma propios por tipo y sello de nube', 'Own icon and shape per type (firewall, NSG, switch, VM, database…) plus a cloud badge'),
+   L3('Foco suave no que você clica e preferências de visualização do mapa e da topologia', 'Foco suave al hacer clic y preferencias de visualización', 'Soft focus on what you click and view preferences for map and topology'),
+   L3('Grupo Gestão no menu: FinOps e Custos por recurso (filtro, ordenação e CSV)', 'Grupo Gestión: FinOps y Costos por recurso (filtro, orden y CSV)', 'Management menu group: FinOps and Resource costs (filter, sort and CSV)'),
+   L3('Demandas no mapa e guia da demanda com o inventário afetado', 'Demandas en el mapa y guía con el inventario afectado', 'Work pins on the map and a work guide with the affected inventory'),
+   L3('Equipamentos Cisco, Juniper, HPE Aruba, Palo Alto, Unify, NetApp e versão publicada de cada um', 'Equipos Cisco, Juniper, HPE Aruba, Palo Alto, Unify, NetApp y versión publicada', 'Cisco, Juniper, HPE Aruba, Palo Alto, Unify and NetApp gear with each one’s published version')]],
  ['knoc', '5.0', '2026-10-08', L3('Multicloud, demandas no mapa e FinOps', 'Multinube, demandas en el mapa y FinOps', 'Multicloud, work on the map and FinOps'),
   [L3('Selo de origem em todo site e recurso: on-prem, Azure, AWS, Google Cloud, Oracle, IBM ou SaaS', 'Sello de origen en cada sitio y recurso: on-prem, Azure, AWS, Google Cloud, Oracle, IBM o SaaS', 'Origin badge on every site and resource: on-prem, Azure, AWS, Google Cloud, Oracle, IBM or SaaS'),
    L3('Cloud & Tenants: recursos por nuvem, desenho de rede (gateways e VPNs) e regras de NSG / Security Group', 'Cloud & Tenants: recursos por nube, diseño de red (gateways y VPN) y reglas de NSG / Security Group', 'Cloud & Tenants: resources per cloud, network design (gateways and VPNs) and NSG / security group rules'),

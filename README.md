@@ -13,6 +13,13 @@ Map, topology, inventory, health, telephony, partners, multicloud discovery, wor
 
 ---
 
+## ✨ v5.1 · Smooth, readable, actionable
+
+- **Smooth:** zoom and pan move the map as one GPU layer and redraw once when you stop — up to 6× fewer janky frames in our benchmark.
+- **Readable:** one icon and one frame shape per asset family, an origin badge for cloud resources and a provider ring on cloud markers.
+- **Actionable:** work pins on the map open a guide with next steps and the exact inventory affected; *Management › Resource costs* lists every resource's monthly cost with CSV export.
+- **Yours:** view preferences for map and topology (pins, WAN lines, labels, focus, animations, map style).
+
 ## ✨ v5 · Multicloud, work on the map and FinOps
 
 | | |

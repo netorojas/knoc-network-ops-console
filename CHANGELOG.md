@@ -2,6 +2,17 @@
 
 All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
 
+## [5.1.0] - 2026-10-07
+### Added
+- **Management** group in the left menu: FinOps and a new **Resource costs** screen (filter by origin, family, owner and tag; sort; CSV export; hidden for the Analyst persona).
+- **Work pins** on the map and a **work guide** drawer: origin, owner, suggested next steps, affected inventory (with published versions), security risks at the same place, cost of affected resources, and a link to the inventory filtered to exactly those assets.
+- New icon system: one glyph per asset type and one frame shape per family (network hexagon, security shield, compute square, data circle, operations diamond) plus an origin badge for cloud resources; cloud markers get a provider ring.
+- **View preferences** for the map (work pins, WAN lines, names, soft focus, animations, compact cards, relief/flat/contrast style) and the topology (IP, origin badge, focus, animations).
+- Multi-vendor demo estate: Cisco (Catalyst, Meraki, ISR, Secure Firewall), Juniper (EX, QFX, SRX, MX, Mist), HPE Aruba (CX, APs), Palo Alto, Unify OpenScape, NetApp, SUSE Rancher, HPE ProLiant; latest published version, end of support and licence dates (fictional).
+### Changed
+- Performance: during zoom/pan the map and topology move as one GPU layer and redraw once when you stop; cards only follow their anchors while moving; map items are memoised; no live blur over the map; the inventory paints the first 50 rows first; search inputs are debounced.
+- Calm visuals: alert pulse grows with the marker instead of the map units (no more giant red rings when zoomed in), land and markers fade instead of jumping, soft focus on the clicked item.
+
 ## [5.0.0] - 2026-10-08
 ### Added
 - Origin badge (on-prem, Azure, AWS, Google Cloud, Oracle, IBM, SaaS) on map cards and every v5 table.

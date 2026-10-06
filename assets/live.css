@@ -136,3 +136,20 @@
 #view.lv-busy::before{content:"";position:absolute;inset:0;z-index:40;background:color-mix(in srgb,var(--ground) 70%,transparent);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 #view.lv-busy::after{content:"";position:absolute;left:50%;top:180px;z-index:41;width:38px;height:38px;margin-left:-19px;border-radius:50%;border:3px solid color-mix(in srgb,var(--accent) 25%,transparent);border-top-color:var(--accent);animation:lv-spin .7s linear infinite}
 @keyframes lv-spin{to{transform:rotate(360deg)}}
+
+/* v6 · while panning/zooming: no filters, shadows or transitions (the frame budget goes to the map) */
+#mapbox.lv-moving #msvg{will-change:transform}
+#mapbox.lv-moving *,#mapbox.lv-moving *::before,#mapbox.lv-moving *::after{transition:none !important;animation-play-state:paused !important}
+#mapbox.lv-moving .lv-card,#mapbox.lv-moving .lv-ghost{box-shadow:none !important;backdrop-filter:none !important}
+#mapbox.lv-moving .lv-blur,#mapbox.lv-moving text{filter:none !important}
+#mapbox.lv-moving #lvleads{opacity:0}
+#tsvg{will-change:transform}
+
+/* v6 · performance: no live blur over the map/topology (re-blurred every frame on modest GPUs) */
+.lv-card{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;background:color-mix(in srgb,var(--surface) 97%,transparent) !important}
+#mmk text.lv-blur{filter:none !important;opacity:.22}
+#tsvg.lod-far .node text.nm{filter:none !important;opacity:.45}
+#tsvg.lv-hier.lod-mid .fl{filter:none !important;opacity:.45}
+.lv-ghost{filter:none !important;opacity:.7}
+html[data-product="knoc"] .toolbar .tb{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+html[data-product] header.top{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;background:color-mix(in srgb,var(--surface) 96%,transparent) !important}

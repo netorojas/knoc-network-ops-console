@@ -46,7 +46,7 @@
   };
 
   /* heavy screens get a short loading veil so the switch feels instant instead of frozen */
-  var HEAVY = { map: 1, topo: 1, finops: 1, cloud: 1, ops: 1, dem: 1 };
+  var HEAVY = { map: 1, topo: 1, finops: 1, cloud: 1, ops: 1, dem: 1, cost: 1, inv: 1 };
   var go0 = K.go;
   K.go = function (v) {
     var args = arguments, self = this, view = document.getElementById('view');
@@ -94,12 +94,24 @@
 
   /* svg coords -> px inside #mapbox */
   function toScr(p) {
-    var v = MAP().MV.vb, el = $('msvg'), box = $('mapbox');
+    var MVv = MAP().MV, v = MVv.vb, el = $('msvg'), box = $('mapbox'), R = MVv.rel;
+    if (R && R.w) { var s0 = Math.min(R.w / v.w, R.h / v.h); return [(p[0] - v.x) * s0 + (R.w - v.w * s0) / 2 + R.x, (p[1] - v.y) * s0 + (R.h - v.h * s0) / 2 + R.y]; }
     var r = el.getBoundingClientRect(), b = box.getBoundingClientRect();
     var s = Math.min(r.width / v.w, r.height / v.h), ox = (r.width - v.w * s) / 2, oy = (r.height - v.h * s) / 2;
     return [(p[0] - v.x) * s + ox + (r.left - b.left), (p[1] - v.y) * s + oy + (r.top - b.top)];
   }
 
+  /* while the map is being dragged/zoomed only follow the anchors (cheap); full placement runs on settle */
+  K.onMapMove = function () {
+    var layer = $('lvcards'); if (!layer || !LV.wp) return;
+    [].forEach.call(layer.children, function (el) {
+      var id = el.dataset.id, p = LV.wp[id], c = LV.cur[id], t = LV.tgt[id], o = (LV.anchor || {})[id]; if (!p || !c || !t || !o) return;
+      var a = toScr(p), dx = a[0] - o[0], dy = a[1] - o[1]; LV.anchor[id] = a;
+      c[0] += dx; c[1] += dy; t[0] += dx; t[1] += dy;
+      el.style.transform = 'translate3d(' + c[0].toFixed(1) + 'px,' + c[1].toFixed(1) + 'px,0)';
+    });
+    var leads = $('lvleads'); if (leads) leads.innerHTML = '';
+  };
   K.onMapDraw = function (ctx) {
     LV.ctx = ctx;
     if (!ensureMapDom()) return;
@@ -140,7 +152,7 @@
       var sel = MV.site === it.id || (MV.site && it.go === MV.site);
       var dc = Math.hypot(a[0] - W / 2, a[1] - H / 2) / Math.hypot(W / 2, H / 2);
       var score = (sel ? 10000 : 0) + (LV.pin[it.id] ? 5000 : 0) + (LV.drag[it.id] ? 800 : 0) + down * 60 + Math.min(40, it.nodes.length) * 3 + gap * 2 - dc * 120;
-      out.push({ id: it.id, it: it, a: a, sel: sel, down: down, gap: gap, score: score });
+      out.push({ id: it.id, it: it, a: a, p: c.p, sel: sel, down: down, gap: gap, score: score });
     });
     return out.sort(function (x, y) { return y.score - x.score; });
   }
@@ -170,7 +182,7 @@
         var n = LV.nodes[id]; if (!n) return '';
         var g = K.gaps('node', n).length;
         return '<button class="lv-r" type="button" role="listitem" data-node="' + esc(id) + '" title="' + esc(n.name + ' · ' + (K.TYPES[n.type] || n.type) + (n.model ? ' · ' + n.model : '')) + '">' +
-          '<i style="background:' + stCol(nodeSt(id)) + '"></i><span class="t" style="color:' + MAP().tcol(n) + '">' + esc(MAP().tabbr(n)) + '</span><span class="nm">' + esc(n.name) + '</span>' +
+          '<i style="background:' + stCol(nodeSt(id)) + '"></i>' + (K.typeTile ? K.typeTile(n, 16) : '<span class="t" style="color:' + MAP().tcol(n) + '">' + esc(MAP().tabbr(n)) + '</span>') + '<span class="nm">' + esc(n.name) + '</span>' +
           (z >= IP_Z ? '<span class="ip">' + esc(String(n.ip || n.fqdn || '').slice(0, 22)) + '</span>' : '') + (g ? '<span class="g">!</span>' : '') + '</button>';
       }).join('') + '</div>' + (ids.length > max ? '<div class="lv-more">+' + (ids.length - max) + ' · ' + esc(L3('aproxime ou abra os detalhes', 'acércate o abre los detalles', 'zoom in or open details')) + '</div>' : '');
       h += '<div class="lv-f"><button type="button" data-act="go">' + esc(L3('Detalhes', 'Detalles', 'Details')) + ' →</button><button type="button" data-act="topo">' + esc(L3('Topologia', 'Topología', 'Topology')) + ' →</button></div>';
@@ -276,7 +288,7 @@
       if (!r) { el.remove(); delete LV.cur[c.id]; demoted.push(c); return; }
       if (mode === 2) fullLeft--;
       obst.push({ x: r.x - 6, y: r.y - 6, w: r.w + 12, h: r.h + 12, k: 6 });
-      LV.tgt[c.id] = [r.x, r.y]; LV.anchor = LV.anchor || {}; LV.anchor[c.id] = c.a;
+      LV.tgt[c.id] = [r.x, r.y]; LV.anchor = LV.anchor || {}; LV.anchor[c.id] = c.a; LV.wp = LV.wp || {}; LV.wp[c.id] = c.p;
       if (!LV.cur[c.id]) LV.cur[c.id] = [r.x, r.y];
       keep[c.id] = 1;
     });
@@ -297,7 +309,7 @@
       if (best.hit > w * h * 0.5) { el.style.display = 'none'; keep[id] = 1; return; }
       el.style.display = ''; LV.slot[id] = best.slot;
       obst.push({ x: best.r.x - 3, y: best.r.y - 3, w: w + 6, h: h + 6, k: 2 });
-      LV.tgt[id] = [best.r.x, best.r.y]; LV.anchor = LV.anchor || {}; LV.anchor[id] = c.a;
+      LV.tgt[id] = [best.r.x, best.r.y]; LV.anchor = LV.anchor || {}; LV.anchor[id] = c.a; LV.wp = LV.wp || {}; LV.wp[id] = c.p;
       if (!LV.cur[id]) LV.cur[id] = [best.r.x, best.r.y];
       keep[id] = 1;
     });
@@ -551,7 +563,7 @@
     if (tsvg) tsvg.classList.toggle('lv-hier', TP.mode !== 'graph');
     if (TV.cc !== TP.cc) { if (TV.cc !== null && TP.tmp) { TP.tmp = null; } TV.cc = TP.cc; }
     if (TP.tmp) Object.keys(TP.tmp).forEach(function (id) { var g = document.querySelector('#scene .node[data-nid="' + cssEsc(id) + '"]'); if (g) g.classList.add('lv-moved'); });
-    TV.bbAt = 0; reorgButton(); topoMini(true); fitIz = null; fitSoon();
+    TV.bbAt = 0; reorgButton(); setTimeout(function () { topoMini(true); }, 60); fitIz = null; fitSoon();
     if (!store.get('osc.topohint', false)) {
       store.set('osc.topohint', true);
       setTimeout(function () { K.toast(L3('Dica: arraste os ativos para abrir espaço. Nada é salvo; "Reorganizar" volta ao normal.', 'Consejo: arrastra los activos para abrir espacio. No se guarda nada; "Reordenar" vuelve a la normalidad.', 'Tip: drag assets to make room. Nothing is saved; "Re-arrange" puts them back.')); }, 900);
@@ -567,7 +579,8 @@
   var fitCtx = null;
   function fitTexts() {
     var svg = $('tsvg'); if (!svg) return;
-    var iz = svg.style.getPropertyValue('--izc') + '|' + (svg.getAttribute('class') || '');
+    if (svg.classList.contains('tp-moving')) return;
+    var iz = svg.style.getPropertyValue('--izc') + '|' + (svg.getAttribute('class') || '').replace('tp-moving', '').trim();
     var list = svg.querySelectorAll('text.fitw');
     if (iz === fitIz && list.length && list[0].dataset.fit) return;
     fitIz = iz;
@@ -603,7 +616,7 @@
   function topoMini(rebox) {
     var s = $('lvtmsvg'), sc = $('scene'); if (!s || !sc || !LV.mini || !T()) return;
     var now = Date.now();
-    if (rebox || !TV.bb || now - TV.bbAt > 400) {
+    if (rebox || !TV.bb) {
       try { var b = sc.getBBox(); if (b.width > 0) { var pad = Math.max(b.width, b.height) * 0.04; TV.bb = { x: b.x - pad, y: b.y - pad, w: b.width + 2 * pad, h: b.height + 2 * pad }; TV.bbAt = now; } } catch (e) { return; }
       if (!TV.bb) return;
       s.setAttribute('viewBox', TV.bb.x + ' ' + TV.bb.y + ' ' + TV.bb.w + ' ' + TV.bb.h);

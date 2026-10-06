@@ -1,0 +1,68 @@
+/*! Orbiscale · v6 (calm map, focus, pins, guide, costs) · AGPL-3.0-or-later · (C) 2026 Ernesto Athaualpa Rojas (Neto) */
+/* calm colour changes: land, links and markers fade instead of jumping */
+#mland path{transition:fill .5s ease,opacity .5s ease,stroke .5s ease}
+#msvg .mk{transition:opacity .45s ease,filter .45s ease}
+#msvg .wan{transition:opacity .45s ease}
+/* the alert pulse grows with the marker (not with the map units) and breathes slowly */
+@keyframes v6pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.9);opacity:0}}
+.map circle.pulse{animation:v6pulse 2.6s cubic-bezier(.2,.6,.3,1) infinite;transform-box:fill-box;transform-origin:center;stroke-opacity:.7}
+/* focus: what you clicked stays lit, everything else steps back */
+#msvg.v6-focus .mk:not(.sel):not(.v6-on){opacity:.32}
+#msvg.v6-focus .mk.sel,#msvg.v6-focus .mk.v6-on{filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 55%,transparent))}
+#msvg.v6-focus .wan{opacity:.28}
+#msvg.v6-focus #v6pins .v6-pin{opacity:.55}
+/* provider ring on cloud markers */
+.v6-ring{fill:none;opacity:.9;pointer-events:none}
+/* demand pins */
+.v6-pin{cursor:pointer}
+.v6-pin rect{fill:var(--surface);stroke:var(--line)}
+.v6-pin text{fill:var(--ink);font-family:var(--mono);font-weight:700}
+.v6-pin.hot rect{stroke:var(--crit);fill:color-mix(in srgb,var(--crit) 10%,var(--surface))}
+.v6-pin:hover rect{stroke:var(--accent)}
+/* view preferences */
+.v6-nowan #mwan{display:none}
+.v6-nolabels #mmk text.ml,.v6-nolabels #mmk text.cl{display:none}
+.v6-nopins #v6pins{display:none}
+.v6-noanim .map circle.pulse{animation:none;opacity:0}
+.v6-noanim .lv-card,.v6-noanim .mk,.v6-noanim #mland path{transition:none!important}
+.v6-compact .lv-card{width:200px}.v6-compact .lv-r{padding:2px 8px}.v6-compact .lv-r .ip{display:none}
+.v6-map-flat #mland path{stroke-opacity:.25}
+.v6-map-flat .map svg{background:var(--ground)!important}
+.v6-map-contrast #mland path{stroke:var(--ink)!important;stroke-opacity:.6}
+.v6-map-contrast #mland path.k{fill:color-mix(in srgb,var(--surface) 85%,var(--ink))}
+.v6-tpnoip #tsvg .node text.ip{display:none}
+.v6-tpnobadge #tsvg .ic6>g:last-child{display:none}
+.v6-pop{position:absolute;right:56px;top:12px;z-index:30;width:250px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 40px rgba(11,18,32,.18);padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:13px;animation:v6in .18s ease}
+.v6-pop label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.v6-seg{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.v6-seg span{flex-basis:100%;font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.v6-seg button{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:3px 10px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.v6-seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+#topo{position:relative}
+@keyframes v6in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* drawer: site contents and the demand guide */
+.v6-drawer{position:fixed;right:0;top:0;bottom:0;width:min(440px,100vw);z-index:900;background:var(--surface);border-left:1px solid var(--line);box-shadow:-18px 0 50px rgba(11,18,32,.16);padding:22px 22px 28px;overflow:auto;transform:translateX(104%);transition:transform .32s cubic-bezier(.2,.7,.2,1)}
+.v6-drawer.open{transform:none}
+.v6-drawer h2{font-size:19px;line-height:1.25;margin:4px 0 14px}
+.v6-drawer h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);margin:18px 0 8px}
+.v6-drawer h3 small{font-family:var(--mono);color:var(--ink-3)}
+.v6-x{position:absolute;right:12px;top:10px;border:0;background:none;font-size:22px;color:var(--ink-3);cursor:pointer}
+.v6-kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}.v6-kv span{color:var(--ink-3)}
+.v6-steps{margin:0;padding-left:20px;font-size:13.5px;line-height:1.55}
+.v6-inv{display:flex;flex-direction:column;gap:6px}
+.v6-ni{display:flex;align-items:center;justify-content:flex-start;gap:10px;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;text-align:left;cursor:pointer;color:var(--ink)}
+.v6-ni:hover{border-color:var(--accent)}
+.v6-ni span{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;flex:1}.v6-ni small{color:var(--ink-3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v6-upd{font:700 10px var(--mono);color:#fff;background:#2563EB;border-radius:4px;padding:2px 5px;font-style:normal;white-space:nowrap}
+.v6-risk{border-left:3px solid var(--crit);padding:6px 10px;margin-bottom:6px;background:color-mix(in srgb,var(--crit) 6%,transparent);font-size:12.5px;display:flex;flex-direction:column;gap:2px}
+.v6-cost{font-size:13px;margin-top:14px}
+.v6-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.v6-list{display:flex;flex-direction:column;gap:6px}
+.v6-li{display:flex;gap:8px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--ink);font-size:13px}
+.v6-li:hover{border-color:var(--accent)}.v6-li b{font-family:var(--mono);font-size:11px;color:var(--accent)}.v6-li em{margin-left:auto;font-style:normal}
+/* resource costs */
+.v6-cf{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}.v6-cf input{flex:1;min-width:200px}
+.v6-bar{width:18%;min-width:90px}.v6-bar i{display:block;height:8px;border-radius:4px;background:linear-gradient(90deg,#2563EB,#14B8A6)}
+.v5-tbl tr[data-open]{cursor:pointer}.v5-tbl tr[data-open]:hover td{background:var(--surface-2)}
+.v5-tbl th[data-cs]{cursor:pointer}
+@media (prefers-reduced-motion:reduce){.v6-drawer{transition:none}.map circle.pulse{animation:none}}
+.v6-drawer .v6-ni{justify-content:flex-start !important;text-align:left !important}.v6-drawer .v6-ni>span{align-items:flex-start !important;text-align:left !important}.v6-drawer .v6-ni b,.v6-drawer .v6-ni small{text-align:left !important;width:100%}
