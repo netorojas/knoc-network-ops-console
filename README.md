@@ -1,7 +1,7 @@
 # Orbiscale · Network Ops Console
 
 **Your whole infrastructure on one screen — one country or the whole world.**
-Map, topology, inventory, health, telephony, partners, multicloud discovery and layer-by-layer troubleshooting, in a single static web app. No backend, no build step.
+Map, topology, inventory, health, telephony, partners, multicloud discovery, work on the map, FinOps and layer-by-layer troubleshooting, in a single static web app. No backend, no build step.
 
 > 🔗 **Live demo:** https://netorojas.github.io/knoc-network-ops-console/
 > 🧪 All data is **fictional** (company "Contoso Global"). IPs come from the RFC 1918 and RFC 5737 documentation ranges.
@@ -9,9 +9,30 @@ Map, topology, inventory, health, telephony, partners, multicloud discovery and 
 
 ![Orbiscale demo](docs/media/knoc-demo.gif)
 
-▶️ [Full walkthrough (MP4, with sound)](docs/media/knoc-demo.mp4) · soundtrack is an original composition generated in code, free to reuse (CC0)
+▶️ [Full walkthrough (MP4, with captions and sound)](docs/media/orbiscale-v5.mp4) · soundtrack is an original composition generated in code, free to reuse (CC0)
 
 ---
+
+## ✨ v5 · Multicloud, work on the map and FinOps
+
+| | |
+|---|---|
+| **Origin on every screen** | Every site and resource carries a badge: on-prem, Azure, AWS, Google Cloud, Oracle Cloud, IBM Cloud or SaaS. Map cards, tables and FinOps use the same colours. |
+| **Multicloud, for real** | Cloud & Tenants lists what discovery found per provider (VMs, Kubernetes, databases, Blob/S3/COS, Key Vault/Secrets Manager/Key Protect, Fabric, load balancers), the **network design** (how each cloud reaches the company: VPN gateways, Transit Gateway, FastConnect, Direct Link) and every **NSG / security group / security list rule**. Topology has a view per cloud. |
+| **Work on the map** | *Demands* shows where every ticket, project, e-mail, meeting, Teams thread, change and alert is **born** and which site or resource it **lives on**, with the analyst, age and status. Map cards show what lives at each site. Links go both ways with Infra Backlog. |
+| **Findings become action** | Read-only discovery flags risks (SSH/RDP open to the internet, public storage, vault logs, Kubernetes control plane, firmware). One click drafts the ITSM ticket or the Teams post — the demo never sends anything. |
+| **FinOps (Enterprise module)** | Cost by cloud, region, site and resource, 12-month trend, budget, untagged resources and savings recommendations (idle, orphan, schedule, commitments, rightsizing, tiering). **Role-based views**: Executive, Manager, Coordinator and Analyst — analysts get the tasks, not the prices. Prices only appear in FinOps. |
+| **Executive palette** | New corporate default (trusted blue and teal, light and dark), splash screen while loading and lighter heavy views. |
+
+| Work on the map | FinOps |
+|---|---|
+| ![Work on the map](docs/screenshots/v5-demands.png) | ![FinOps](docs/screenshots/v5-finops.png) |
+| **Multicloud** | **Network rules** |
+| ![Multicloud](docs/screenshots/v5-multicloud.png) | ![Network rules](docs/screenshots/v5-network-rules.png) |
+| **Security findings → ticket / Teams** | **Map with origin badges** |
+| ![Security findings](docs/screenshots/v5-security-findings.png) | ![Map](docs/screenshots/v5-map-multicloud.png) |
+
+> FinOps role switching in the demo is a button; in production the role comes from Entra ID / IdP groups (RBAC). All prices, people and tickets are fictional.
 
 ## ✨ v4 · A live map
 

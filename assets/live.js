@@ -45,6 +45,19 @@
     closed: {}, slot: {}, cur: {}, tgt: {}, size: {}, ctx: null, raf: 0, nodes: null
   };
 
+  /* heavy screens get a short loading veil so the switch feels instant instead of frozen */
+  var HEAVY = { map: 1, topo: 1, finops: 1, cloud: 1, ops: 1, dem: 1 };
+  var go0 = K.go;
+  K.go = function (v) {
+    var args = arguments, self = this, view = document.getElementById('view');
+    if (!HEAVY[v] || reduce || !view) return go0.apply(self, args);
+    view.classList.add('lv-busy');
+    requestAnimationFrame(function () { setTimeout(function () {
+      try { go0.apply(self, args); } finally {
+        requestAnimationFrame(function () { requestAnimationFrame(function () { view.classList.remove('lv-busy'); }); });
+      } }, 0); });
+  };
+
   /* ====================================================================
      MAP
      ==================================================================== */
@@ -139,7 +152,7 @@
     var worst = K.worst(ids), cloud = it.lay === 'cloud', tot = ids.length;
     var name = it.short || it.name, cc = it.cc && it.cc !== 'CLD' ? it.cc : '';
     var h = '<div class="lv-h" data-drag><i class="lv-st" style="background:' + stCol(worst) + ';color:' + stCol(worst) + '"></i>' +
-      '<span class="lv-k">' + (cloud ? 'CLOUD' : 'SITE') + '</span><b class="lv-n" data-act="go" title="' + esc(it.name) + '">' + esc(name) + '</b>' + (cc ? '<span class="lv-cc">' + esc(cc) + '</span>' : '') +
+      (K.originTag ? K.originTag(it) : '<span class="lv-k">' + (cloud ? 'CLOUD' : 'SITE') + '</span>') + '<b class="lv-n" data-act="go" title="' + esc(it.name) + '">' + esc(name) + '</b>' + (cc ? '<span class="lv-cc">' + esc(cc) + '</span>' : '') +
       '<button class="lv-b" type="button" data-act="pin" aria-pressed="' + !!LV.pin[c.id] + '" title="' + esc(L3('Fixar: fica visível em qualquer zoom', 'Fijar: visible en cualquier zoom', 'Pin: stays visible at any zoom')) + '">◎</button>' +
       '<button class="lv-b" type="button" data-act="close" title="' + esc(L3('Fechar este cartão', 'Cerrar esta tarjeta', 'Close this card')) + '">×</button></div>';
     h += '<div class="lv-s"><span>' + tot + ' ' + esc(L3('ativos', 'activos', 'assets')) + '</span>' +
@@ -148,6 +161,7 @@
       (cnt.deg ? '<span class="wa">' + cnt.deg + ' ' + esc(L3('degradado', 'degradado', 'degraded')) + '</span>' : '') +
       (c.gap ? '<span class="wa">! ' + c.gap + '</span>' : '') + '</div>';
     h += '<div class="lv-bar">' + ['up', 'deg', 'down', 'unk'].map(function (k) { return cnt[k] ? '<i style="width:' + (cnt[k] / tot * 100).toFixed(1) + '%;background:' + stCol(k) + '"></i>' : ''; }).join('') + '</div>';
+    if (K.cardExtra && lvl >= 1) h += K.cardExtra(it, lvl);
     if (lvl >= 2) {
       var ord = { fw: 0, afw: 0, isp: 1, vpngw: 1, rtr: 2, sw: 2, vnet: 2, ap: 3, hyp: 4, srv: 5, vm: 6, k8s: 6, sbc: 7, pbx: 7, db: 8, stor: 8, kv: 9, oob: 9, ups: 9 };
       ids.sort(function (a, b) { var x = LV.nodes[a] || {}, y = LV.nodes[b] || {}; return ((ord[x.type] != null ? ord[x.type] : 10) - (ord[y.type] != null ? ord[y.type] : 10)) || String(x.name).localeCompare(y.name); });
@@ -550,23 +564,38 @@
   var fitT = 0, fitIz = null;
   var fitLast = 0;
   function fitSoon() { var now = Date.now(); if (now - fitLast > 120) { fitLast = now; fitTexts(); } clearTimeout(fitT); fitT = setTimeout(function () { fitLast = Date.now(); fitTexts(); }, 140); }
+  var fitCtx = null;
   function fitTexts() {
     var svg = $('tsvg'); if (!svg) return;
     var iz = svg.style.getPropertyValue('--izc') + '|' + (svg.getAttribute('class') || '');
     var list = svg.querySelectorAll('text.fitw');
     if (iz === fitIz && list.length && list[0].dataset.fit) return;
     fitIz = iz;
-    [].forEach.call(list, function (t) {
-      var full = t.dataset.t || '', w = +t.dataset.w || 0; t.dataset.fit = '1';
-      if (t.textContent !== full) t.textContent = full;
-      if (!w || !t.getComputedTextLength || t.getComputedTextLength() <= w) return;
-      // narrow zone: drop the "BR · " prefix before cutting the name itself
-      var short = full.replace(/^(↗\s*)?[A-Z]{2,3} · /, '$1');
-      if (short !== full) { t.textContent = short; if (t.getComputedTextLength() <= w) { addTitle(t, full); return; } full = short; }
-      var lo = 1, hi = full.length, best = 1;
-      while (lo <= hi) { var mid = (lo + hi) >> 1; t.textContent = full.slice(0, mid) + '…'; if (t.getComputedTextLength() <= w) { best = mid; lo = mid + 1; } else hi = mid - 1; }
-      t.textContent = best > 2 ? full.slice(0, best) + '…' : '';
-      addTitle(t, t.dataset.t || full);
+    // measure with a canvas: no forced layout per text (the DOM version cost seconds)
+    if (!fitCtx) fitCtx = document.createElement('canvas').getContext('2d');
+    var fonts = {};
+    var fontOf = function (t) {
+      var k = t.getAttribute('class'); if (fonts[k]) return fonts[k];
+      var cs = getComputedStyle(t); fonts[k] = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily; return fonts[k];
+    };
+    var jobs = [];
+    [].forEach.call(list, function (t) { jobs.push([t, fontOf(t)]); });
+    jobs.forEach(function (j) {
+      var t = j[0], full = t.dataset.t || '', w = +t.dataset.w || 0, out = full; t.dataset.fit = '1';
+      fitCtx.font = j[1];
+      var width = function (s) { return fitCtx.measureText(s).width; };
+      if (w && width(full) > w) {
+        var short = full.replace(/^(↗\s*)?[A-Z]{2,3} · /, '$1');
+        if (width(short) <= w) out = short;
+        else {
+          var lo = 1, hi = short.length, best = 0;
+          while (lo <= hi) { var mid = (lo + hi) >> 1; if (width(short.slice(0, mid) + '…') <= w) { best = mid; lo = mid + 1; } else hi = mid - 1; }
+          out = best > 2 ? short.slice(0, best) + '…' : '';
+        }
+      }
+      if (t.firstChild && t.firstChild.nodeType === 3 && t.childNodes.length === 1 && t.textContent === out) return;
+      t.textContent = out;
+      if (out !== full) addTitle(t, full);
     });
   }
   function addTitle(t, txt) { var ti = document.createElementNS('http://www.w3.org/2000/svg', 'title'); ti.textContent = txt; t.appendChild(ti); }

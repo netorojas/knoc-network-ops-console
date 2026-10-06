@@ -15,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '4.0.0';
+var VERSION = '5.0.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -322,12 +322,13 @@ var SECTIONS = {
 /* ---------- 4b. Appearance: palettes + your own colours ---------- */
 var T3 = function (a, b, c) { return tx(L3(a, b, c)); };
 var PALS = [
-  ['signature', L3('Assinatura', 'Firma', 'Signature'), L3('Claro em vermelho vivo, escuro em floresta e dourado', 'Claro en rojo vivo, oscuro en bosque y dorado', 'Light in bold red, dark in forest and gold'), '', ['#E4000F', '#0058C9', '#FBD000'], ['#3FA66B', '#D9B44A', '#4F8FBF']],
-  ['classic', L3('Corporativo', 'Corporativo', 'Corporate'), L3('Azul sóbrio, fundos neutros', 'Azul sobrio, fondos neutros', 'Calm blue on neutral surfaces'), 'neutral', ['#1F5FD6', '#06B6D4', '#F59E0B'], ['#6E9BFF', '#22D3EE', '#FBBF24']],
-  ['graphite', L3('Grafite', 'Grafito', 'Graphite'), L3('Quase monocromático, para telas de NOC', 'Casi monocromático, para pantallas de NOC', 'Near-monochrome, for NOC walls'), 'neutral', ['#334155', '#0EA5E9', '#64748B'], ['#CBD5E1', '#38BDF8', '#94A3B8']],
+  ['executive', L3('Executivo', 'Ejecutivo', 'Executive'), L3('Azul confiável e verde-água sobre fundos neutros. O padrão.', 'Azul confiable y verde agua sobre fondos neutros. El estándar.', 'Trusted blue and teal on neutral surfaces. The default.'), '', ['#2563EB', '#0EA5A4', '#0F172A'], ['#60A5FA', '#2DD4BF', '#E6ECF5'], 1],
+  ['violet', L3('Grafite + violeta', 'Grafito + violeta', 'Graphite + violet'), L3('Neutro e moderno, estilo observabilidade', 'Neutro y moderno, estilo observabilidad', 'Neutral and modern, observability style'), 'neutral', ['#6D5DF6', '#0EA5E9', '#111827'], ['#A498FF', '#38BDF8', '#E5E7EB']],
   ['ocean', L3('Oceano', 'Océano', 'Ocean'), L3('Azul-petróleo e azul profundo', 'Azul petróleo y azul profundo', 'Teal and deep blue'), 'neutral', ['#0E7490', '#2563EB', '#14B8A6'], ['#22D3EE', '#60A5FA', '#2DD4BF']],
+  ['graphite', L3('Grafite', 'Grafito', 'Graphite'), L3('Quase monocromático, para telas de NOC', 'Casi monocromático, para pantallas de NOC', 'Near-monochrome, for NOC walls'), 'neutral', ['#334155', '#0EA5E9', '#64748B'], ['#CBD5E1', '#38BDF8', '#94A3B8']],
   ['forest', L3('Mata', 'Selva', 'Woodland'), L3('Verde e mostarda, fundos neutros', 'Verde y mostaza, fondos neutros', 'Green and mustard on neutral surfaces'), 'neutral', ['#15803D', '#CA8A04', '#0F766E'], ['#4ADE80', '#FACC15', '#2DD4BF']],
   ['sunset', L3('Entardecer', 'Atardecer', 'Dusk'), L3('Laranja e violeta', 'Naranja y violeta', 'Orange and violet'), 'neutral', ['#C2410C', '#7C3AED', '#DB2777'], ['#FB923C', '#A78BFA', '#F472B6']],
+  ['ember', L3('Brasa & Bosque', 'Brasa y Bosque', 'Ember & Grove'), L3('Claro em vermelho vivo, escuro em floresta e dourado', 'Claro en rojo vivo, oscuro en bosque y dorado', 'Light in bold red, dark in forest and gold'), 'ember', ['#E4000F', '#0058C9', '#FBD000'], ['#3FA66B', '#D9B44A', '#4F8FBF'], 1],
   ['contrast', L3('Alto contraste', 'Alto contraste', 'High contrast'), L3('Acessibilidade: bordas e textos mais fortes', 'Accesibilidad: bordes y textos más fuertes', 'Accessibility: stronger borders and text'), 'contrast', ['#000000', '#0047AB', '#B00020'], ['#FFE600', '#00E5FF', '#FF6E6E']]
 ];
 function isDark() { var c = root.getAttribute('data-theme'); return c === 'dark' || (c !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
@@ -335,12 +336,12 @@ function hexOk(h) { return /^#[0-9a-f]{6}$/i.test(h || ''); }
 function lum(h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
 var LOOK_VARS = ['--accent', '--accent-ink', '--accent-soft', '--pf-accent-2', '--pf-grad', '--pf-red'];
 function applyLook() {
-  var id = S.pal || 'signature', p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
+  var id = S.pal === 'signature' ? 'ember' : (S.pal || 'executive'), p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
   root.dataset.pbase = p[3] || '';
   root.dataset.palette = p[0];
   var sw = dark ? p[5] : p[4], a = sw[0], b = sw[1];
   if (S.myCol && hexOk(S.myA)) { a = S.myA; b = hexOk(S.myB) ? S.myB : b; }
-  if (p[0] === 'signature' && !(S.myCol && hexOk(S.myA))) { LOOK_VARS.forEach(function (v) { root.style.removeProperty(v); }); return; }
+  if (p[6] && !(S.myCol && hexOk(S.myA))) { LOOK_VARS.forEach(function (v) { root.style.removeProperty(v); }); return; }
   var ink = lum(a) > 0.4 ? '#0B0F14' : '#FFFFFF';
   root.style.setProperty('--accent', a); root.style.setProperty('--accent-ink', ink);
   root.style.setProperty('--accent-soft', 'color-mix(in srgb,' + a + ' ' + (dark ? '22%' : '12%') + ',var(--surface))');
@@ -351,7 +352,7 @@ new MutationObserver(function (m) { if (m.some(function (x) { return x.attribute
 if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyLook); } catch (e) { /* old Safari */ } }
 
 SECTIONS.look = function () {
-  var cur = S.pal || 'signature', dark = isDark();
+  var cur = S.pal === 'signature' ? 'ember' : (S.pal || 'executive'), dark = isDark();
   var cards = PALS.map(function (p) {
     var dots = function (arr) { return arr.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join(''); };
     return '<button class="pf-swatch" data-pal="' + p[0] + '" aria-pressed="' + (p[0] === cur) + '"><span class="pf-swatch-sw"><span class="l">' + dots(p[4]) + '</span><span class="d">' + dots(p[5]) + '</span></span><b>' + esc(tx(p[1])) + '</b><small>' + esc(tx(p[2])) + '</small></button>';
@@ -384,7 +385,7 @@ function lookWire(body) {
     var g = e.target.closest('[data-seg="theme"] [data-v]');
     if (g) { var tb = $('#theme [data-t="' + g.dataset.v + '"]'); if (tb) tb.click(); setTimeout(function () { settings('look'); }, 60); return; }
     var a = e.target.closest('[data-act="lookreset"]');
-    if (a) { S.pal = 'signature'; S.myCol = false; delete S.myA; delete S.myB; saveS(); applyLook(); settings('look'); toast(T3('Cores padrão restauradas.', 'Colores estándar restaurados.', 'Default colours restored.')); }
+    if (a) { S.pal = 'executive'; S.myCol = false; delete S.myA; delete S.myB; saveS(); applyLook(); settings('look'); toast(T3('Cores padrão restauradas.', 'Colores estándar restaurados.', 'Default colours restored.')); }
   };
   body.oninput = function (e) {
     if (e.target.id !== 'pfMyA' && e.target.id !== 'pfMyB') return;
@@ -651,8 +652,15 @@ function boot() {
   mountUtils();
   var view = $('#view'); if (view) new MutationObserver(debounce(afterNav, 30)).observe(view, { childList: true });
   if (S.start && !location.hash && P === 'knoc' && S.start !== 'home') PR.go(S.start);
-  afterNav();
+  afterNav(); hideSplash();
   if (!/[?&]nologin\b/.test(location.search)) login(); else afterLogin(false);
+}
+/* splash: leave it up until the first screen has painted (and at least ~0.7 s, so it never flickers) */
+function hideSplash() {
+  var sp = document.getElementById('pf-splash'); if (!sp) return;
+  var wait = Math.max(0, 700 - (Date.now() - (window.__pfSplashAt || 0)));
+  setTimeout(function () { requestAnimationFrame(function () { requestAnimationFrame(function () {
+    sp.classList.add('out'); setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); }, 450); }); }); }, wait);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 0);
 

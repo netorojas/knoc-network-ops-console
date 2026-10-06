@@ -2,6 +2,19 @@
 
 All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
 
+## [5.0.0] - 2026-10-08
+### Added
+- Origin badge (on-prem, Azure, AWS, Google Cloud, Oracle, IBM, SaaS) on map cards and every v5 table.
+- Cloud & Tenants: multicloud overview per provider, network design (gateways/VPNs per cloud) and NSG / security group / security list / VPC firewall rules. More demo resources: NSGs, Azure Firewall, VPN/Transit gateways, subnets, Blob/GCS buckets, Microsoft Fabric, compute.
+- Topology views per cloud provider.
+- **Demands**: where tickets, projects, e-mails, meetings, Teams threads, changes and alerts are born and which site/resource they live on; channel filter, hotspots, load per analyst (generated avatars), links to the map, topology and Infra Backlog (`?dem=<ID>` deep link).
+- Security findings from discovery with a simulated ITSM ticket / Teams post draft (nothing is sent).
+- **FinOps** (Enterprise module): cost by cloud/region/site/resource, 12-month trend, budget, untagged resources, savings recommendations; persona views (Executive, Manager, Coordinator, Analyst).
+- Splash screen and a loading veil for heavy views.
+### Changed
+- New default palette **Executive** (blue and teal on neutral surfaces). Ember/Grove stays available.
+- Map legend: "Cloud (multicloud)". Map redraws are coalesced per frame; topology text fitting uses canvas measurement (≈8× faster).
+
 ## [4.0.0] - 2026-10-07
 ### Added
 - Orbinoc is now **Orbiscale** (orbit + scale). Discovery files from v3 (`orbinoc-discovery/1`) still import.
