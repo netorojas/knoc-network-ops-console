@@ -396,7 +396,7 @@ function lookWire(body) {
 
 /* ---------- 4c. Contact, support and issue reports ---------- */
 var REPO = P === 'knoc' ? 'knoc-network-ops-console' : 'infra-backlog-dashboard';
-var CONTACT = { name: 'Ernesto (Neto) Rojas', linkedin: 'https://www.linkedin.com/in/netorojas/', github: 'https://github.com/netorojas', email: '' };
+var CONTACT = { name: 'Ernesto (Neto) Rojas', linkedin: 'https://www.linkedin.com/in/netorojas/', github: 'https://github.com/netorojas', email: 'neto.a.rojas@gmail.com' };
 SECTIONS.contact = function (sub) {
   var gh = 'https://github.com/netorojas/' + REPO;
   var card = function (ic, title, txt, href, cta) { return '<a class="pf-ccard" href="' + esc(href) + '" target="_blank" rel="noopener">' + svg(ic) + '<span><b>' + esc(title) + '</b><small>' + esc(txt) + '</small></span><em>' + esc(cta) + ' →</em></a>'; };

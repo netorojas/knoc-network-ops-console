@@ -6,6 +6,8 @@ Orbiscale is built read-only first: no credentials in the code, connectors defau
 
 Please **do not open a public issue** for security problems.
 
+Preferred: a private advisory on GitHub (below). Alternative: e-mail **neto.a.rojas@gmail.com** with the subject `[SECURITY]`.
+
 1. Open a private report: **Security → Report a vulnerability** on this repository (GitHub private security advisory).
 2. Include the version (Settings › About), the screen, and steps to reproduce.
 3. Leave out real passwords, tokens and customer data. Use placeholders.

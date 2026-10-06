@@ -9,7 +9,7 @@ Map, topology, inventory, health, telephony, partners, multicloud discovery and 
 
 ![Orbiscale demo](docs/media/knoc-demo.gif)
 
-▶️ [Full walkthrough (MP4)](docs/media/knoc-demo.mp4)
+▶️ [Full walkthrough (MP4, with sound)](docs/media/knoc-demo.mp4) · soundtrack is an original composition generated in code, free to reuse (CC0)
 
 ---
 
