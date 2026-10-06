@@ -7,7 +7,29 @@
 
 ![KNOC demo](docs/media/knoc-demo.gif)
 
-▶️ [Full 40-second walkthrough (MP4)](docs/media/knoc-demo.mp4)
+▶️ [Full 1-minute v2 walkthrough (MP4)](docs/media/knoc-demo.mp4)
+
+
+## ✨ What's new in v2 — Contoso Ops Suite
+
+Both tools now share one enterprise portal shell, with a different accent per product (blue → cyan).
+
+| | |
+|---|---|
+| **Responsive + mobile** | Drawer navigation, bottom sheets and touch targets. The map and topology now fill the screen and re-fit on resize. |
+| **Sign-in (demo)** | Microsoft Entra ID, Google, GitHub and a dedicated **enterprise SSO** path (SAML 2.0 / OIDC, domain discovery). Simulated: no password field exists anywhere. |
+| **Settings** | General, **26 integration blueprints** (ServiceNow, Jira Service Management, ServiceDesk Plus, Zabbix, Datadog, Sentinel, Teams, Slack, PagerDuty, FortiGate API…), Auth & SSO (OIDC, SAML, SCIM, MFA, roles), notifications, data & privacy, API & webhooks |
+| **Secure by default** | Connectors are read-only unless a CAB-approved write is enabled; secrets are a Key Vault *reference*, never a value |
+| **Command palette** | ⌘K / Ctrl+K to jump to any page, integration or action |
+| **Quick tour, FAQ, changelog** | 60-second guided tour, searchable FAQ, and a changelog covering both products |
+| **Look & feel** | Light and dark themes, glass header, motion that respects *reduced motion* |
+
+> 💡 Run the tour, open Settings → Integrations and press **Test connection**, then try ⌘K.
+
+| Sign-in | Integrations |
+|---|---|
+| ![Sign-in](docs/screenshots/v2-login.png) | ![Integrations](docs/screenshots/v2-integrations.png) |
+| ![SSO](docs/screenshots/v2-sso.png) | ![Mobile](docs/screenshots/v2-mobile.png) |
 
 ---
 

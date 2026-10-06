@@ -1684,7 +1684,7 @@ function fit(){var ps=(TP.mode==='graph'&&SIM.geo&&TP.grp==='geo'&&SIM.nodes.som
   if(!ps.length){TP.vb={x:0,y:0,w:1000*ar,h:1000};applyVb();return}
   var x0=Math.min.apply(0,ps.map(function(p){return p[0]}))-60,x1=Math.max.apply(0,ps.map(function(p){return p[0]}))+60,y0=Math.min.apply(0,ps.map(function(p){return p[1]}))-60,y1=Math.max.apply(0,ps.map(function(p){return p[1]}))+60;
   var w=x1-x0,h=y1-y0;if(w/h>ar)h=w/ar;else w=h*ar;TP.vb={x:(x0+x1)/2-w/2,y:(y0+y1)/2-h/2,w:w,h:h};applyVb()}
-function applyVb(){var v=TP.vb,svg=$('tsvg');svg.setAttribute('viewBox',v.x+' '+v.y+' '+v.w+' '+v.h);var w=svg.getBoundingClientRect().width||1000,sc=w/v.w,lod=sc<0.62?'far':sc<0.95?'mid':'near';
+function applyVb(){var v=TP.vb,svg=$('tsvg');svg.setAttribute('viewBox',v.x+' '+v.y+' '+v.w+' '+v.h);var w=svg.getBoundingClientRect().width||1000,sc=w/v.w,lod=sc<0.45?'far':sc<0.85?'mid':'near';
   if(TP.lod!==lod){svg.classList.remove('lod-far','lod-mid','lod-near');svg.classList.add('lod-'+lod);TP.lod=lod}svg.style.setProperty('--iz',(1/sc).toFixed(3));if(lod==='far')[].forEach.call(svg.querySelectorAll('.zfar'),function(g){var w=+g.dataset.w*sc,hh=+g.dataset.h*sc,t1=g.querySelector('.zf1'),c=Math.max(4,Math.floor(w/8.6));g.style.display=w<60||hh<34?'none':'';t1.textContent=trim(g.dataset.n,c);g.querySelector('.zf2').style.display=hh<58?'none':'';g.querySelector('.zf3').style.display=hh<84||w<140?'none':''});svg.style.setProperty('--izc',Math.max(1,Math.min(2.6,1/sc)).toFixed(3))}
 function pt(e){var s=$('tsvg'),p=s.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(s.getScreenCTM().inverse())}
 function zoom(f,c){var v=TP.vb;c=c||{x:v.x+v.w/2,y:v.y+v.h/2};var nw=Math.max(150,Math.min(30000,v.w*f)),k=nw/v.w;TP.vb={x:c.x-(c.x-v.x)*k,y:c.y-(c.y-v.y)*k,w:nw,h:v.h*k};applyVb()}
@@ -2307,4 +2307,7 @@ K.boot();
 })();
 </script>
 
+<link rel="stylesheet" href="assets/portal.css">
+<script src="assets/portal-content.js"></script>
+<script src="assets/portal.js" data-product="knoc"></script>
 </body></html>
