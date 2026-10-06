@@ -1,0 +1,1 @@
+[{"name": "//container.googleapis.com/projects/p/locations/europe-west1/clusters/gke1", "assetType": "container.googleapis.com/Cluster", "location": "europe-west1", "displayName": "gke1"}, {"name": "//storage.googleapis.com/b1", "assetType": "storage.googleapis.com/Bucket", "location": "us", "displayName": "b1"}]

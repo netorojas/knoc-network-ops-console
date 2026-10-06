@@ -1,5 +1,11 @@
+/*!
+ * Orbinoc · Network Ops Console
+ * Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto). All rights reserved except as granted below.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Commercial licence (no AGPL obligations, enterprise modules, support): see COMMERCIAL.md
+ */
 /* ==========================================================================
-   Contoso Ops Suite — portal shell (shared by KNOC and Infra Backlog)
+   Contoso Ops Suite — portal shell (shared by Orbinoc and Infra Backlog)
    Adds: demo sign-in (SSO/social, simulated), settings + integrations,
    command palette, FAQ, changelog, 60-second tour, mobile drawer,
    view transitions, count-up KPIs, ripple. No network calls, no secrets.
@@ -9,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '2.0.0';
+var VERSION = '3.0.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -43,24 +49,24 @@ function toast(msg) { var x = $('.pf-toast'); if (x) x.remove(); x = el('<div cl
 var L3 = C.L3;
 var PROD = {
   knoc: {
-    name: 'KNOC', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', tag: L3('Console de operação de rede', 'Consola de operación de red', 'Network operations console'),
-    hero: L3('Opere uma rede de 9 países em uma tela.', 'Opera una red de 9 países en una pantalla.', 'Run a 9-country network from one screen.'),
+    name: 'Orbinoc', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', tag: L3('Console de operação de rede', 'Consola de operación de red', 'Network operations console'),
+    hero: L3('Sua rede inteira em uma tela. De 1 país ao mundo.', 'Toda tu red en una pantalla. De 1 país al mundo.', 'Your whole network on one screen. One country or the world.'),
     heroP: L3('Mapa, topologia, inventário, telefonia e playbooks de troubleshooting, com status vindo de dentro da rede.', 'Mapa, topología, inventario, telefonía y playbooks, con estado que viene de dentro de la red.', 'Map, topology, inventory, telephony and troubleshooting playbooks, with status coming from inside the network.'),
-    stats: [['9', L3('países', 'países', 'countries')], ['81', L3('ativos', 'activos', 'assets')], ['13', L3('camadas de playbook', 'capas de playbook', 'playbook layers')]],
+    stats: [['1→195', L3('países, o seu tamanho', 'países, tu tamaño', 'countries, your size')], ['5', L3('nuvens + on-prem', 'nubes + on-prem', 'clouds + on-prem')], ['13', L3('plataformas no discovery', 'plataformas en discovery', 'discovery platforms')]],
     other: { name: 'Infra Backlog', url: '../infra-backlog-dashboard/', color: 'linear-gradient(135deg,#0F8F7E,#6366F1)', s: 'IB', tag: L3('Painel de operação', 'Panel de operación', 'Ops board') },
-    s: 'K', mount: '.tbar',
+    s: 'O', mount: '.tbar',
     view: function () { return (location.hash || '#home').slice(1) || 'home'; },
     go: function (v) { if (window.KNOC && KNOC.go) KNOC.go(v); },
-    views: [['home', L3('Visão geral', 'Vista general', 'Overview')], ['map', L3('Mapa LATAM', 'Mapa LATAM', 'LATAM map')], ['topo', L3('Topologia', 'Topología', 'Topology')],
+    views: [['home', L3('Visão geral', 'Vista general', 'Overview')], ['map', L3('Mapa', 'Mapa', 'Map')], ['topo', L3('Topologia', 'Topología', 'Topology')],
       ['inv', L3('Inventário', 'Inventario', 'Inventory')], ['mon', L3('Monitoria', 'Monitoreo', 'Monitoring')], ['health', L3('System Health', 'System Health', 'System Health')],
       ['ts', L3('Troubleshooting', 'Troubleshooting', 'Troubleshooting')], ['cloud', L3('Cloud & Tenants', 'Cloud y tenants', 'Cloud & tenants')], ['tel', L3('Telefonia', 'Telefonía', 'Telephony')],
       ['partners', L3('Parceiros', 'Socios', 'Partners')], ['portals', L3('Portais & Integrações', 'Portales e integraciones', 'Portals & integrations')], ['tools', L3('Ferramentas', 'Herramientas', 'Tools')],
       ['gaps', L3('Pontos de atenção', 'Puntos de atención', 'Attention items')], ['docs', L3('Documentação', 'Documentación', 'Docs')], ['status', L3('Status', 'Estado', 'Status')]],
     tour: [
-      [null, null, L3('Bem-vindo ao KNOC', 'Bienvenido a KNOC', 'Welcome to KNOC'), L3('Um console de NOC para uma rede de 9 países. São 6 paradas rápidas.', 'Una consola de NOC para una red de 9 países. Son 6 paradas rápidas.', 'A NOC console for a 9-country network. Six quick stops.')],
+      [null, null, L3('Bem-vindo ao Orbinoc', 'Bienvenido a Orbinoc', 'Welcome to Orbinoc'), L3('Um console de NOC que se adapta ao tamanho do seu ambiente: 1 país, uma região ou o mundo. São 6 paradas rápidas.', 'Una consola de NOC que se adapta al tamaño de tu entorno: 1 país, una región o el mundo. Son 6 paradas rápidas.', 'A NOC console that fits your footprint: one country, a region or the whole world. Six quick stops.')],
       ['home', 'aside.side nav', L3('Módulos', 'Módulos', 'Modules'), L3('Operação, Conhecimento e Plataforma. No celular, este menu vira uma gaveta (☰).', 'Operación, Conocimiento y Plataforma. En el celular, este menú se vuelve un cajón (☰).', 'Operations, Knowledge and Platform. On mobile this becomes a drawer (☰).')],
       ['home', '.gsearch', L3('Busca global', 'Búsqueda global', 'Global search'), L3('Ativo, IP, site ou parceiro. Atalho: /. Para comandos, ⌘K.', 'Activo, IP, sitio o socio. Atajo: /. Para comandos, ⌘K.', 'Asset, IP, site or partner. Shortcut: /. For commands, ⌘K.')],
-      ['map', '#mapbox', L3('Mapa LATAM', 'Mapa LATAM', 'LATAM map'), L3('Clique num país ou site para aproximar. Camadas embaixo ligam e desligam cloud, SaaS, fornecedores e telefonia.', 'Haz clic en un país o sitio para acercar. Las capas encienden o apagan cloud, SaaS, proveedores y telefonía.', 'Click a country or site to zoom in. Layers below toggle cloud, SaaS, vendors and telephony.')],
+      ['map', '#mapbox', L3('Mapa', 'Mapa', 'Map'), L3('Clique num país ou site para aproximar. Camadas embaixo ligam e desligam cloud, SaaS, fornecedores e telefonia.', 'Haz clic en un país o sitio para acercar. Las capas encienden o apagan cloud, SaaS, proveedores y telefonía.', 'Click a country or site to zoom in. Layers below toggle cloud, SaaS, vendors and telephony.')],
       ['topo', '#topo', L3('Topologia', 'Topología', 'Topology'), L3('Hierárquica (borda → core → acesso) ou Grafo para arrastar. "Enquadrar" centraliza tudo.', 'Jerárquica o Grafo para arrastrar. "Encuadrar" centra todo.', 'Hierarchical (edge → core → access) or Graph to drag around. "Fit" recentres everything.')],
       ['ts', '#view', L3('Troubleshooting por camada', 'Troubleshooting por capa', 'Layer troubleshooting'), L3('Escolha o sintoma e siga a ordem das camadas. Comandos prontos para copiar.', 'Elige el síntoma y sigue el orden de las capas. Comandos listos para copiar.', 'Pick the symptom and follow the layer order. Commands ready to copy.')],
       ['home', '.pf-utils', L3('Configurações, FAQ e diário', 'Configuración, FAQ y bitácora', 'Settings, FAQ and changelog'), L3('Integrações (ServiceNow, Jira, Zabbix…), SSO, notificações e a história do projeto. Pronto!', 'Integraciones, SSO, notificaciones y la historia del proyecto. ¡Listo!', 'Integrations (ServiceNow, Jira, Zabbix…), SSO, notifications and the project history. Done!')]
@@ -71,7 +77,7 @@ var PROD = {
     hero: L3('O painel que o time nunca preenche.', 'El panel que el equipo nunca completa.', 'The board your team never types into.'),
     heroP: L3('E-mail, Teams, a Daily e o ServiceDesk viram prioridades com evidência: FATO, PROVÁVEL ou HIPÓTESE.', 'Correo, Teams, la Daily y el ServiceDesk se vuelven prioridades con evidencia.', 'E-mail, Teams, the Daily and the ServiceDesk become evidence-labelled priorities.'),
     stats: [['0', L3('digitação manual', 'digitación manual', 'manual typing')], ['4', L3('fontes lidas', 'fuentes leídas', 'sources read')], ['5', L3('formatos de exportação', 'formatos de exportación', 'export formats')]],
-    other: { name: 'KNOC', url: '../knoc-network-ops-console/', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'K', tag: L3('Console de rede', 'Consola de red', 'Network console') },
+    other: { name: 'Orbinoc', url: '../knoc-network-ops-console/', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'O', tag: L3('Console de rede', 'Consola de red', 'Network console') },
     s: 'IB', mount: '.tools',
     view: function () { return (window.BL && BL.view && BL.view()) || 'board'; },
     go: function (v) { if (window.BL && BL.go) BL.go(v); },
@@ -166,7 +172,7 @@ function login(force) {
   var auth = '<section class="pf-auth"><div class="pf-card"><h2>' + esc(t('welcome')) + '</h2><p>' + esc(t('signIn')) + '</p>' +
     prov.map(function (p) { return '<button class="pf-prov" data-prov="' + p[0] + '"><span class="ic" style="background:' + p[2] + '">' + p[3] + '</span>' + esc(p[1]) + '</button>'; }).join('') +
     '<button class="pf-prov" data-prov="sso"><span class="ic" style="background:var(--pf-grad)">' + svg('shield').replace('<svg', '<svg width="13" height="13" style="stroke:#fff;fill:none;stroke-width:2.2"') + '</span>' + esc(t('withSso')) + '<small>' + esc(t('ssoHint')) + '</small></button>' +
-    '<div class="pf-sso" id="pfSso"><div class="pf-field"><label>' + esc(t('domain')) + '</label><input id="pfDom" value="contoso-latam.example" autocomplete="off"></div><button class="pf-b pri" id="pfSsoGo" style="width:100%;justify-content:center">' + esc(t('cont')) + '</button></div>' +
+    '<div class="pf-sso" id="pfSso"><div class="pf-field"><label>' + esc(t('domain')) + '</label><input id="pfDom" value="contoso.example" autocomplete="off"></div><button class="pf-b pri" id="pfSsoGo" style="width:100%;justify-content:center">' + esc(t('cont')) + '</button></div>' +
     '<div class="pf-or">' + esc(t('or')) + '</div><button class="pf-guest" id="pfGuest">' + esc(t('explore')) + ' →</button>' +
     '<div class="pf-disc">' + svg('info').replace('<svg', '<svg width="18" height="18" style="flex:0 0 auto;stroke:var(--ink-3);fill:none;stroke-width:1.8"') + '<span>' + esc(t('disclaimer')) + '</span></div>' +
     '<div class="pf-seg" style="margin-top:18px" id="pfLoginLang">' + ['pt', 'es', 'en'].map(function (l) { return '<button data-l="' + l + '" aria-pressed="' + (lang() === l) + '">' + l.toUpperCase() + '</button>'; }).join('') + '</div>' +
@@ -188,7 +194,7 @@ function login(force) {
     }
     var l = e.target.closest('#pfLoginLang [data-l]'); if (l) { var lb = $('#lang [data-l="' + l.dataset.l + '"]'); if (lb) lb.click(); setTimeout(function () { login(true); }, 60); }
   });
-  $('#pfSsoGo').onclick = function () { var d = ($('#pfDom').value || 'contoso-latam.example').trim();
+  $('#pfSsoGo').onclick = function () { var d = ($('#pfDom').value || 'contoso.example').trim();
     this.innerHTML = '<span class="pf-spin" style="margin:0"></span>&nbsp;' + esc(t('redirecting'));
     setTimeout(function () { toast(t('discovered') + ': ' + d + ' → OIDC (Entra ID)'); done('Ana Souza (demo)', 'SSO · ' + d); }, 1100); };
   $('#pfGuest').onclick = function () { done(t('guest') + ' (demo)', 'guest'); };
@@ -201,7 +207,7 @@ function afterLogin(fresh) {
 /* ---------- 4. Settings ---------- */
 var S = store.get('settings', {});
 function saveS() { store.set('settings', S); }
-var SECT = [['general', 'sGeneral', 'sliders'], ['int', 'sInt', 'plug'], ['auth', 'sAuth', 'shield'], ['notif', 'sNotif', 'bell'], ['data', 'sData', 'db'], ['api', 'sApi', 'code'], ['about', 'sAbout', 'info']];
+var SECT = [['general', 'sGeneral', 'sliders'], ['int', 'sInt', 'plug']].concat(P === 'knoc' ? [['disc', 'sDisc', 'radar']] : []).concat([ ['auth', 'sAuth', 'shield'], ['notif', 'sNotif', 'bell'], ['data', 'sData', 'db'], ['api', 'sApi', 'code'], ['about', 'sAbout', 'info']]);
 function settings(sec, sub) {
   var nav = '<nav><h2>' + esc(t('settings')) + '</h2><p>' + esc(PR.name) + ' · v' + VERSION + '</p>' +
     SECT.map(function (s) { return '<button data-sec="' + s[0] + '" aria-current="' + (s[0] === sec) + '">' + svg(s[2]) + esc(t(s[1])) + '</button>'; }).join('') + '</nav>';
@@ -223,7 +229,7 @@ var SECTIONS = {
   general: function () {
     var tzs = ['America/Sao_Paulo', 'America/Argentina/Buenos_Aires', 'America/Bogota', 'America/Lima', 'America/Santiago', 'America/Mexico_City', 'America/Guayaquil', 'America/Montevideo', 'America/Toronto', 'UTC'];
     var spec = P === 'knoc'
-      ? '<section class="pf-sec"><h3>KNOC Sweep</h3>' + select(lang() === 'en' ? 'Sweep interval' : lang() === 'es' ? 'Intervalo del Sweep' : 'Intervalo do Sweep', 'sweep', [['5', '5 min'], ['15', '15 min'], ['60', '60 min']], S.sweep || '15') +
+      ? '<section class="pf-sec"><h3>Orbinoc Sweep</h3>' + select(lang() === 'en' ? 'Sweep interval' : lang() === 'es' ? 'Intervalo del Sweep' : 'Intervalo do Sweep', 'sweep', [['5', '5 min'], ['15', '15 min'], ['60', '60 min']], S.sweep || '15') +
         select(lang() === 'en' ? 'Mark status as stale after' : lang() === 'es' ? 'Estado viejo después de' : 'Status antigo depois de', 'stale', [['30', '30 min'], ['60', '60 min'], ['240', '4 h']], S.stale || '60') +
         row(lang() === 'en' ? 'Hide personal data in snapshot' : lang() === 'es' ? 'Ocultar datos personales en la copia' : 'Ocultar dados pessoais na cópia embutida', 'LGPD', sw('lgpdSnap', S.lgpdSnap !== false)) + '</section>'
       : '<section class="pf-sec"><h3>' + (lang() === 'en' ? 'Schedule' : lang() === 'es' ? 'Agenda' : 'Agenda das rotinas') + '</h3><div class="pf-grid2">' +
@@ -299,7 +305,7 @@ var SECTIONS = {
   },
   about: function () {
     return '<h1 class="pf-h">' + esc(PR.name) + '</h1><p class="pf-sub">' + esc(tx(PR.tag)) + ' · Contoso Ops Suite</p>' +
-      '<section class="pf-sec">' + row(t('version'), 'build 2026-10-06', '<span class="pf-chip acc">v' + VERSION + '</span>') + row(t('license'), '', '<span class="pf-chip">MIT</span>') +
+      '<section class="pf-sec">' + row(t('version'), 'build 2026-10-07', '<span class="pf-chip acc">v' + VERSION + '</span>') + row(t('license'), 'Open-core · commercial licence available', '<span class="pf-chip">AGPL-3.0</span>') +
       row(t('author'), 'Infra · Cloud · Security', '<span class="pf-chip">Ernesto (Neto) Rojas</span>') +
       row(t('repo'), '', '<a class="pf-b" target="_blank" rel="noopener" href="https://github.com/netorojas/' + (P === 'knoc' ? 'knoc-network-ops-console' : 'infra-backlog-dashboard') + '">GitHub →</a>') + '</section>' +
       '<section class="pf-sec"><h3>' + esc(t('roadmap')) + '</h3><ul style="margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px;line-height:1.7">' +
@@ -330,6 +336,7 @@ function intDetail(id) {
 }
 
 function wire(body, sec, sub) {
+  if (sec === 'disc') return discWire(body, sub);
   body.onclick = function (e) {
     var s = e.target.closest('[data-sw]');
     if (s && !s.disabled) {
@@ -383,8 +390,8 @@ function faq() {
 }
 function changelog(filter) {
   filter = filter || 'all';
-  var name = { knoc: 'KNOC', backlog: 'Infra Backlog', both: t('both') };
-  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'KNOC'], ['backlog', 'Infra Backlog']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
+  var name = { knoc: 'Orbinoc', backlog: 'Infra Backlog', both: t('both') };
+  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'Orbinoc'], ['backlog', 'Infra Backlog']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
     C.LOG.filter(function (e) { return filter === 'all' || e[0] === filter || e[0] === 'both'; }).map(function (e, i) {
       return '<article class="' + (i < 2 ? 'big' : '') + '" style="animation-delay:' + (i * 0.04) + 's"><div class="meta"><span class="pf-chip acc">' + esc(name[e[0]]) + ' ' + esc(e[1]) + '</span>' + esc(e[2]) + '</div><h4>' + esc(tx(e[3])) + '</h4><ul>' + e[4].map(function (b) { return '<li>' + esc(tx(b)) + '</li>'; }).join('') + '</ul></article>';
     }).join('') + '</div>';
@@ -399,12 +406,14 @@ function palette() {
       { g: t('actions'), l: t('settings'), i: 'gear', run: function () { settings('general'); } },
       { g: t('actions'), l: t('sInt'), i: 'plug', run: function () { settings('int'); } },
       { g: t('actions'), l: t('sAuth'), i: 'shield', run: function () { settings('auth'); } },
+      P === 'knoc' ? { g: t('actions'), l: 'Discovery · AWS · Azure · GCP · OCI · IBM · VMware · K8s', i: 'radar', run: function () { settings('disc'); } } : null,
       { g: t('actions'), l: t('faq'), i: 'help', run: faq }, { g: t('actions'), l: t('log'), i: 'log', run: function () { changelog(); } },
       { g: t('actions'), l: t('tour'), i: 'play', run: function () { tour(0); } }, { g: t('actions'), l: t('theme'), i: 'sun', run: toggleTheme },
       { g: t('actions'), l: t('lang') + ': PT · ES · EN', i: 'globe', run: function () { var o = ['pt', 'es', 'en'], n = o[(o.indexOf(lang()) + 1) % 3], b = $('#lang [data-l="' + n + '"]'); if (b) b.click(); setTimeout(refreshUtils, 80); } },
       { g: t('actions'), l: t('openOther') + ' ' + PR.other.name, i: 'grid', run: function () { location.href = PR.other.url; } },
       { g: t('actions'), l: t('signOut'), i: 'out', run: function () { store.del('session'); login(); } }
     ]);
+  acts = acts.filter(Boolean);
   var p = el('<div class="pf-pal" role="dialog"><input placeholder="' + esc(t('search')) + '…" aria-label="' + esc(t('search')) + '"><ul></ul></div>');
   layer([p]); var inp = p.querySelector('input'), ul = p.querySelector('ul'), sel = 0, cur = [];
   var draw = function () {
@@ -468,10 +477,10 @@ function tour(i) {
 function endTour() { tourOn = false; store.set('tourSeen.' + P, 1); $$('.pf-tour,.pf-tour-hl').forEach(function (n) { n.remove(); }); audit('tour completed'); }
 if (P === 'backlog') window.BLT = { start: function () { tour(0); }, stop: endTour, steps: PR.tour.length };
 
-/* ---------- 8. View transitions, count-up, KNOC fit helpers ---------- */
+/* ---------- 8. View transitions, count-up, Orbinoc fit helpers ---------- */
 var lastView = null;
 function afterNav() {
-  var v = PR.view(); if (v === lastView) return; lastView = v;
+  var v = PR.view(); root.dataset.view = v || ''; if (v === lastView) return; lastView = v; if (P === 'knoc') setTimeout(function () { fillPanel(false); }, 60);
   var host = $('#view'); if (host && !root.classList.contains('pf-nomotion')) { host.classList.remove('pf-enter'); void host.offsetWidth; host.classList.add('pf-enter'); setTimeout(function () { host.classList.remove('pf-enter'); }, 700); }
   setTimeout(countUp, 40);
   if (P === 'knoc') { root.classList.remove('pf-nav-open'); if (v === 'topo') { [700, 1800].forEach(function (ms) { setTimeout(function () { var b = $('#tfit'); if (b && PR.view() === 'topo') b.click(); }, ms); }); } }
@@ -485,7 +494,7 @@ function countUp() {
   });
 }
 var onResize = debounce(function () {
-  if (P !== 'knoc') return; var v = PR.view();
+  if (P !== 'knoc') return; var v = PR.view(); fillPanel(true);
   if (v === 'topo') { var b = $('#tfit'); if (b) b.click(); }
   if (v === 'map') { var h = $('#mhome'); if (h) h.click(); }
 }, 300);
@@ -520,5 +529,78 @@ function boot() {
   if (!/[?&]nologin\b/.test(location.search)) login(); else afterLogin(false);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 0);
+
+/* ---------- 8b. Working area fills the screen (map + topology) ---------- */
+function fillPanel(noScroll) {
+  var v = PR.view(), tgt = v === 'map' ? $('#msvg') : v === 'topo' ? $('.topo') : null; if (!tgt) return;
+  var hdr = $('header.top') || $('.tbar'), hh = hdr ? Math.max(0, hdr.getBoundingClientRect().bottom) : 0;
+  var h = Math.max(420, Math.round(innerHeight - hh - 20)), was = root.style.getPropertyValue('--pf-fill');
+  root.style.setProperty('--pf-fill', h + 'px');
+  if (!noScroll) { var y = tgt.getBoundingClientRect().top + scrollY - hh - 10; if (y > 40) scrollTo({ top: y, behavior: root.classList.contains('pf-nomotion') ? 'auto' : 'smooth' }); }
+  setTimeout(function () { var b = v === 'topo' ? $('#tfit') : $('#mhome'); if (b && PR.view() === v) b.click(); }, 120);
+}
+
+/* ---------- 8c. Discovery (Orbinoc) ---------- */
+ICON.radar = 'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 12l6-6M12 12h.01';
+var DSCR = 'discovery/';
+function discCount(re) { var K = window.KNOC; if (!K || !K.S) return 0; var r = new RegExp(re, 'i'); return Object.keys(K.S.nodes).filter(function (k) { var n = K.S.nodes[k]; return r.test(n.provider || '') || r.test(n.vendor || ''); }).length; }
+SECTIONS.disc = function (sub) {
+  var D = C.DISC; if (!D) return '';
+  if (sub) {
+    var d = D.filter(function (x) { return x[0] === sub; })[0]; if (!d) return '';
+    return '<button class="pf-b" data-dback>← ' + esc(t('sDisc')) + '</button><div class="pf-int-head" style="display:flex;gap:12px;align-items:center;margin:14px 0"><span class="lg" style="background:' + d[3] + ';width:42px;height:42px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800">' + d[4] + '</span><div><h1 class="pf-h" style="margin:0">' + esc(d[1]) + '</h1><p class="pf-sub" style="margin:2px 0 0">' + discCount(d[8]) + ' ' + esc(t('discFound')) + '</p></div></div>' +
+      '<section class="pf-sec"><h3>' + esc(t('discSteps')) + '</h3><ol style="margin:0;padding-left:18px;line-height:1.8;font-size:13.5px;color:var(--ink-2)">' +
+      '<li><b>' + esc(t('discId')) + ':</b> ' + esc(tx(d[6])) + '</li><li><b>' + esc(t('discWhat')) + ':</b> ' + esc(tx(d[7])) + '</li>' +
+      '<li><code>' + esc(DSCR + d[5]) + '</code> → <code>orbinoc-discovery/' + esc(d[0]) + '.orbinoc.json</code></li><li>' + esc(t('discImport')) + '</li></ol></section>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="pf-b pri" data-dact="run" data-d="' + d[0] + '">' + esc(t('discRun')) + '</button><button class="pf-b" data-dact="script" data-d="' + d[0] + '">' + esc(t('discScript')) + '</button><button class="pf-b" data-dact="file">' + esc(t('discImport')) + '</button></div>' +
+      '<div id="pfDiscOut" style="margin-top:12px"></div>';
+  }
+  var groups = Object.keys(C.DGROUPS), tot = D.reduce(function (a, d) { return a + discCount(d[8]); }, 0);
+  return '<h1 class="pf-h">' + esc(t('sDisc')) + '</h1><p class="pf-sub">' + esc(t('discSub')) + '</p>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px"><span class="pf-chip acc">' + tot + ' ' + esc(t('discFound')) + '</span><button class="pf-b" data-dact="file">' + esc(t('discImport')) + '</button><button class="pf-b" data-dact="sample">' + esc(t('discSample')) + '</button><input type="file" id="pfDiscFile" accept=".json,application/json" hidden></div>' +
+    groups.map(function (g) { var list = D.filter(function (d) { return d[2] === g; });
+      return '<h3 style="margin:16px 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)">' + esc(tx(C.DGROUPS[g])) + '</h3><div class="pf-ints">' + list.map(function (d) { var n = discCount(d[8]);
+        return '<button class="pf-int" data-disc="' + d[0] + '"><header><span class="lg" style="background:' + d[3] + '">' + d[4] + '</span><span><b>' + esc(d[1]) + '</b><small>' + esc(d[5]) + '</small></span></header><p>' + esc(tx(d[7])) + '</p><footer>' + (n ? '<span class="pf-chip ok"><i></i>' + n + ' ' + esc(t('discFound')) + '</span>' : '<span class="pf-chip">' + esc(t('available')) + '</span>') + '<span class="pf-chip acc">' + esc(t('configure')) + ' →</span></footer></button>'; }).join('') + '</div>'; }).join('');
+};
+function discImportDoc(doc, label) {
+  var K = window.KNOC; if (!K || !K.importDiscovery) { toast('Orbinoc not ready'); return; }
+  try { var r = K.importDiscovery(doc); audit('discovery import · ' + (doc.source || label)); toast(t('discDone') + ': ' + r.nodes + ' · ' + r.sites + ' sites'); settings('disc'); }
+  catch (e) { toast(e.message); }
+}
+function discWire(body, sub) {
+  var fi = $('#pfDiscFile') || (function () { var x = el('<input type="file" id="pfDiscFile" accept=".json,application/json" hidden>'); body.appendChild(x); return x; })();
+  fi.onchange = function () { var f = fi.files && fi.files[0]; if (!f) return; var rd = new FileReader(); rd.onload = function () { try { discImportDoc(JSON.parse(rd.result), f.name); } catch (e) { toast(e.message); } }; rd.readAsText(f); };
+  body.onclick = function (e) {
+    var c = e.target.closest('[data-disc]'); if (c) { settings('disc', c.dataset.disc); return; }
+    if (e.target.closest('[data-dback]')) { settings('disc'); return; }
+    var a = e.target.closest('[data-dact]'); if (!a) return; var act = a.dataset.dact, d = (C.DISC.filter(function (x) { return x[0] === a.dataset.d; })[0]) || null, out = $('#pfDiscOut');
+    if (act === 'file') { fi.click(); return; }
+    if (act === 'sample') { fetch(DSCR + 'sample-import.orbinoc.json').then(function (r) { return r.json(); }).then(function (doc) { discImportDoc(doc, 'sample'); }).catch(function () { toast('sample-import.orbinoc.json not found'); }); return; }
+    if (act === 'script' && d) { out.innerHTML = '<div class="pf-log">…</div>'; fetch(DSCR + d[5]).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }).then(function (txt) {
+        out.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><code>' + esc(DSCR + d[5]) + '</code><button class="pf-b" data-dact="copy">Copy</button></div><pre class="pf-log" style="white-space:pre;overflow:auto;max-height:46vh">' + esc(txt) + '</pre>'; out.dataset.txt = txt; })
+        .catch(function () { out.innerHTML = '<div class="pf-log">' + esc(DSCR + d[5]) + ' — open the repo folder /discovery</div>'; }); return; }
+    if (act === 'copy') { try { navigator.clipboard.writeText(out.dataset.txt || ''); toast({ pt: 'Copiado', es: 'Copiado', en: 'Copied' }[lang()]); } catch (er) {} return; }
+    if (act === 'run' && d) { a.disabled = true; out.innerHTML = '<div class="pf-log"></div>'; var log = out.firstChild, n = discCount(d[8]);
+      var L = [['', '$ ' + (d[5].slice(-4) === '.ps1' ? 'pwsh ./' : './') + DSCR + d[5]], ['', 'identity · ' + tx(d[6])], ['', 'scope read-only ✓  writes: none  secrets: names only'],
+        ['', 'list · ' + tx(d[7])], ['ok', 'normalize.py ' + d[0] + ' → orbinoc-discovery/' + d[0] + '.orbinoc.json'], ['wa', n + ' ' + t('discFound') + ' (demo data)']];
+      L.forEach(function (l, k) { setTimeout(function () { log.insertAdjacentHTML('beforeend', '<div class="' + l[0] + '">' + esc(l[1]) + '</div>'); if (k === L.length - 1) a.disabled = false; }, 360 * (k + 1)); });
+      audit('discovery simulated · ' + d[0]); }
+  };
+}
+
+/* ---------- 8d. A small secret for the curious (↑ ↑ ↓ ↓ ← → ← → B A) ---------- */
+(function () {
+  var seq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'], i = 0;
+  var MSG = { pt: 'Segredo desbloqueado: toda grande rede começa com um único ping. Boa jornada, explorador.', es: 'Secreto desbloqueado: toda gran red empieza con un solo ping. Buen viaje, explorador.', en: 'Secret unlocked: every great network starts with a single ping. Safe travels, explorer.' };
+  addEventListener('keydown', function (e) {
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key; i = (k === seq[i]) ? i + 1 : (k === seq[0] ? 1 : 0);
+    if (i < seq.length) return; i = 0; toast(MSG[lang()] || MSG.pt); audit('secret found');
+    if (root.classList.contains('pf-nomotion')) return;
+    var box = el('<div class="pf-secret" aria-hidden="true"></div>'); for (var n = 0; n < 36; n++) { var c = document.createElement('i'); c.style.left = (Math.random() * 100) + 'vw'; c.style.animationDelay = (Math.random() * .9) + 's'; c.style.borderRadius = n % 3 ? '50%' : '2px'; box.appendChild(c); }
+    document.body.appendChild(box); setTimeout(function () { box.remove(); }, 3600);
+  });
+  try { console.log('%c' + (P === 'knoc' ? 'Orbinoc' : 'Infra Backlog') + ' · made by Neto Rojas', 'font:700 14px Inter,sans-serif;color:#E2B84B', '\n↑ ↑ ↓ ↓ ← → ← → B A'); } catch (e) {}
+})();
+
 window.PF = { settings: settings, faq: faq, changelog: changelog, palette: palette, tour: tour, login: login, version: VERSION };
 })();

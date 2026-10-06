@@ -1,106 +1,125 @@
-# KNOC · Network Ops Console
+# Orbinoc · Network Ops Console
 
-**A single-screen operations console for a 9-country LATAM infrastructure:** map, topology, inventory, health, telephony, partners and layer-by-layer troubleshooting playbooks. Everything is in one HTML file, with no backend and no build step.
+**Your whole infrastructure on one screen — one country or the whole world.**
+Map, topology, inventory, health, telephony, partners, multicloud discovery and layer-by-layer troubleshooting, in a single static web app. No backend, no build step.
 
 > 🔗 **Live demo:** https://netorojas.github.io/knoc-network-ops-console/
-> 🧪 All data is **fictional** (company "Contoso LATAM"). IPs come from the RFC 1918 and RFC 5737 documentation ranges.
+> 🧪 All data is **fictional** (company "Contoso Global"). IPs come from the RFC 1918 and RFC 5737 documentation ranges.
+> 🏷️ Formerly **KNOC**. Same project, new name.
 
-![KNOC demo](docs/media/knoc-demo.gif)
+![Orbinoc demo](docs/media/knoc-demo.gif)
 
-▶️ [Full 1-minute v2 walkthrough (MP4)](docs/media/knoc-demo.mp4)
-
-
-## ✨ What's new in v2 — Contoso Ops Suite
-
-Both tools now share one enterprise portal shell, with a different accent per product (blue → cyan).
-
-| | |
-|---|---|
-| **Responsive + mobile** | Drawer navigation, bottom sheets and touch targets. The map and topology now fill the screen and re-fit on resize. |
-| **Sign-in (demo)** | Microsoft Entra ID, Google, GitHub and a dedicated **enterprise SSO** path (SAML 2.0 / OIDC, domain discovery). Simulated: no password field exists anywhere. |
-| **Settings** | General, **26 integration blueprints** (ServiceNow, Jira Service Management, ServiceDesk Plus, Zabbix, Datadog, Sentinel, Teams, Slack, PagerDuty, FortiGate API…), Auth & SSO (OIDC, SAML, SCIM, MFA, roles), notifications, data & privacy, API & webhooks |
-| **Secure by default** | Connectors are read-only unless a CAB-approved write is enabled; secrets are a Key Vault *reference*, never a value |
-| **Command palette** | ⌘K / Ctrl+K to jump to any page, integration or action |
-| **Quick tour, FAQ, changelog** | 60-second guided tour, searchable FAQ, and a changelog covering both products |
-| **Look & feel** | Light and dark themes, glass header, motion that respects *reduced motion* |
-
-> 💡 Run the tour, open Settings → Integrations and press **Test connection**, then try ⌘K.
-
-| Sign-in | Integrations |
-|---|---|
-| ![Sign-in](docs/screenshots/v2-login.png) | ![Integrations](docs/screenshots/v2-integrations.png) |
-| ![SSO](docs/screenshots/v2-sso.png) | ![Mobile](docs/screenshots/v2-mobile.png) |
+▶️ [Full walkthrough (MP4)](docs/media/knoc-demo.mp4)
 
 ---
 
-![Overview](docs/screenshots/overview-light.png)
+## ✨ v3 — Global & multicloud
+
+| | |
+|---|---|
+| **Fits any footprint** | Countries come from *your* data. Register a site anywhere and the world map frames itself around it: 1 country, a region or 25 countries. |
+| **Demo scenarios** | Switch the demo between **1 country · Regional · Global** in the blue notice at the top. |
+| **Multicloud on the map** | AWS, Azure, Google Cloud, Oracle Cloud and IBM Cloud regions sit on their real location, wired to your sites (VPN, Direct Connect, ExpressRoute, Interconnect, FastConnect, Direct Link). |
+| **Every layer** | IaaS, PaaS and SaaS: VPCs/VNets, VMs, Kubernetes, containers, functions, apps, bots/AI, databases, object storage, key vaults (names only), backup and DR replicas. |
+| **On-prem too** | VMware vSphere, Proxmox VE, Hyper-V, Nutanix, Docker, Kubernetes (RKE2, OpenShift), Veeam, Commvault, NetApp. |
+| **Discovery** | Settings › Discovery: read-only collectors for 13 platforms + Terraform state and Ansible inventory. Script → JSON → import. See [`discovery/`](discovery/README.md). |
+| **Full-screen work area** | Map and topology take the whole viewport; ⛶ for true full screen. |
+| **36 integrations** | ServiceNow, Jira SM, ServiceDesk Plus, Zabbix, Datadog, Prometheus, Splunk, Sentinel, Teams, Slack, PagerDuty, NetBox, Veeam, Terraform Cloud, AWX, Vault, Okta, FortiGate API… |
+| **Secure by default** | Demo sign-in (Entra ID, Google, GitHub, enterprise SSO) with **no password field**; connectors read-only; secrets only as a vault *reference*. |
+
+| Map (global) | Topology |
+|---|---|
+| ![Map](docs/screenshots/map-light.png) | ![Topology](docs/screenshots/topology-dark.png) |
+| **Discovery** | **Mobile** |
+| ![Discovery](docs/screenshots/discovery.png) | ![Mobile](docs/screenshots/v2-mobile.png) |
+
+---
+
+## Run it on your machine (localhost)
+
+Pick one. All of them serve static files on `127.0.0.1` only.
+
+**macOS / Linux**
+```bash
+git clone https://github.com/netorojas/knoc-network-ops-console.git
+cd knoc-network-ops-console
+./serve.sh                 # opens http://localhost:8080/?nologin
+```
+
+**Windows (PowerShell)**
+```powershell
+git clone https://github.com/netorojas/knoc-network-ops-console.git
+cd knoc-network-ops-console
+.\serve.ps1
+```
+
+**Docker**
+```bash
+docker compose up -d       # http://localhost:8080/?nologin
+```
+
+**Whole suite side by side** (Orbinoc + Infra Backlog, with the suite switcher working):
+```bash
+mkdir contoso-ops && cd contoso-ops
+git clone https://github.com/netorojas/knoc-network-ops-console.git
+git clone https://github.com/netorojas/infra-backlog-dashboard.git
+python3 -m http.server 8080 --bind 127.0.0.1
+# http://localhost:8080/knoc-network-ops-console/   ·   http://localhost:8080/infra-backlog-dashboard/
+```
+
+Useful URL flags: `?nologin` skips the demo sign-in · `?scenario=single|regional|global` picks the demo footprint.
+
+> A hosted multi-tenant version (sign-in, shared database, scheduled discovery) is on the roadmap. The localhost mode will stay.
+
+---
 
 ## The problem
 
-The infra team supported 9 countries. Each country had its own firewalls, ISPs, SIP carriers and vendors, plus servers and cloud workloads, and the information was spread across spreadsheets, KeePass titles, e-mails and people's heads. When something broke, the first 20 minutes went to answering *"what is this host, who is the carrier, where is the console?"*
+It started with a 9-country operation. Each country had its own firewalls, ISPs, SIP carriers and vendors, plus servers and cloud workloads, and the information was spread across spreadsheets, password-manager titles, e-mails and people's heads. When something broke, the first 20 minutes went to *"what is this host, who is the carrier, where is the console?"*. Orbinoc answers that in one click, at any scale.
 
-## What KNOC does
+## What it does
 
 | Area | What you get |
 |---|---|
-| **Overview / System Health** | Assets down, stale status, missing data, open risks, upcoming deadlines (contracts, certificates, EOS) |
-| **LATAM map** | Sites, cloud, SaaS, partners and phone numbers on one map, with drill-down by country |
-| **Topology** | A hierarchical view (edge → core → access, plus compute, voice and cloud blocks) and a force-directed graph. Exports to SVG |
-| **Inventory** | 80+ assets with vendor, model, version, IP, FQDN and a confidence label (FACT / LIKELY / HYPOTHESIS) |
-| **Troubleshooting** | A fixed layer order (Network → Firewall → DNS → DHCP → VPN → Azure → M365 → Windows Server → App → Endpoint). Fill in host and IP once, and every command comes out ready to copy (PowerShell, FortiOS CLI, AudioCodes, Graph) |
-| **Telephony** | Teams Direct Routing → SBC → carrier → country call map, with numbers, IVRs and trunks |
-| **Partners & portals** | Who serves each country, what they deliver, the official support channel and what to monitor |
+| **Overview / System Health** | Assets down, stale status, missing data, open risks, deadlines (contracts, certificates, EOS) |
+| **Map** | Sites, cloud regions, SaaS, partners and phone numbers on a world map that frames itself around your footprint |
+| **Topology** | Hierarchical (edge → core → access + compute, data/backup/DR, voice and cloud blocks) and a force-directed graph. SVG export |
+| **Inventory** | Every asset with vendor, model, version, IP/FQDN and a confidence label (FACT / PROBABLE / HYPOTHESIS) |
+| **Troubleshooting** | Fixed layer order (Network → Firewall → DNS → DHCP → VPN → Cloud → M365 → Windows Server → App → Endpoint) with copy-ready read-only commands |
+| **Telephony** | Teams Direct Routing → SBC → carrier → country, with numbers, IVRs and trunks |
+| **Partners & portals** | Who serves each country, the official support channel and what to monitor |
 | **Assistant** | A chat that reads only this portal's data and never runs anything on the network |
 | **i18n + themes** | PT · ES · EN, light and dark |
 
-![Map](docs/screenshots/map-dark.png)
+![Overview](docs/screenshots/overview-light.png)
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  subgraph Inside the corporate network
-    SW[KNOC Sweep<br/>PowerShell scheduled task] -->|ICMP / TCP tests| A[(Assets<br/>FW · SW · AP · ESXi · VMs · SBC)]
+  subgraph Customer network
+    SW[Orbinoc Sweep<br/>PowerShell agent, read-only] -->|ICMP/TCP status JSON| F[(status file)]
+    D[Discovery scripts<br/>aws · azure · gcp · oci · ibm<br/>vsphere · proxmox · hyper-v · nutanix<br/>k8s · docker · terraform · ansible] -->|orbinoc-discovery/1 JSON| F2[(inventory file)]
   end
-  SW -->|status JSON| DB[(Shared store<br/>read by the console)]
-  DB --> UI[KNOC console<br/>single HTML file]
-  SNAP[(Embedded snapshot<br/>read-only fallback)] --> UI
-  UI --> U[Infra analysts<br/>browser · mobile]
+  F --> UI[Orbinoc web app<br/>static HTML + JS]
+  F2 --> UI
+  UI -->|read-only APIs, tokens in a vault| I[ITSM · monitoring · chat · CMDB]
 ```
 
-- **Why a Sweep agent?** A browser cannot reach private IPs. The Sweep runs inside the network and publishes only up/down/latency, never credentials.
-- **Graceful degradation:** if the live store is unavailable, the console falls back to an embedded read-only snapshot. This public demo runs in that mode.
-- **Security by design:** the edit form rejects anything that looks like a password, token or private key. Credentials stay in a vault (Key Vault, KeePass or RDM). Personal data such as endpoints and people is never included in the snapshot.
+## Licence
 
-## Screenshots
+Orbinoc is **open-core**:
 
-| Topology | Troubleshooting |
-|---|---|
-| ![Topology](docs/screenshots/topology-dark.png) | ![Troubleshooting](docs/screenshots/troubleshooting-light.png) |
-| **Telephony** | **Partners** |
-| ![Telephony](docs/screenshots/telephony-light.png) | ![Partners](docs/screenshots/partners-light.png) |
-
-## Run it locally
-
-```bash
-git clone https://github.com/netorojas/knoc-network-ops-console.git
-cd knoc-network-ops-console
-python3 -m http.server 8080   # then open http://localhost:8080
-```
-
-To regenerate the demo data, run `python3 tools/gen_knoc_snapshot.py > snapshot.json`. The generator is deterministic (fixed seed) and 100% synthetic.
+- **Community edition (this repo): [AGPL-3.0-or-later](LICENSE).** Use it, study it, change it. If you offer it to others as a hosted service, publish your changes.
+- **Commercial licence:** use without the AGPL obligations, enterprise modules and support — see [COMMERCIAL.md](COMMERCIAL.md).
+- Releases up to v2.x were published under MIT and stay MIT. Names and logos are not covered by the AGPL ([NOTICE](NOTICE)).
+- Contributions: [CONTRIBUTING.md](CONTRIBUTING.md) (short CLA).
 
 ## Tech
 
-Vanilla JavaScript, inline SVG for the map, topology and charts, and CSS custom properties for theming. There are no frameworks and no dependencies, so it opens on any laptop or phone.
-
-## What I would do next
-
-- Pull live data from read-only APIs: the FortiGate REST API, AudioCodes (Monitor user), Azure Resource Graph and the Zabbix API, with tokens kept in Key Vault.
-- Add alert routing to Teams with deduplication.
-- Generate a CMDB export for ITSM (ServiceDesk Plus).
+Vanilla JavaScript, inline SVG for the map, topology and charts, CSS custom properties for theming. World outlines from Natural Earth ([third-party notices](THIRD_PARTY_NOTICES.md)). No frameworks, no runtime dependencies.
 
 ---
 
-**Author:** Ernesto Rojas (Neto), Senior Infrastructure Engineer · Fortinet · Azure · LATAM operations
-🇧🇷 *Console de operação de rede para 9 países, com dados fictícios.* · 🇪🇸 *Consola de operación de red para 9 países, con datos ficticios.*
+**Author:** Ernesto Rojas (Neto) · Infrastructure, Cloud & Security · [LinkedIn](https://www.linkedin.com/in/netorojas/)
+🇧🇷 *Console de operação de rede que se adapta ao seu ambiente: de 1 país ao mundo, multicloud.* · 🇪🇸 *Consola de operación de red que se adapta a tu entorno: de 1 país al mundo, multinube.*

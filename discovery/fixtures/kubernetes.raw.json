@@ -1,0 +1,1 @@
+{"items": [{"kind": "Node", "metadata": {"name": "n1"}, "status": {"addresses": [{"type": "InternalIP", "address": "10.0.0.5"}], "nodeInfo": {"kubeletVersion": "v1.30.2"}}}, {"kind": "Deployment", "metadata": {"name": "api", "namespace": "prod"}, "spec": {"replicas": 3}}, {"kind": "Service", "metadata": {"name": "api", "namespace": "prod"}, "spec": {"type": "LoadBalancer"}}]}

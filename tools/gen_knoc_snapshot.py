@@ -1,3 +1,6 @@
+# Orbinoc · Network Ops Console
+# Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto)
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #!/usr/bin/env python3
 """Synthetic KNOC snapshot for the fictional company "Contoso LATAM".
 Every name, address, IP, phone number and vendor account below is invented.

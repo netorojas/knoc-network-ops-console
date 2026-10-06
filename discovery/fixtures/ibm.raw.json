@@ -1,0 +1,1 @@
+{"instances": [{"id": "0757_1", "name": "vsi-1", "zone": {"name": "eu-de-1"}, "profile": {"name": "bx2-2x8"}, "primary_network_interface": {"primary_ip": {"address": "10.95.0.4"}}}], "services": [{"guid": "g1", "id": "crn:v1:bluemix:public:cloud-object-storage:global:a/1:g1::", "name": "cos-1", "region_id": "global"}]}

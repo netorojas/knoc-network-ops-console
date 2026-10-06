@@ -1,3 +1,9 @@
+/*!
+ * Orbinoc · Network Ops Console
+ * Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto). All rights reserved except as granted below.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Commercial licence (no AGPL obligations, enterprise modules, support): see COMMERCIAL.md
+ */
 /* ==========================================================================
    Contoso Ops Suite — shared design system (KNOC + Infra Backlog)
    Loaded after each app's own CSS; overrides tokens and adds the portal shell.
@@ -356,3 +362,59 @@ html[data-product="backlog"] .fab{background:var(--pf-grad);box-shadow:0 10px 30
 /* v2.0.1: no sideways scroll on phones */
 html,body{overflow-x:clip}
 @media (max-width:640px){[data-product=backlog] .tools{flex-wrap:wrap!important;justify-content:flex-start!important;row-gap:8px;max-width:100%}}
+/* v3: demo scenario switch + countries outside your footprint fade */
+.pf-scn{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px;margin-left:8px;vertical-align:middle}
+.pf-scn b{font-weight:600;margin-right:2px}
+.pf-scn button{font:600 12px var(--pf-font,inherit);border:1px solid var(--line,#d0d7e2);background:var(--surface,#fff);color:inherit;border-radius:20px;padding:3px 11px;cursor:pointer;transition:background .15s,border-color .15s}
+.pf-scn button:hover{border-color:var(--accent)}
+.pf-scn button[aria-pressed=true]{background:var(--pf-grad,var(--accent));color:#fff;border-color:transparent}
+html[data-product=knoc] #mland path.k:not(.u):not(.sel){opacity:.45}
+@media (max-width:640px){.pf-scn{display:flex;margin:8px 0 0}}
+
+/* ==========================================================================
+   v3 themes — light "overworld" (sky, coin gold, pipe green, brick red),
+   dark "legend" (night navy, hylian blue, old gold, parchment ink).
+   Colour only: no symbols, no logos.
+   ======================================================================== */
+:root[data-product]{
+  --ground:#F3F8FF;--surface:#FFFFFF;--surface-2:#EEF4FD;--surface-3:#E1EBF8;--line:#D9E4F2;--line-soft:#E8EFF9;
+  --ok:#2E9E46;--ok-bg:#E5F5E8;--warn:#C98800;--warn-bg:#FFF4D6;--crit:#D7263D;--crit-bg:#FDE8EB;
+  --sea:#D6E8FF;--land:#CFE7C6;--land-k:#A8D79A;--land-line:#FFFFFF;
+  --pf-gold:#F2B705;--pf-brick:#C8553D;
+}
+:root[data-product="knoc"]{--accent:#1F6FEB;--accent-soft:#E3EEFF;--pf-accent-2:#F2B705;--pf-grad:linear-gradient(135deg,#1F6FEB 0%,#3D9BFF 55%,#F2B705 140%)}
+:root[data-product="backlog"]{--accent:#2E9E46;--accent-soft:#E3F4E6;--pf-accent-2:#1F6FEB;--pf-grad:linear-gradient(135deg,#2E9E46 0%,#1F9E8A 50%,#1F6FEB 120%)}
+html[data-product] body{background-image:linear-gradient(180deg,color-mix(in srgb,var(--sea) 55%,transparent) 0,transparent 340px)}
+@media (prefers-color-scheme:dark){:root[data-product]:not([data-theme="light"]){
+  --ground:#08101C;--surface:#0E1828;--surface-2:#132036;--surface-3:#1A2A45;--line:#1E2E49;--line-soft:#15233A;
+  --ink:#ECE7DA;--ink-2:#B3B8C2;--ink-3:#808A9B;
+  --ok:#5BC48A;--ok-bg:#0F2A1F;--warn:#E2B84B;--warn-bg:#2B2410;--crit:#EF6F6C;--crit-bg:#33171A;
+  --sea:#070F1B;--land:#14243A;--land-k:#1D3A5E;--land-line:#08101C;--pf-gold:#E2B84B;--pf-glass:rgba(10,18,32,.74);
+}}
+:root[data-product][data-theme="dark"]{
+  --ground:#08101C;--surface:#0E1828;--surface-2:#132036;--surface-3:#1A2A45;--line:#1E2E49;--line-soft:#15233A;
+  --ink:#ECE7DA;--ink-2:#B3B8C2;--ink-3:#808A9B;
+  --ok:#5BC48A;--ok-bg:#0F2A1F;--warn:#E2B84B;--warn-bg:#2B2410;--crit:#EF6F6C;--crit-bg:#33171A;
+  --sea:#070F1B;--land:#14243A;--land-k:#1D3A5E;--land-line:#08101C;--pf-gold:#E2B84B;--pf-glass:rgba(10,18,32,.74);
+}
+@media (prefers-color-scheme:dark){
+  :root[data-product="knoc"]:not([data-theme="light"]){--accent:#6FA8FF;--accent-ink:#06101F;--accent-soft:#16294A;--pf-grad:linear-gradient(135deg,#2F6DB5 0%,#3FA7B7 60%,#E2B84B 140%)}
+  :root[data-product="backlog"]:not([data-theme="light"]){--accent:#4FC38E;--accent-ink:#04201B;--accent-soft:#0F2D24;--pf-grad:linear-gradient(135deg,#2F8F6A 0%,#3FA7B7 60%,#E2B84B 140%)}}
+:root[data-product="knoc"][data-theme="dark"]{--accent:#6FA8FF;--accent-ink:#06101F;--accent-soft:#16294A;--pf-grad:linear-gradient(135deg,#2F6DB5 0%,#3FA7B7 60%,#E2B84B 140%)}
+:root[data-product="backlog"][data-theme="dark"]{--accent:#4FC38E;--accent-ink:#04201B;--accent-soft:#0F2D24;--pf-grad:linear-gradient(135deg,#2F8F6A 0%,#3FA7B7 60%,#E2B84B 140%)}
+@media (prefers-color-scheme:dark){:root[data-product]:not([data-theme="light"]) body{background-image:radial-gradient(1200px 500px at 85% -10%,rgba(226,184,75,.07),transparent 60%),radial-gradient(900px 500px at 0% 0%,rgba(47,109,181,.12),transparent 60%)}}
+:root[data-product][data-theme="dark"] body{background-image:radial-gradient(1200px 500px at 85% -10%,rgba(226,184,75,.07),transparent 60%),radial-gradient(900px 500px at 0% 0%,rgba(47,109,181,.12),transparent 60%)}
+/* selected nav gets a thin gold rim in the dark theme */
+:root[data-product][data-theme="dark"] .nav a[aria-current="page"],:root[data-product][data-theme="dark"] nav.main button[aria-pressed="true"]{box-shadow:inset 0 0 0 1px rgba(226,184,75,.35)}
+
+/* ---------- full-screen working area: map + topology fill the viewport ---------- */
+html[data-product="knoc"][data-view="map"] .vhead p,html[data-product="knoc"][data-view="topo"] .vhead p{display:none}
+html[data-product="knoc"][data-view="map"] #view>.infobox,html[data-product="knoc"][data-view="topo"] #view>.infobox{font-size:12px;padding:6px 12px}
+html[data-product="knoc"] #msvg{height:var(--pf-fill,clamp(460px,calc(100vh - 300px),1000px))!important}
+html[data-product="knoc"] .topo{height:var(--pf-fill,clamp(500px,calc(100vh - 250px),1100px))!important}
+html[data-product="knoc"] .mapwrap>:last-child{max-height:var(--pf-fill,none);overflow:auto}
+
+/* ---------- secret ---------- */
+.pf-secret{position:fixed;inset:0;pointer-events:none;z-index:2000;overflow:hidden}
+.pf-secret i{position:absolute;width:10px;height:10px;border-radius:2px;background:var(--pf-gold);top:-12px;animation:pf-fall 2.4s linear forwards;opacity:.9}
+@keyframes pf-fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}

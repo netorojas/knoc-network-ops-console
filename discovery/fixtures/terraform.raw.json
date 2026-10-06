@@ -1,0 +1,1 @@
+{"values": {"root_module": {"resources": [{"address": "aws_instance.web", "type": "aws_instance", "name": "web", "values": {"private_ip": "10.1.1.1"}}, {"address": "azurerm_key_vault.kv", "type": "azurerm_key_vault", "name": "kv", "values": {"name": "kv-prod", "location": "westeurope"}}], "child_modules": []}}}

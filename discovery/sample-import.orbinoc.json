@@ -1,0 +1,448 @@
+{
+ "schema": "orbinoc-discovery/1",
+ "source": "demo-sample (fixtures)",
+ "generatedAt": "2026-10-07T00:00:00+00:00",
+ "sites": [
+  {
+   "id": "ansible-group-firewalls",
+   "name": "Ansible group firewalls",
+   "kind": "cpd",
+   "country": "CLD"
+  },
+  {
+   "id": "aws-sa-east-1",
+   "name": "AWS · sa-east-1 (São Paulo)",
+   "kind": "cloud",
+   "country": "BR",
+   "short": "AWS sa-east-1",
+   "provider": "AWS",
+   "lat": -23.5,
+   "lon": -46.6
+  },
+  {
+   "id": "aws-global",
+   "name": "AWS · global",
+   "kind": "cloud",
+   "country": "CLD",
+   "short": "AWS",
+   "provider": "AWS"
+  },
+  {
+   "id": "azure-brazilsouth",
+   "name": "Microsoft Azure · brazilsouth (São Paulo)",
+   "kind": "cloud",
+   "country": "BR",
+   "short": "Microsoft brazilsouth",
+   "provider": "Microsoft Azure",
+   "lat": -23.5,
+   "lon": -46.6
+  },
+  {
+   "id": "azure-westeurope",
+   "name": "Microsoft Azure · westeurope (Amsterdam)",
+   "kind": "cloud",
+   "country": "NL",
+   "short": "Microsoft westeurope",
+   "provider": "Microsoft Azure",
+   "lat": 52.4,
+   "lon": 4.9
+  },
+  {
+   "id": "docker-host",
+   "name": "Docker host",
+   "kind": "cpd",
+   "country": "CLD"
+  },
+  {
+   "id": "gcp-europe-west1",
+   "name": "Google Cloud · europe-west1 (Belgium)",
+   "kind": "cloud",
+   "country": "BE",
+   "short": "Google europe-west1",
+   "provider": "Google Cloud",
+   "lat": 50.4,
+   "lon": 3.8
+  },
+  {
+   "id": "gcp-us",
+   "name": "Google Cloud · us (us)",
+   "kind": "cloud",
+   "country": "CLD",
+   "short": "Google us",
+   "provider": "Google Cloud"
+  },
+  {
+   "id": "ibm-eu-de",
+   "name": "IBM Cloud · eu-de (Frankfurt)",
+   "kind": "cloud",
+   "country": "DE",
+   "short": "IBM eu-de",
+   "provider": "IBM Cloud",
+   "lat": 50.1,
+   "lon": 8.7
+  },
+  {
+   "id": "ibm-global",
+   "name": "IBM Cloud · global (global)",
+   "kind": "cloud",
+   "country": "CLD",
+   "short": "IBM global",
+   "provider": "IBM Cloud"
+  },
+  {
+   "id": "kubernetes-cluster",
+   "name": "Kubernetes cluster",
+   "kind": "cpd",
+   "country": "CLD"
+  },
+  {
+   "id": "nutanix-cluster",
+   "name": "Nutanix cluster",
+   "kind": "cpd",
+   "country": "CLD"
+  },
+  {
+   "id": "oci-sa-saopaulo-1",
+   "name": "Oracle Cloud · sa-saopaulo-1 (São Paulo)",
+   "kind": "cloud",
+   "country": "BR",
+   "short": "Oracle sa-saopaulo-1",
+   "provider": "Oracle Cloud",
+   "lat": -23.5,
+   "lon": -46.6
+  },
+  {
+   "id": "proxmox-cluster",
+   "name": "Proxmox cluster",
+   "kind": "cpd",
+   "country": "CLD"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ans-fw-hq",
+   "name": "fw-hq",
+   "type": "fw",
+   "site": "ansible-group-firewalls",
+   "country": "BR",
+   "vendor": "Ansible inventory",
+   "provider": "Ansible inventory",
+   "role": "group firewalls",
+   "ip": "10.10.0.1"
+  },
+  {
+   "id": "vpc-0a1",
+   "name": "vpc-br",
+   "type": "vnet",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "VPC",
+   "cidr": "10.20.0.0/16"
+  },
+  {
+   "id": "i-01",
+   "name": "web-01",
+   "type": "vm",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "EC2 t3.large · running",
+   "ip": "10.20.1.5"
+  },
+  {
+   "id": "db-erp",
+   "name": "db-erp",
+   "type": "db",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "RDS postgres 16.3",
+   "fqdn": "db-erp.x.sa-east-1.rds.example"
+  },
+  {
+   "id": "eks-sa-east-1-eks-br",
+   "name": "eks-br",
+   "type": "k8s",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "Amazon EKS"
+  },
+  {
+   "id": "arn-aws-lambda-sa-east-1-1-function-etl",
+   "name": "etl",
+   "type": "fn",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "Lambda · python3.12"
+  },
+  {
+   "id": "arn-aws-secretsmanager-sa-east-1-1-secret-x",
+   "name": "erp/db",
+   "type": "kv",
+   "site": "aws-sa-east-1",
+   "country": "BR",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "Secrets Manager (metadata only)"
+  },
+  {
+   "id": "s3-contoso-logs",
+   "name": "s3://contoso-logs",
+   "type": "obj",
+   "site": "aws-global",
+   "country": "CLD",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "Amazon S3 bucket"
+  },
+  {
+   "id": "subscriptions-s-resourcegroups-rg-providers-microsoft-comput",
+   "name": "vm1",
+   "type": "vm",
+   "site": "azure-brazilsouth",
+   "country": "BR",
+   "vendor": "Microsoft Azure",
+   "provider": "Microsoft Azure",
+   "role": "virtualmachines · rg rg",
+   "tags": "env=prod"
+  },
+  {
+   "id": "subscriptions-s-resourcegroups-rg-providers-microsoft-keyvau",
+   "name": "kv1",
+   "type": "kv",
+   "site": "azure-westeurope",
+   "country": "NL",
+   "vendor": "Microsoft Azure",
+   "provider": "Microsoft Azure",
+   "role": "vaults · rg rg"
+  },
+  {
+   "id": "dkr-host",
+   "name": "docker-host",
+   "type": "ctr",
+   "site": "docker-host",
+   "country": "CLD",
+   "vendor": "Docker",
+   "provider": "Docker",
+   "role": "Docker host"
+  },
+  {
+   "id": "dkc-abc123",
+   "name": "grafana",
+   "type": "ctr",
+   "site": "docker-host",
+   "country": "CLD",
+   "vendor": "Docker",
+   "provider": "Docker",
+   "role": "grafana/grafana:11 · running"
+  },
+  {
+   "id": "container-googleapis-com-projects-p-locations-europe-west1-c",
+   "name": "gke1",
+   "type": "k8s",
+   "site": "gcp-europe-west1",
+   "country": "BE",
+   "vendor": "Google Cloud",
+   "provider": "Google Cloud",
+   "role": "Cluster"
+  },
+  {
+   "id": "storage-googleapis-com-b1",
+   "name": "b1",
+   "type": "obj",
+   "site": "gcp-us",
+   "country": "CLD",
+   "vendor": "Google Cloud",
+   "provider": "Google Cloud",
+   "role": "Bucket"
+  },
+  {
+   "id": "0757-1",
+   "name": "vsi-1",
+   "type": "vm",
+   "site": "ibm-eu-de",
+   "country": "DE",
+   "vendor": "IBM Cloud",
+   "provider": "IBM Cloud",
+   "role": "VSI bx2-2x8",
+   "ip": "10.95.0.4"
+  },
+  {
+   "id": "g1",
+   "name": "cos-1",
+   "type": "obj",
+   "site": "ibm-global",
+   "country": "CLD",
+   "vendor": "IBM Cloud",
+   "provider": "IBM Cloud",
+   "role": "IBM Cloud service"
+  },
+  {
+   "id": "k8s-cluster",
+   "name": "kubernetes",
+   "type": "k8s",
+   "site": "kubernetes-cluster",
+   "country": "CLD",
+   "vendor": "Kubernetes",
+   "provider": "Kubernetes",
+   "role": "Cluster"
+  },
+  {
+   "id": "k8n-n1",
+   "name": "n1",
+   "type": "srv",
+   "site": "kubernetes-cluster",
+   "country": "CLD",
+   "vendor": "Kubernetes",
+   "provider": "Kubernetes",
+   "role": "Node · v1.30.2",
+   "ip": "10.0.0.5"
+  },
+  {
+   "id": "k8w-prod-api",
+   "name": "prod/api",
+   "type": "ctr",
+   "site": "kubernetes-cluster",
+   "country": "CLD",
+   "vendor": "Kubernetes",
+   "provider": "Kubernetes",
+   "role": "Deployment · 3 replicas"
+  },
+  {
+   "id": "k8s-svc-prod-api",
+   "name": "svc api",
+   "type": "lb",
+   "site": "kubernetes-cluster",
+   "country": "CLD",
+   "vendor": "Kubernetes",
+   "provider": "Kubernetes",
+   "role": "Service LoadBalancer"
+  },
+  {
+   "id": "ntnx-u1",
+   "name": "app-01",
+   "type": "vm",
+   "site": "nutanix-cluster",
+   "country": "CLD",
+   "vendor": "Nutanix",
+   "provider": "Nutanix",
+   "role": "AHV VM · ntnx-sg",
+   "ip": "10.45.2.10"
+  },
+  {
+   "id": "ocid1-instance-oc1-sa-saopaulo-1-abc",
+   "name": "erp-01",
+   "type": "vm",
+   "site": "oci-sa-saopaulo-1",
+   "country": "BR",
+   "vendor": "Oracle Cloud",
+   "provider": "Oracle Cloud",
+   "role": "Instance"
+  },
+  {
+   "id": "pve-node-pve1",
+   "name": "pve1",
+   "type": "hyp",
+   "site": "proxmox-cluster",
+   "country": "CLD",
+   "vendor": "Proxmox",
+   "provider": "Proxmox",
+   "role": "node · online · node pve1"
+  },
+  {
+   "id": "pve-qemu-100",
+   "name": "dc01",
+   "type": "vm",
+   "site": "proxmox-cluster",
+   "country": "CLD",
+   "vendor": "Proxmox",
+   "provider": "Proxmox",
+   "role": "qemu · running · node pve1"
+  },
+  {
+   "id": "pve-lxc-101",
+   "name": "dns",
+   "type": "ctr",
+   "site": "proxmox-cluster",
+   "country": "CLD",
+   "vendor": "Proxmox",
+   "provider": "Proxmox",
+   "role": "lxc · running · node pve1"
+  },
+  {
+   "id": "tf-aws-instance-web",
+   "name": "web",
+   "type": "vm",
+   "site": "aws-global",
+   "country": "CLD",
+   "vendor": "AWS",
+   "provider": "AWS",
+   "role": "Terraform · aws_instance.web",
+   "ip": "10.1.1.1",
+   "iac": "terraform"
+  },
+  {
+   "id": "tf-azurerm-key-vault-kv",
+   "name": "kv-prod",
+   "type": "kv",
+   "site": "azure-westeurope",
+   "country": "NL",
+   "vendor": "Microsoft Azure",
+   "provider": "Microsoft Azure",
+   "role": "Terraform · azurerm_key_vault.kv",
+   "iac": "terraform"
+  }
+ ],
+ "links": [
+  {
+   "a": "i-01",
+   "b": "vpc-0a1",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "dkc-abc123",
+   "b": "dkr-host",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "k8n-n1",
+   "b": "k8s-cluster",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "k8w-prod-api",
+   "b": "k8s-cluster",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "k8s-svc-prod-api",
+   "b": "k8s-cluster",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "pve-qemu-100",
+   "b": "pve-node-pve1",
+   "kind": "host",
+   "label": ""
+  },
+  {
+   "a": "pve-lxc-101",
+   "b": "pve-node-pve1",
+   "kind": "host",
+   "label": ""
+  }
+ ]
+}

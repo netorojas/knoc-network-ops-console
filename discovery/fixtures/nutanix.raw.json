@@ -1,0 +1,1 @@
+{"entities": [{"metadata": {"uuid": "u1"}, "spec": {"name": "app-01", "cluster_reference": {"name": "ntnx-sg"}}, "status": {"resources": {"nic_list": [{"ip_endpoint_list": [{"ip": "10.45.2.10"}]}]}}}]}

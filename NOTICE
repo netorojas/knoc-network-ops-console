@@ -1,0 +1,20 @@
+Orbinoc · Network Ops Console
+Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto)
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version. See LICENSE.
+
+Commercial licence: if you want to use, embed or host this software without the
+AGPL obligations, or need the enterprise modules and support, a commercial
+licence is available from the author. See COMMERCIAL.md.
+
+Licence history: releases up to and including v2.x were published under the MIT
+licence and remain available under MIT. From v3.0.0 onwards the code is
+licensed under AGPL-3.0-or-later.
+
+Trademarks: the names "Orbinoc" and "Contoso Ops Suite", and the logos, are not
+licensed under the AGPL. Forks must use a different name.
+
+Third-party material: see THIRD_PARTY_NOTICES.md.

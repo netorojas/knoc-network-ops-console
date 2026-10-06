@@ -1,0 +1,1 @@
+[{"id": "node/pve1", "type": "node", "node": "pve1", "status": "online"}, {"id": "qemu/100", "type": "qemu", "name": "dc01", "node": "pve1", "status": "running"}, {"id": "lxc/101", "type": "lxc", "name": "dns", "node": "pve1", "status": "running"}]
