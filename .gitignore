@@ -1,0 +1,7 @@
+.DS_Store
+*.log
+.env
+*.key
+*.pfx
+*.kdbx
+node_modules/
