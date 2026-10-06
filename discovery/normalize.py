@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Orbinoc · Network Ops Console — discovery normalizer
+# Orbiscale · Network Ops Console — discovery normalizer
 # Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto)
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Turns the raw, READ-ONLY output of each platform CLI into one Orbinoc import file.
+"""Turns the raw, READ-ONLY output of each platform CLI into one Orbiscale import file.
 
-    python3 normalize.py <platform> <raw.json> [--site-country BR] > <platform>.orbinoc.json
+    python3 normalize.py <platform> <raw.json> [--site-country BR] > <platform>.orbiscale.json
 
 platform: aws | azure | gcp | oci | ibm | proxmox | nutanix | kubernetes | docker | terraform | ansible | vsphere | hyperv
-The output follows the schema "orbinoc-discovery/1": {schema, source, generatedAt, sites[], nodes[], links[]}.
+The output follows the schema "orbiscale-discovery/1": {schema, source, generatedAt, sites[], nodes[], links[]}.
 Secrets are never read: only resource metadata (names, types, regions, private IPs, tags).
 """
 import json, re, sys, datetime
@@ -70,7 +70,7 @@ class Out:
         self.links.append({'a': slug(a), 'b': slug(b), 'kind': kind, 'label': label})
     def dump(self):
         known = set(self.nodes)
-        return {'schema': 'orbinoc-discovery/1', 'source': self.source, 'generatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'),
+        return {'schema': 'orbiscale-discovery/1', 'source': self.source, 'generatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'),
                 'sites': list(self.sites.values()), 'nodes': list(self.nodes.values()),
                 'links': [l for l in self.links if l['a'] in known and l['b'] in known]}
 
@@ -256,10 +256,10 @@ def ansible(raw, o):
         sid = onprem_site(o, f'Ansible group {g}', 'CLD')
         for h in d.get('hosts', []):
             v = hv.get(h, {})
-            o.node('ans-' + h, h, v.get('orbinoc_type', 'srv'), sid, v.get('orbinoc_country', 'CLD'), v.get('vendor', 'Ansible inventory'), 'group ' + g, ip=v.get('ansible_host'))
+            o.node('ans-' + h, h, v.get('orbiscale_type', 'srv'), sid, v.get('orbiscale_country', 'CLD'), v.get('vendor', 'Ansible inventory'), 'group ' + g, ip=v.get('ansible_host'))
 
 def passthrough(raw, o):
-    """vsphere.ps1 / hyperv.ps1 already emit orbinoc-discovery/1"""
+    """vsphere.ps1 / hyperv.ps1 already emit orbiscale-discovery/1"""
     for s in raw.get('sites', []): o.sites[s['id']] = s
     for n in raw.get('nodes', []): o.nodes[n['id']] = n
     o.links.extend(raw.get('links', []))
@@ -279,7 +279,7 @@ def main(argv):
     f = FN[plat]
     f(raw, o, **kw) if plat in ('proxmox', 'nutanix', 'kubernetes', 'docker') else f(raw, o)
     json.dump(o.dump(), sys.stdout, ensure_ascii=False, indent=1)
-    sys.stderr.write(f'[orbinoc] {plat}: {len(o.nodes)} resources, {len(o.sites)} sites/regions\n')
+    sys.stderr.write(f'[orbiscale] {plat}: {len(o.nodes)} resources, {len(o.sites)} sites/regions\n')
     return 0
 
 if __name__ == '__main__':

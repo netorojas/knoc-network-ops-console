@@ -1,17 +1,34 @@
-# Orbinoc · Network Ops Console
+# Orbiscale · Network Ops Console
 
 **Your whole infrastructure on one screen — one country or the whole world.**
 Map, topology, inventory, health, telephony, partners, multicloud discovery and layer-by-layer troubleshooting, in a single static web app. No backend, no build step.
 
 > 🔗 **Live demo:** https://netorojas.github.io/knoc-network-ops-console/
 > 🧪 All data is **fictional** (company "Contoso Global"). IPs come from the RFC 1918 and RFC 5737 documentation ranges.
-> 🏷️ Formerly **KNOC**. Same project, new name.
+> 🏷️ Formerly **KNOC** and **Orbinoc**. Same project, new name: **Orbiscale** (orbit + scale, from one country to the whole world).
 
-![Orbinoc demo](docs/media/knoc-demo.gif)
+![Orbiscale demo](docs/media/knoc-demo.gif)
 
 ▶️ [Full walkthrough (MP4)](docs/media/knoc-demo.mp4)
 
 ---
+
+## ✨ v4 · A live map
+
+| | |
+|---|---|
+| **Cards that float, never collide** | Every site opens a card next to its dot. Cards avoid each other, the markers and the controls, glide into place and can be dragged anywhere, pinned or closed. |
+| **Detail follows your zoom** | Far away a site is a blurred chip, closer it shows a summary, up close the full asset list with IPs. Labels that would overlap blur until you hover them. |
+| **You are here** | A minimap on the map and on the topology; click or drag it to travel. An exploration chip counts the sites and countries you have opened. |
+| **Tidy topology** | Drag assets to make room (nothing is saved, *Re-arrange* undoes it). Titles shorten with an ellipsis instead of running into the next zone. |
+| **Your colours** | Settings › Look and colours: 7 palettes or your own brand colours, with a contrast check. |
+| **Contact and support** | Report a problem from inside the app (pre-filled GitHub draft that refuses passwords and tokens), private security reports, commercial licence. |
+
+| Live cards (light) | Live cards (dark) |
+|---|---|
+| ![Live cards, light](docs/screenshots/live-cards-light.png) | ![Live cards, dark](docs/screenshots/live-cards-dark.png) |
+| **Topology** | **Look and colours** |
+| ![Topology](docs/screenshots/topology-dark.png) | ![Look and colours](docs/screenshots/look-and-colours.png) |
 
 ## ✨ v3 — Global & multicloud
 
@@ -58,7 +75,7 @@ cd knoc-network-ops-console
 docker compose up -d       # http://localhost:8080/?nologin
 ```
 
-**Whole suite side by side** (Orbinoc + Infra Backlog, with the suite switcher working):
+**Whole suite side by side** (Orbiscale + Infra Backlog, with the suite switcher working):
 ```bash
 mkdir contoso-ops && cd contoso-ops
 git clone https://github.com/netorojas/knoc-network-ops-console.git
@@ -75,7 +92,7 @@ Useful URL flags: `?nologin` skips the demo sign-in · `?scenario=single|regiona
 
 ## The problem
 
-It started with a 9-country operation. Each country had its own firewalls, ISPs, SIP carriers and vendors, plus servers and cloud workloads, and the information was spread across spreadsheets, password-manager titles, e-mails and people's heads. When something broke, the first 20 minutes went to *"what is this host, who is the carrier, where is the console?"*. Orbinoc answers that in one click, at any scale.
+It started with a 9-country operation. Each country had its own firewalls, ISPs, SIP carriers and vendors, plus servers and cloud workloads, and the information was spread across spreadsheets, password-manager titles, e-mails and people's heads. When something broke, the first 20 minutes went to *"what is this host, who is the carrier, where is the console?"*. Orbiscale answers that in one click, at any scale.
 
 ## What it does
 
@@ -98,17 +115,23 @@ It started with a 9-country operation. Each country had its own firewalls, ISPs,
 ```mermaid
 flowchart LR
   subgraph Customer network
-    SW[Orbinoc Sweep<br/>PowerShell agent, read-only] -->|ICMP/TCP status JSON| F[(status file)]
-    D[Discovery scripts<br/>aws · azure · gcp · oci · ibm<br/>vsphere · proxmox · hyper-v · nutanix<br/>k8s · docker · terraform · ansible] -->|orbinoc-discovery/1 JSON| F2[(inventory file)]
+    SW[Orbiscale Sweep<br/>PowerShell agent, read-only] -->|ICMP/TCP status JSON| F[(status file)]
+    D[Discovery scripts<br/>aws · azure · gcp · oci · ibm<br/>vsphere · proxmox · hyper-v · nutanix<br/>k8s · docker · terraform · ansible] -->|orbiscale-discovery/1 JSON| F2[(inventory file)]
   end
-  F --> UI[Orbinoc web app<br/>static HTML + JS]
+  F --> UI[Orbiscale web app<br/>static HTML + JS]
   F2 --> UI
   UI -->|read-only APIs, tokens in a vault| I[ITSM · monitoring · chat · CMDB]
 ```
 
+## Support and security
+
+- Questions and bugs: [GitHub Issues](../../issues) (or *Help › Report a problem* inside the app).
+- Vulnerabilities: private report, see [SECURITY.md](SECURITY.md).
+- Commercial licence and support: [COMMERCIAL.md](COMMERCIAL.md).
+
 ## Licence
 
-Orbinoc is **open-core**:
+Orbiscale is **open-core**:
 
 - **Community edition (this repo): [AGPL-3.0-or-later](LICENSE).** Use it, study it, change it. If you offer it to others as a hosted service, publish your changes.
 - **Commercial licence:** use without the AGPL obligations, enterprise modules and support — see [COMMERCIAL.md](COMMERCIAL.md).

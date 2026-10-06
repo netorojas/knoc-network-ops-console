@@ -1,5 +1,5 @@
 /*!
- * Orbinoc · Network Ops Console
+ * Orbiscale · Network Ops Console
  * Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto). All rights reserved except as granted below.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Commercial licence (no AGPL obligations, enterprise modules, support): see COMMERCIAL.md
@@ -23,7 +23,7 @@ var UI = {
   // settings
   sDisc: 'Discovery', discSub: 'Conecte nuvens, virtualização, containers e IaC em modo somente leitura. O script gera um arquivo; você revisa e importa.', discRun: 'Simular discovery', discScript: 'Ver script', discImport: 'Importar arquivo', discSample: 'Importar exemplo', discFound: 'recursos no mapa', discId: 'Identidade somente leitura', discWhat: 'O que é lido', discSteps: 'Como conectar', discDone: 'Importado', discNone: 'Nenhum recurso deste provedor ainda.', sGeneral: 'Geral', sInt: 'Integrações', sAuth: 'Autenticação & SSO', sNotif: 'Notificações', sData: 'Dados & privacidade', sApi: 'API & Webhooks', sAbout: 'Sobre',
   sSub: 'Tudo o que dá para configurar. Nesta demo nada sai do seu navegador.',
-  appearance: 'Aparência', language: 'Idioma', themeL: 'Tema', auto: 'Auto', light: 'Claro', dark: 'Escuro', density: 'Modo compacto', densityS: 'Mais informação por tela',
+  sLook: 'Aparência e cores', sContact: 'Contato e suporte', report: 'Reportar problema', appearance: 'Aparência', language: 'Idioma', themeL: 'Tema', auto: 'Auto', light: 'Claro', dark: 'Escuro', density: 'Modo compacto', densityS: 'Mais informação por tela',
   motion: 'Reduzir animações', motionS: 'Desliga transições e efeitos', region: 'Região', tz: 'Fuso horário', startPage: 'Página inicial',
   intSub: 'Conecte as ferramentas que o seu time já usa. Conectores somente leitura por padrão; segredos ficam no cofre (Key Vault), nunca aqui.',
   all: 'Todas', connected: 'Conectado', available: 'Disponível', beta: 'Beta', configure: 'Configurar', backAll: '← Todas as integrações',
@@ -48,7 +48,7 @@ var UI = {
   signedVia: 'Sesión demo iniciada con', saved: 'Configuración guardada en este navegador.',
   sDisc: 'Discovery', discSub: 'Conecta nubes, virtualización, contenedores e IaC en modo solo lectura. El script genera un archivo; lo revisas e importas.', discRun: 'Simular discovery', discScript: 'Ver script', discImport: 'Importar archivo', discSample: 'Importar ejemplo', discFound: 'recursos en el mapa', discId: 'Identidad de solo lectura', discWhat: 'Qué se lee', discSteps: 'Cómo conectar', discDone: 'Importado', discNone: 'Aún no hay recursos de este proveedor.', sGeneral: 'General', sInt: 'Integraciones', sAuth: 'Autenticación y SSO', sNotif: 'Notificaciones', sData: 'Datos y privacidad', sApi: 'API y Webhooks', sAbout: 'Acerca de',
   sSub: 'Todo lo que se puede configurar. En esta demo nada sale de tu navegador.',
-  appearance: 'Apariencia', language: 'Idioma', themeL: 'Tema', auto: 'Auto', light: 'Claro', dark: 'Oscuro', density: 'Modo compacto', densityS: 'Más información por pantalla',
+  sLook: 'Apariencia y colores', sContact: 'Contacto y soporte', report: 'Reportar un problema', appearance: 'Apariencia', language: 'Idioma', themeL: 'Tema', auto: 'Auto', light: 'Claro', dark: 'Oscuro', density: 'Modo compacto', densityS: 'Más información por pantalla',
   motion: 'Reducir animaciones', motionS: 'Desactiva transiciones y efectos', region: 'Región', tz: 'Zona horaria', startPage: 'Página de inicio',
   intSub: 'Conecta las herramientas que tu equipo ya usa. Conectores de solo lectura por defecto; los secretos quedan en el vault, nunca aquí.',
   all: 'Todas', connected: 'Conectado', available: 'Disponible', beta: 'Beta', configure: 'Configurar', backAll: '← Todas las integraciones',
@@ -73,7 +73,7 @@ var UI = {
   signedVia: 'Demo session started via', saved: 'Settings saved in this browser.',
   sDisc: 'Discovery', discSub: 'Connect clouds, virtualisation, containers and IaC in read-only mode. The script writes a file; you review it and import it.', discRun: 'Simulate discovery', discScript: 'View script', discImport: 'Import file', discSample: 'Import sample', discFound: 'resources on the map', discId: 'Read-only identity', discWhat: 'What is read', discSteps: 'How to connect', discDone: 'Imported', discNone: 'No resources from this provider yet.', sGeneral: 'General', sInt: 'Integrations', sAuth: 'Authentication & SSO', sNotif: 'Notifications', sData: 'Data & privacy', sApi: 'API & Webhooks', sAbout: 'About',
   sSub: 'Everything you can configure. In this demo nothing leaves your browser.',
-  appearance: 'Appearance', language: 'Language', themeL: 'Theme', auto: 'Auto', light: 'Light', dark: 'Dark', density: 'Compact mode', densityS: 'More information per screen',
+  sLook: 'Look and colours', sContact: 'Contact and support', report: 'Report a problem', appearance: 'Appearance', language: 'Language', themeL: 'Theme', auto: 'Auto', light: 'Light', dark: 'Dark', density: 'Compact mode', densityS: 'More information per screen',
   motion: 'Reduce motion', motionS: 'Turns off transitions and effects', region: 'Region', tz: 'Time zone', startPage: 'Start page',
   intSub: 'Connect the tools your team already uses. Read-only connectors by default; secrets stay in the vault (Key Vault), never here.',
   all: 'All', connected: 'Connected', available: 'Available', beta: 'Beta', configure: 'Configure', backAll: '← All integrations',
@@ -155,8 +155,8 @@ var FAQ = {
  ],
  knoc: [
   [L3('Serve para uma empresa de um país só? E para 50?', '¿Sirve para una empresa de un solo país? ¿Y para 50?', 'Does it work for a one-country company? And for 50?'), L3('Sim. Os países vêm dos seus dados: o mapa se enquadra sozinho no que você cadastrou, de um site único ao mundo inteiro. Na demo, troque o cenário (1 país · Regional · Global) no aviso azul do topo.', 'Sí. Los países salen de tus datos: el mapa se encuadra solo en lo que registraste, de un sitio único al mundo entero. En la demo, cambia el escenario (1 país · Regional · Global) en el aviso azul de arriba.', 'Yes. Countries come from your data: the map frames itself around what you registered, from a single site to the whole world. In the demo, switch the scenario (1 country · Regional · Global) in the blue notice at the top.')],
-  [L3('O que é o Orbinoc?', '¿Qué es Orbinoc?', 'What is Orbinoc?'), L3('Um console de NOC numa tela: mapa, topologia, inventário, telefonia, parceiros e playbooks de troubleshooting para uma operação multi-país.', 'Una consola de NOC en una pantalla: mapa, topología, inventario, telefonía, socios y playbooks para una operación multipaís.', 'A one-screen NOC console: map, topology, inventory, telephony, partners and troubleshooting playbooks for a multi-country operation.')],
-  [L3('De onde vem o status online/fora?', '¿De dónde viene el estado?', 'Where does online/down status come from?'), L3('Do Orbinoc Sweep, um agente PowerShell que roda dentro da rede e publica só up/down/latência. O navegador não alcança IP interno sozinho.', 'Del Orbinoc Sweep, un agente PowerShell que corre dentro de la red y publica solo up/down/latencia.', 'From the Orbinoc Sweep, a PowerShell agent inside the network that publishes only up/down/latency. Browsers can’t reach private IPs.')],
+  [L3('O que é o Orbiscale?', '¿Qué es Orbiscale?', 'What is Orbiscale?'), L3('Um console de NOC numa tela: mapa, topologia, inventário, telefonia, parceiros e playbooks de troubleshooting para uma operação multi-país.', 'Una consola de NOC en una pantalla: mapa, topología, inventario, telefonía, socios y playbooks para una operación multipaís.', 'A one-screen NOC console: map, topology, inventory, telephony, partners and troubleshooting playbooks for a multi-country operation.')],
+  [L3('De onde vem o status online/fora?', '¿De dónde viene el estado?', 'Where does online/down status come from?'), L3('Do Orbiscale Sweep, um agente PowerShell que roda dentro da rede e publica só up/down/latência. O navegador não alcança IP interno sozinho.', 'Del Orbiscale Sweep, un agente PowerShell que corre dentro de la red y publica solo up/down/latencia.', 'From the Orbiscale Sweep, a PowerShell agent inside the network that publishes only up/down/latency. Browsers can’t reach private IPs.')],
   [L3('Como uso o troubleshooting?', '¿Cómo uso el troubleshooting?', 'How do I use troubleshooting?'), L3('Escolha o sintoma, preencha host/IP uma vez e siga as camadas na ordem: Rede → Firewall → DNS → DHCP → VPN → Azure → M365 → Servidor → Aplicação → Endpoint. Os comandos saem prontos para copiar.', 'Elige el síntoma, completa host/IP una vez y sigue las capas en orden. Los comandos salen listos para copiar.', 'Pick the symptom, fill host/IP once and walk the layers in order: Network → Firewall → DNS → DHCP → VPN → Azure → M365 → Server → App → Endpoint. Commands come ready to copy.')],
   [L3('Posso exportar a topologia?', '¿Puedo exportar la topología?', 'Can I export the topology?'), L3('Sim: "Exportar SVG" na barra da topologia gera um arquivo vetorial para Visio, draw.io ou documentação.', 'Sí: "Exportar SVG" genera un archivo vectorial para Visio, draw.io o documentación.', 'Yes: "Export SVG" on the topology toolbar creates a vector file for Visio, draw.io or docs.')],
   [L3('Atalhos de teclado?', '¿Atajos de teclado?', 'Keyboard shortcuts?'), L3('/ busca ativos · ⌘K ou Ctrl+K abre comandos · Esc fecha janelas e volta o mapa para a visão completa.', '/ busca activos · ⌘K o Ctrl+K abre comandos · Esc cierra ventanas.', '/ searches assets · ⌘K or Ctrl+K opens commands · Esc closes dialogs and resets the map.')]
@@ -172,6 +172,16 @@ var FAQ = {
 
 /* changelog — [product, version, date, title L3, bullets L3[]] */
 var LOG = [
+ ['knoc', '4.0', '2026-10-07', L3('Orbiscale: mapa vivo, minimapa e textos que não se atropelam', 'Orbiscale: mapa vivo, minimapa y textos que no se pisan', 'Orbiscale: live map, minimap and labels that never collide'),
+  [L3('Cartões flutuantes por site: arraste, fixe, recolha; nunca cobrem outro cartão nem os pontos do mapa', 'Tarjetas flotantes por sitio: arrastra, fija, recoge; nunca tapan otra tarjeta ni los puntos', 'Floating site cards: drag, pin, collapse; they never cover another card or the map dots'),
+   L3('Nível de detalhe: de longe vira um chip desfocado, de perto mostra todos os ativos', 'Nivel de detalle: de lejos es un chip difuso, de cerca muestra todos los activos', 'Level of detail: a blurred chip far away, every asset up close'),
+   L3('Minimapa "você está aqui" no mapa e na topologia', 'Minimapa "estás aquí" en el mapa y la topología', '"You are here" minimap on the map and topology'),
+   L3('Topologia: arraste ativos para abrir espaço; títulos encurtam com reticências', 'Topología: arrastra activos para abrir espacio; títulos se acortan con puntos suspensivos', 'Topology: drag assets to make room; titles shorten with an ellipsis'),
+   L3('Novo nome: Orbinoc agora é Orbiscale', 'Nuevo nombre: Orbinoc ahora es Orbiscale', 'New name: Orbinoc is now Orbiscale')]],
+ ['both', '4.0', '2026-10-07', L3('Aparência e cores, contato e suporte', 'Apariencia y colores, contacto y soporte', 'Look and colours, contact and support'),
+  [L3('7 paletas prontas ou as cores da sua marca, com checagem de contraste', '7 paletas listas o los colores de tu marca, con control de contraste', '7 ready-made palettes or your brand colours, with a contrast check'),
+   L3('Reportar problema abre um rascunho no GitHub já preenchido', 'Reportar un problema abre un borrador en GitHub ya completo', 'Report a problem opens a pre-filled GitHub draft'),
+   L3('Política de segurança e aviso privado de vulnerabilidade', 'Política de seguridad y aviso privado de vulnerabilidad', 'Security policy and private vulnerability reports')]],
  ['both', '3.0', '2026-10-07', L3('Global: do 1 país ao mundo · KNOC agora é Orbinoc', 'Global: de 1 país al mundo · KNOC ahora es Orbinoc', 'Global: one country to the whole world · KNOC is now Orbinoc'),
   [L3('Mapa-múndi (Natural Earth) que se enquadra sozinho no seu ambiente', 'Mapamundi (Natural Earth) que se encuadra solo en tu entorno', 'World map (Natural Earth) that frames itself around your footprint'),
    L3('Países calculados a partir dos dados: cadastre um site em qualquer país e ele aparece', 'Países calculados desde los datos: registra un sitio en cualquier país y aparece', 'Countries come from your data: add a site anywhere and it shows up'),
@@ -187,7 +197,7 @@ var LOG = [
   [L3('Dados trocados por uma empresa fictícia (Contoso Global)', 'Datos reemplazados por una empresa ficticia (Contoso Global)', 'Data replaced by a fictional company (Contoso Global)'),
    L3('Varredura de vazamento (gitleaks) em cada push', 'Escaneo de fugas (gitleaks) en cada push', 'Leak scanning (gitleaks) on every push'),
    L3('READMEs com GIF, vídeo e cards de link (Open Graph)', 'READMEs con GIF, video y tarjetas de enlace (Open Graph)', 'READMEs with GIF, video and link cards (Open Graph)')]],
- ['knoc', '1.0', '2026-10', L3('Orbinoc Sweep e base compartilhada', 'Orbinoc Sweep y base compartida', 'Orbinoc Sweep and shared database'),
+ ['knoc', '1.0', '2026-10', L3('Orbiscale Sweep e base compartilhada', 'Orbiscale Sweep y base compartida', 'Orbiscale Sweep and shared database'),
   [L3('Agente PowerShell publica up/down/latência de dentro da rede', 'Agente PowerShell publica up/down/latencia desde la red', 'PowerShell agent publishes up/down/latency from inside the network'),
    L3('Bloqueio de segredos no formulário e cópia embutida somente leitura', 'Bloqueo de secretos en el formulario y copia embebida de solo lectura', 'Secret blocking in forms and a read-only embedded snapshot')]],
  ['backlog', '10', '2026-10', L3('Assistente, compartilhar e tour guiado', 'Asistente, compartir y tour guiado', 'Assistant, sharing and guided tour'),
@@ -211,7 +221,7 @@ var LOG = [
 ];
 
 
-/* ---------- Discovery catalog (Orbinoc): [id, name, group, color, short, script, identity L3, what L3, matcher(regex on node vendor/provider)] ---------- */
+/* ---------- Discovery catalog (Orbiscale): [id, name, group, color, short, script, identity L3, what L3, matcher(regex on node vendor/provider)] ---------- */
 var DGROUPS = { cloud: L3('Nuvens públicas', 'Nubes públicas', 'Public clouds'), onprem: L3('On-premise e virtualização', 'On-premise y virtualización', 'On-premise & virtualisation'),
   ctr: L3('Containers', 'Contenedores', 'Containers'), iac: L3('Infra como código', 'Infra como código', 'Infrastructure as code') };
 var DISC = [

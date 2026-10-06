@@ -1,4 +1,4 @@
-Orbinoc · Network Ops Console
+Orbiscale · Network Ops Console
 Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto)
 
 This program is free software: you can redistribute it and/or modify it under
@@ -14,7 +14,7 @@ Licence history: releases up to and including v2.x were published under the MIT
 licence and remain available under MIT. From v3.0.0 onwards the code is
 licensed under AGPL-3.0-or-later.
 
-Trademarks: the names "Orbinoc" and "Contoso Ops Suite", and the logos, are not
+Trademarks: the names "Orbiscale" and "Contoso Ops Suite", and the logos, are not
 licensed under the AGPL. Forks must use a different name.
 
 Third-party material: see THIRD_PARTY_NOTICES.md.

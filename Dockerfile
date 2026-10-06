@@ -1,4 +1,4 @@
-# Static site served by nginx. Build: docker build -t orbinoc . · Run: docker run --rm -p 8080:80 orbinoc
+# Static site served by nginx. Build: docker build -t orbiscale . · Run: docker run --rm -p 8080:80 orbiscale
 FROM nginx:1.27-alpine
 COPY . /usr/share/nginx/html
 RUN rm -f /usr/share/nginx/html/Dockerfile /usr/share/nginx/html/docker-compose.yml \

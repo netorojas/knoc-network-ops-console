@@ -1,9 +1,9 @@
-# Orbinoc Discovery
+# Orbiscale Discovery
 
-Read-only collectors that inventory **any** environment — one country or the whole world — and turn it into one file Orbinoc can import.
+Read-only collectors that inventory **any** environment — one country or the whole world — and turn it into one file Orbiscale can import.
 
 ```
-platform CLI (read-only)  ──►  <platform>.raw.json  ──►  normalize.py  ──►  <platform>.orbinoc.json  ──►  Orbinoc › Settings › Discovery › Import
+platform CLI (read-only)  ──►  <platform>.raw.json  ──►  normalize.py  ──►  <platform>.orbiscale.json  ──►  Orbiscale › Settings › Discovery › Import
 ```
 
 | Platform | Script | Read-only identity you need |
@@ -11,7 +11,7 @@ platform CLI (read-only)  ──►  <platform>.raw.json  ──►  normalize.p
 | AWS | `aws.sh` | Managed policy **ReadOnlyAccess** or **ViewOnlyAccess** (AWS SSO / profile) |
 | Microsoft Azure | `azure.sh` | **Reader** on subscriptions or a management group (Azure Resource Graph) |
 | Google Cloud | `gcp.sh` | **roles/cloudasset.viewer** on org / folder / project (Cloud Asset Inventory) |
-| Oracle Cloud (OCI) | `oci.sh` | Policy `Allow group OrbinocReaders to inspect all-resources in tenancy` |
+| Oracle Cloud (OCI) | `oci.sh` | Policy `Allow group OrbiscaleReaders to inspect all-resources in tenancy` |
 | IBM Cloud | `ibm.sh` | Platform **Viewer** + service **Reader** |
 | VMware vSphere | `vsphere.ps1` | vCenter role **Read-only** (PowerCLI) |
 | Proxmox VE | `proxmox.sh` | Role **PVEAuditor** |
@@ -31,15 +31,17 @@ platform CLI (read-only)  ──►  <platform>.raw.json  ──►  normalize.p
 ## Try it without any cloud account
 
 ```bash
-python3 discovery/normalize.py aws discovery/fixtures/aws.raw.json > /tmp/aws.orbinoc.json
+python3 discovery/normalize.py aws discovery/fixtures/aws.raw.json > /tmp/aws.orbiscale.json
 ```
 
-Or import `discovery/sample-import.orbinoc.json` in the demo (Settings › Discovery › Import file) and watch new regions appear on the map.
+Or import `discovery/sample-import.orbiscale.json` in the demo (Settings › Discovery › Import file) and watch new regions appear on the map.
 
-## Output schema `orbinoc-discovery/1`
+## Output schema `orbiscale-discovery/1`
+
+> Files from v3 (`orbinoc-discovery/1`) still import unchanged: the importer reads `nodes`, `sites` and `links`, not the schema name.
 
 ```json
-{ "schema": "orbinoc-discovery/1", "source": "aws", "generatedAt": "2026-10-07T12:00:00Z",
+{ "schema": "orbiscale-discovery/1", "source": "aws", "generatedAt": "2026-10-07T12:00:00Z",
   "sites": [{ "id": "aws-sa-east-1", "name": "AWS · sa-east-1 (São Paulo)", "kind": "cloud", "country": "BR", "lat": -23.5, "lon": -46.6 }],
   "nodes": [{ "id": "i-01", "name": "web-01", "type": "vm", "site": "aws-sa-east-1", "country": "BR", "vendor": "AWS", "ip": "10.20.1.5" }],
   "links": [{ "a": "i-01", "b": "vpc-0a1", "kind": "host" }] }
