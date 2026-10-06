@@ -353,3 +353,6 @@ html[data-product="backlog"] .fab{background:var(--pf-grad);box-shadow:0 10px 30
 /* v2 polish */
 [data-product=knoc] .brand small{font-size:8.5px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;display:block}
 @media (max-width:640px){.pf-invite{left:12px!important;right:12px!important;transform:none!important;flex-wrap:wrap;justify-content:center;text-align:center;border-radius:18px!important}.pf-invite span{flex:1 1 100%}}
+/* v2.0.1: no sideways scroll on phones */
+html,body{overflow-x:clip}
+@media (max-width:640px){[data-product=backlog] .tools{flex-wrap:wrap!important;justify-content:flex-start!important;row-gap:8px;max-width:100%}}
