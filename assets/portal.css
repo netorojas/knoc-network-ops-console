@@ -479,3 +479,18 @@ html[data-product="knoc"] .mapwrap>:last-child{max-height:var(--pf-fill,none);ov
 @media (prefers-color-scheme:dark){:root[data-product][data-pbase="contrast"]:not([data-theme="light"]){--ground:#000000;--surface:#000000;--surface-2:#111111;--surface-3:#1C1C1C;--line:#BDBDBD;--line-soft:#8A8A8A;--ink:#FFFFFF;--ink-2:#F0F0F0;--ink-3:#D6D6D6;--ok:#7CFF8F;--warn:#FFD54F;--crit:#FF6E6E;--sea:#000814;--land:#1A1A1A;--land-k:#333333;--land-line:#FFFFFF;--pf-glass:#000000}}
 :root[data-product][data-pbase="contrast"][data-theme="dark"]{--ground:#000000;--surface:#000000;--surface-2:#111111;--surface-3:#1C1C1C;--line:#BDBDBD;--line-soft:#8A8A8A;--ink:#FFFFFF;--ink-2:#F0F0F0;--ink-3:#D6D6D6;--ok:#7CFF8F;--warn:#FFD54F;--crit:#FF6E6E;--sea:#000814;--land:#1A1A1A;--land-k:#333333;--land-line:#FFFFFF;--pf-glass:#000000}
 .pf-note:empty{display:none}
+
+/* Executive workspace */
+:root[data-palette="executive"]{--ink:#263445;--pf-shadow-lg:0 24px 60px rgba(21,34,56,.16)}
+:root[data-palette="executive"][data-theme="dark"]{--ink:#E4EBF3}
+@media(prefers-color-scheme:dark){:root[data-palette="executive"]:not([data-theme="light"]){--ink:#E4EBF3}}
+.pf-suite-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
+.pf-suite-kpis article{border:1px solid var(--line);border-radius:12px;padding:20px;background:var(--surface-2)}
+.pf-suite-kpis small{display:block;color:var(--ink-2)}.pf-suite-kpis strong{display:block;font-size:26px;margin-top:8px}
+.pf-table-wrap{overflow:auto;margin:16px 0 24px}.pf-suite-table{border-collapse:collapse;width:100%;font-size:13px}
+.pf-suite-table th,.pf-suite-table td{padding:12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}.pf-suite-table th{background:var(--surface-2)}
+#suite-loading{position:fixed;inset:0;z-index:9999;background:#F4F6FA;color:#263445;display:grid;place-content:center;gap:16px;padding:24px}
+#suite-loading strong{font:600 22px system-ui}#suite-loading span{display:block;height:12px;width:min(360px,80vw);border-radius:6px;background:#DFE5EC}
+#suite-loading span:nth-child(3){width:65%}
+@media(max-width:640px){.pf-suite-kpis{grid-template-columns:1fr}.pf-utils{flex-wrap:wrap}.pf-suite-table{min-width:600px}}
+@media(prefers-reduced-motion:reduce){.pf-enter,.pf-ripple{animation:none!important}}

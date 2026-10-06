@@ -15,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '4.0.0';
+var VERSION = '4.1.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -109,6 +109,8 @@ function mountUtils() {
     '<button class="pf-ib pf-hide-sm" data-pf="tour" data-tip="' + esc(t('tour')) + '" aria-label="' + esc(t('tour')) + '">' + svg('play') + '</button>' +
     '<button class="pf-ib pf-hide-sm" data-pf="faq" data-tip="' + esc(t('faq')) + '" aria-label="' + esc(t('faq')) + '">' + svg('help') + '</button>' +
     '<button class="pf-ib pf-hide-sm" data-pf="log" data-tip="' + esc(t('log')) + '" aria-label="' + esc(t('log')) + '">' + svg('log') + '</button>' +
+    '<button class="pf-b" data-pf="finops">FinOps</button>' +
+    '<button class="pf-b" data-pf="demands">' + esc(T3('Demandas', 'Demandas', 'Work origins')) + '</button>' +
     '<button class="pf-ib" data-pf="set" data-tip="' + esc(t('settings')) + '" aria-label="' + esc(t('settings')) + '">' + svg('gear') + '</button>' +
     '<button class="pf-avatar" data-pf="me"><i>' + esc(initials()) + '</i><span>' + esc(firstName()) + '</span></button></div>');
   host.insertBefore(u, host.firstChild);
@@ -118,6 +120,8 @@ function mountUtils() {
     if (a === 'burger') root.classList.toggle('pf-nav-open');
     if (a === 'pal') palette();
     if (a === 'apps') appsMenu(b);
+    if (a === 'finops') suiteFinops();
+    if (a === 'demands') suiteDemands();
     if (a === 'tour') tour(0);
     if (a === 'faq') helpMenu(b);
     if (a === 'log') changelog();
@@ -322,6 +326,8 @@ var SECTIONS = {
 /* ---------- 4b. Appearance: palettes + your own colours ---------- */
 var T3 = function (a, b, c) { return tx(L3(a, b, c)); };
 var PALS = [
+  ['executive', L3('Executivo', 'Ejecutivo', 'Executive'), L3('Azul-marinho, grafite e teal', 'Azul marino, grafito y teal', 'Navy, graphite and teal'), 'neutral', ['#2457C5', '#087F8C', '#152238'], ['#8FB4FF', '#55C5CE', '#CBD5E1']],
+  ['violet', L3('Grafite + violeta', 'Grafito + violeta', 'Graphite + violet'), L3('Grafite com detalhes violeta', 'Grafito con detalles violeta', 'Graphite with violet accents'), 'neutral', ['#6D5BD0', '#334155', '#087F8C'], ['#B9ACFF', '#CBD5E1', '#55C5CE']],
   ['signature', L3('Assinatura', 'Firma', 'Signature'), L3('Claro em vermelho vivo, escuro em floresta e dourado', 'Claro en rojo vivo, oscuro en bosque y dorado', 'Light in bold red, dark in forest and gold'), '', ['#E4000F', '#0058C9', '#FBD000'], ['#3FA66B', '#D9B44A', '#4F8FBF']],
   ['classic', L3('Corporativo', 'Corporativo', 'Corporate'), L3('Azul sóbrio, fundos neutros', 'Azul sobrio, fondos neutros', 'Calm blue on neutral surfaces'), 'neutral', ['#1F5FD6', '#06B6D4', '#F59E0B'], ['#6E9BFF', '#22D3EE', '#FBBF24']],
   ['graphite', L3('Grafite', 'Grafito', 'Graphite'), L3('Quase monocromático, para telas de NOC', 'Casi monocromático, para pantallas de NOC', 'Near-monochrome, for NOC walls'), 'neutral', ['#334155', '#0EA5E9', '#64748B'], ['#CBD5E1', '#38BDF8', '#94A3B8']],
@@ -335,7 +341,7 @@ function hexOk(h) { return /^#[0-9a-f]{6}$/i.test(h || ''); }
 function lum(h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
 var LOOK_VARS = ['--accent', '--accent-ink', '--accent-soft', '--pf-accent-2', '--pf-grad', '--pf-red'];
 function applyLook() {
-  var id = S.pal || 'signature', p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
+  var id = S.pal || 'executive', p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
   root.dataset.pbase = p[3] || '';
   root.dataset.palette = p[0];
   var sw = dark ? p[5] : p[4], a = sw[0], b = sw[1];
@@ -351,7 +357,7 @@ new MutationObserver(function (m) { if (m.some(function (x) { return x.attribute
 if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyLook); } catch (e) { /* old Safari */ } }
 
 SECTIONS.look = function () {
-  var cur = S.pal || 'signature', dark = isDark();
+  var cur = S.pal || 'executive', dark = isDark();
   var cards = PALS.map(function (p) {
     var dots = function (arr) { return arr.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join(''); };
     return '<button class="pf-swatch" data-pal="' + p[0] + '" aria-pressed="' + (p[0] === cur) + '"><span class="pf-swatch-sw"><span class="l">' + dots(p[4]) + '</span><span class="d">' + dots(p[5]) + '</span></span><b>' + esc(tx(p[1])) + '</b><small>' + esc(tx(p[2])) + '</small></button>';
@@ -501,6 +507,39 @@ function testInt(id, btn) {
   audit('integration test · ' + id);
 }
 
+
+/* ---------- Suite workspace: explicit demonstration, no connector claims ---------- */
+function suiteTable(head, rows) {
+  return '<div class="pf-table-wrap"><table class="pf-suite-table"><thead><tr>' + head.map(function(x){return '<th>'+esc(x)+'</th>';}).join('') + '</tr></thead><tbody>' + rows.map(function(row){return '<tr>'+row.map(function(x){return '<td>'+esc(x)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';
+}
+function suiteFinops() {
+  var rows = [
+    ['Azure', 'Virtual Machines · Storage · Azure SQL', 'West Europe / East US 2', 4200, 5200, 650],
+    ['AWS', 'EC2 · S3 · RDS', 'us-east-1 / eu-central-1', 3100, 3600, 430],
+    ['IBM Cloud', 'VPC VSI · Cloud Object Storage · Kubernetes', 'eu-de', 1800, 2200, 210]
+  ];
+  var money=function(n){return new Intl.NumberFormat(lang()==='en'?'en-US':lang()==='es'?'es-ES':'pt-BR',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);};
+  var sum=function(i){return rows.reduce(function(a,r){return a+r[i];},0);};
+  var cards=[[T3('Custo mensal ilustrativo','Costo mensual ilustrativo','Illustrative monthly cost'),sum(3)], [T3('Orçamento ilustrativo','Presupuesto ilustrativo','Illustrative budget'),sum(4)], [T3('Economia potencial ilustrativa','Ahorro potencial ilustrativo','Illustrative potential savings'),sum(5)]];
+  var html='<div class="pf-suite-kpis">'+cards.map(function(c){return '<article><small>'+esc(c[0])+'</small><strong>'+esc(money(c[1]))+'</strong></article>';}).join('')+'</div>';
+  html+=suiteTable([T3('Nuvem','Nube','Cloud'),T3('Recursos','Recursos','Resources'),T3('Região','Región','Region'),T3('Custo / mês','Costo / mes','Cost / month'),T3('Orçamento','Presupuesto','Budget'),T3('Potencial','Potencial','Potential')], rows.map(function(r){return r.slice(0,3).concat(r.slice(3).map(money));}));
+  html+='<p>'+esc(T3('Valores fictícios em USD, sem impostos ou conversão cambial. Economia é uma hipótese de demonstração, não uma recomendação calculada.','Valores ficticios en USD, sin impuestos ni conversión. El ahorro es una hipótesis de demostración.','Fictional USD values, excluding tax and currency conversion. Savings are demonstration assumptions, not computed recommendations.'))+'</p>';
+  html+='<h2>'+esc(T3('Próximas decisões','Próximas decisiones','Next decisions'))+'</h2><ul><li>'+esc(T3('Azure: revisar discos e máquinas ociosas.','Azure: revisar discos y máquinas sin uso.','Azure: review idle disks and machines.'))+'</li><li>'+esc(T3('AWS: avaliar lifecycle do S3 e dimensionamento do EC2.','AWS: evaluar lifecycle de S3 y tamaño de EC2.','AWS: assess S3 lifecycle and EC2 sizing.'))+'</li><li>'+esc(T3('IBM: revisar capacidade VPC e armazenamento.','IBM: revisar capacidad VPC y almacenamiento.','IBM: review VPC capacity and storage.'))+'</li></ul>';
+  var inventory=(window.SUITE_DEMO||{}).resources||[];
+  html+='<h2>'+esc(T3('Recursos da demo','Recursos de la demo','Demo resources'))+'</h2>'+suiteTable(['ID',T3('Nuvem','Nube','Cloud'),'Site',T3('Recurso','Recurso','Resource')],inventory.map(function(n){return [n.id,n.provider,n.site,n.name];}));
+  modal('FinOps · Multicloud',T3('Demonstração · faturamento real ainda não conectado','Demostración · facturación real aún no conectada','Demonstration · real billing is not connected'),html);
+}
+function suiteDemands() {
+  var records=(window.SUITE_DEMO||{}).demands||[];
+  var rows=records.map(function(x){return [x.id,tx(x.title),x.country,tx(x.evidence)||'—',x.serviceDeskId||'—',(x.resourceIds||[]).join(', ')||'—'];});
+  var html=suiteTable(['ID',T3('Demanda','Demanda','Work item'),T3('País','País','Country'),T3('Evidência / origem','Evidencia / origen','Evidence / origin'),'ServiceDesk ID',T3('Ativos vinculados','Activos vinculados','Linked assets')],rows);
+  html+='<h2>'+esc(T3('Onde nasce → onde reside → o que afeta','Dónde nace → dónde reside → qué afecta','Where it starts → where it lives → what it affects'))+'</h2>';
+  html+=suiteTable([T3('Origem','Origen','Origin'),T3('Registro oficial','Registro oficial','System of record'),T3('Infra relacionada','Infra relacionada','Related infrastructure')],[['Teams / Outlook / '+T3('Reunião','Reunión','Meeting'),'ServiceDesk / Jira / Azure DevOps',T3('Ativo + site + projeto + responsável','Activo + sitio + proyecto + responsable','Asset + site + project + owner')]]);
+  html+='<p>'+esc(T3('O quadro acima mostra o modelo de integração. Teams, email e calendário ainda não estão conectados. A lista usa somente as evidências já registradas na demo; links e associações não são inferidos.','El cuadro muestra el modelo de integración. Teams, correo y calendario aún no están conectados. La lista usa las evidencias registradas en la demo.','The table shows the integration model. Teams, email and calendar are not connected. The list uses existing demo evidence; links and relationships are not inferred.'))+'</p>';
+  html+='<a class="pf-b" href="'+PR.other.url+'">'+esc(T3('Abrir ','Abrir ','Open ')+PR.other.name)+' →</a>';
+  modal(T3('Origem das demandas','Origen de las demandas','Work origins'),T3('Rastreabilidade · dados fictícios existentes','Trazabilidad · datos ficticios existentes','Traceability · existing fictional records'),html);
+}
+
 /* ---------- 5. FAQ & changelog ---------- */
 function modal(title, sub, bodyHtml, extra) {
   var m = el('<div class="pf-modal" role="dialog" aria-label="' + esc(title) + '"><header><h1 class="pf-h">' + esc(title) + '</h1><p class="pf-sub" style="margin:0">' + esc(sub) + '</p>' + (extra || '') + '<button class="pf-x" aria-label="close">×</button></header><div class="pf-mb">' + bodyHtml + '</div></div>');
@@ -607,8 +646,8 @@ var lastView = null;
 function afterNav() {
   var v = PR.view(); root.dataset.view = v || ''; if (v === lastView) return; lastView = v; if (P === 'knoc') setTimeout(function () { fillPanel(false); }, 60);
   var host = $('#view'); if (host && !root.classList.contains('pf-nomotion')) { host.classList.remove('pf-enter'); void host.offsetWidth; host.classList.add('pf-enter'); setTimeout(function () { host.classList.remove('pf-enter'); }, 700); }
-  setTimeout(countUp, 40);
-  if (P === 'knoc') { root.classList.remove('pf-nav-open'); if (v === 'topo') { [700, 1800].forEach(function (ms) { setTimeout(function () { var b = $('#tfit'); if (b && PR.view() === 'topo') b.click(); }, ms); }); } }
+  // Keep operational metrics stable; no count-up on every navigation.
+  if (P === 'knoc') { root.classList.remove('pf-nav-open');  }
 }
 function countUp() {
   if (root.classList.contains('pf-nomotion')) return;
@@ -652,6 +691,7 @@ function boot() {
   var view = $('#view'); if (view) new MutationObserver(debounce(afterNav, 30)).observe(view, { childList: true });
   if (S.start && !location.hash && P === 'knoc' && S.start !== 'home') PR.go(S.start);
   afterNav();
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ var b=document.getElementById('suite-loading'); if(b)b.remove(); }); });
   if (!/[?&]nologin\b/.test(location.search)) login(); else afterLogin(false);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else setTimeout(boot, 0);

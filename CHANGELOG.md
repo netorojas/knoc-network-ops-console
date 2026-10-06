@@ -42,3 +42,12 @@ All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](htt
 ## [1.1.0] - 2026-10-05
 ### Added
 - Public demo with a fictional company (Contoso LATAM), Open Graph cards, GIF and MP4 walkthrough, gitleaks on every push.
+
+## 4.1.0 — Executive workspace
+
+- Executive navy/blue/teal palette by default; existing choices retained, graphite/violet added.
+- Initial loading state, with initialization fallback notice and reduced-motion support.
+- Removed KPI count-up on navigation and repeated delayed topology fitting.
+- FinOps demonstration: explicit fictional USD costs, budgets and potential savings; Azure, AWS and IBM inventory from the existing snapshot.
+- Shared work-origin view uses existing backlog evidence and an explicit fictional SBC association. External email, Teams, calendar and billing connectors remain unconnected.
+- Validation: JavaScript syntax, panel output, cost totals, inventory providers and relation IDs. Browser visual/performance validation pending.
