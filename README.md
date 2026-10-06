@@ -5,9 +5,13 @@
 > 🔗 **Live demo:** https://netorojas.github.io/knoc-network-ops-console/
 > 🧪 All data is **fictional** (company "Contoso LATAM"). IPs come from the RFC 1918 and RFC 5737 documentation ranges.
 
-![Overview](docs/screenshots/overview-light.png)
+![KNOC demo](docs/media/knoc-demo.gif)
+
+▶️ [Full 40-second walkthrough (MP4)](docs/media/knoc-demo.mp4)
 
 ---
+
+![Overview](docs/screenshots/overview-light.png)
 
 ## The problem
 
