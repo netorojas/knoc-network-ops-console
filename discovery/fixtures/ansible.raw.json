@@ -1,1 +1,1 @@
-{"_meta": {"hostvars": {"fw-hq": {"ansible_host": "10.10.0.1", "orbinoc_type": "fw", "orbinoc_country": "BR"}}}, "all": {"children": ["firewalls"]}, "firewalls": {"hosts": ["fw-hq"]}}
+{"_meta": {"hostvars": {"fw-hq": {"ansible_host": "10.10.0.1", "orbiscale_type": "fw", "orbiscale_country": "BR"}}}, "all": {"children": ["firewalls"]}, "firewalls": {"hosts": ["fw-hq"]}}

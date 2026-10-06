@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security issue (private)
+    url: https://github.com/netorojas/knoc-network-ops-console/security/advisories/new
+    about: Report vulnerabilities privately, never in a public issue.
+  - name: Commercial licence and support
+    url: https://www.linkedin.com/in/netorojas/
+    about: Licensing without AGPL obligations, enterprise modules and support.

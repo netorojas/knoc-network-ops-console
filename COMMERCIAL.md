@@ -1,6 +1,6 @@
 # Commercial licence
 
-Orbinoc · Network Ops Console is **open-core**:
+Orbiscale · Network Ops Console is **open-core**:
 
 | | Community (this repo) | Commercial |
 |---|---|---|

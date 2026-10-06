@@ -1,11 +1,11 @@
 /*!
- * Orbinoc · Network Ops Console
+ * Orbiscale · Network Ops Console
  * Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto). All rights reserved except as granted below.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Commercial licence (no AGPL obligations, enterprise modules, support): see COMMERCIAL.md
  */
 /* ==========================================================================
-   Contoso Ops Suite — portal shell (shared by Orbinoc and Infra Backlog)
+   Contoso Ops Suite — portal shell (shared by Orbiscale and Infra Backlog)
    Adds: demo sign-in (SSO/social, simulated), settings + integrations,
    command palette, FAQ, changelog, 60-second tour, mobile drawer,
    view transitions, count-up KPIs, ripple. No network calls, no secrets.
@@ -15,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '3.0.0';
+var VERSION = '4.0.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -39,7 +39,9 @@ var ICON = {
   bell: 'M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0', db: 'M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
   code: 'M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16', info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v6M12 7.5h.01', sliders: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4',
   sun: 'M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z', globe: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z',
-  out: 'M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10', arrow: 'M5 12h14M13 6l6 6-6 6'
+  out: 'M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10', arrow: 'M5 12h14M13 6l6 6-6 6',
+  palette: 'M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.5-1.6 0-1-.9-1.4-.9-2.4 0-.9.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5c0-4.1-4-7.5-9-7.5zM7.5 11.5h.01M10 7.5h.01M15 7.5h.01',
+  chat: 'M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5', bug: 'M9 7a3 3 0 0 1 6 0M7 10h10v4a5 5 0 0 1-10 0zM12 10v9M4 12h3M17 12h3M5 7l2.5 2M19 7l-2.5 2M5 18l2.5-2M19 18l-2.5-2'
 };
 var svg = function (k) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON[k] + '"/></svg>'; };
 function audit(what) { var a = store.get('audit', []); a.unshift({ at: new Date().toISOString(), who: (store.get('session') || {}).name || 'guest', what: what }); store.set('audit', a.slice(0, 50)); }
@@ -49,7 +51,7 @@ function toast(msg) { var x = $('.pf-toast'); if (x) x.remove(); x = el('<div cl
 var L3 = C.L3;
 var PROD = {
   knoc: {
-    name: 'Orbinoc', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', tag: L3('Console de operação de rede', 'Consola de operación de red', 'Network operations console'),
+    name: 'Orbiscale', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', tag: L3('Console de operação de rede', 'Consola de operación de red', 'Network operations console'),
     hero: L3('Sua rede inteira em uma tela. De 1 país ao mundo.', 'Toda tu red en una pantalla. De 1 país al mundo.', 'Your whole network on one screen. One country or the world.'),
     heroP: L3('Mapa, topologia, inventário, telefonia e playbooks de troubleshooting, com status vindo de dentro da rede.', 'Mapa, topología, inventario, telefonía y playbooks, con estado que viene de dentro de la red.', 'Map, topology, inventory, telephony and troubleshooting playbooks, with status coming from inside the network.'),
     stats: [['1→195', L3('países, o seu tamanho', 'países, tu tamaño', 'countries, your size')], ['5', L3('nuvens + on-prem', 'nubes + on-prem', 'clouds + on-prem')], ['13', L3('plataformas no discovery', 'plataformas en discovery', 'discovery platforms')]],
@@ -63,7 +65,7 @@ var PROD = {
       ['partners', L3('Parceiros', 'Socios', 'Partners')], ['portals', L3('Portais & Integrações', 'Portales e integraciones', 'Portals & integrations')], ['tools', L3('Ferramentas', 'Herramientas', 'Tools')],
       ['gaps', L3('Pontos de atenção', 'Puntos de atención', 'Attention items')], ['docs', L3('Documentação', 'Documentación', 'Docs')], ['status', L3('Status', 'Estado', 'Status')]],
     tour: [
-      [null, null, L3('Bem-vindo ao Orbinoc', 'Bienvenido a Orbinoc', 'Welcome to Orbinoc'), L3('Um console de NOC que se adapta ao tamanho do seu ambiente: 1 país, uma região ou o mundo. São 6 paradas rápidas.', 'Una consola de NOC que se adapta al tamaño de tu entorno: 1 país, una región o el mundo. Son 6 paradas rápidas.', 'A NOC console that fits your footprint: one country, a region or the whole world. Six quick stops.')],
+      [null, null, L3('Bem-vindo ao Orbiscale', 'Bienvenido a Orbiscale', 'Welcome to Orbiscale'), L3('Um console de NOC que se adapta ao tamanho do seu ambiente: 1 país, uma região ou o mundo. São 6 paradas rápidas.', 'Una consola de NOC que se adapta al tamaño de tu entorno: 1 país, una región o el mundo. Son 6 paradas rápidas.', 'A NOC console that fits your footprint: one country, a region or the whole world. Six quick stops.')],
       ['home', 'aside.side nav', L3('Módulos', 'Módulos', 'Modules'), L3('Operação, Conhecimento e Plataforma. No celular, este menu vira uma gaveta (☰).', 'Operación, Conocimiento y Plataforma. En el celular, este menú se vuelve un cajón (☰).', 'Operations, Knowledge and Platform. On mobile this becomes a drawer (☰).')],
       ['home', '.gsearch', L3('Busca global', 'Búsqueda global', 'Global search'), L3('Ativo, IP, site ou parceiro. Atalho: /. Para comandos, ⌘K.', 'Activo, IP, sitio o socio. Atajo: /. Para comandos, ⌘K.', 'Asset, IP, site or partner. Shortcut: /. For commands, ⌘K.')],
       ['map', '#mapbox', L3('Mapa', 'Mapa', 'Map'), L3('Clique num país ou site para aproximar. Camadas embaixo ligam e desligam cloud, SaaS, fornecedores e telefonia.', 'Haz clic en un país o sitio para acercar. Las capas encienden o apagan cloud, SaaS, proveedores y telefonía.', 'Click a country or site to zoom in. Layers below toggle cloud, SaaS, vendors and telephony.')],
@@ -77,7 +79,7 @@ var PROD = {
     hero: L3('O painel que o time nunca preenche.', 'El panel que el equipo nunca completa.', 'The board your team never types into.'),
     heroP: L3('E-mail, Teams, a Daily e o ServiceDesk viram prioridades com evidência: FATO, PROVÁVEL ou HIPÓTESE.', 'Correo, Teams, la Daily y el ServiceDesk se vuelven prioridades con evidencia.', 'E-mail, Teams, the Daily and the ServiceDesk become evidence-labelled priorities.'),
     stats: [['0', L3('digitação manual', 'digitación manual', 'manual typing')], ['4', L3('fontes lidas', 'fuentes leídas', 'sources read')], ['5', L3('formatos de exportação', 'formatos de exportación', 'export formats')]],
-    other: { name: 'Orbinoc', url: '../knoc-network-ops-console/', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'O', tag: L3('Console de rede', 'Consola de red', 'Network console') },
+    other: { name: 'Orbiscale', url: '../knoc-network-ops-console/', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'O', tag: L3('Console de rede', 'Consola de red', 'Network console') },
     s: 'IB', mount: '.tools',
     view: function () { return (window.BL && BL.view && BL.view()) || 'board'; },
     go: function (v) { if (window.BL && BL.go) BL.go(v); },
@@ -117,7 +119,7 @@ function mountUtils() {
     if (a === 'pal') palette();
     if (a === 'apps') appsMenu(b);
     if (a === 'tour') tour(0);
-    if (a === 'faq') faq();
+    if (a === 'faq') helpMenu(b);
     if (a === 'log') changelog();
     if (a === 'set') settings('general');
     if (a === 'me') meMenu(b);
@@ -207,7 +209,7 @@ function afterLogin(fresh) {
 /* ---------- 4. Settings ---------- */
 var S = store.get('settings', {});
 function saveS() { store.set('settings', S); }
-var SECT = [['general', 'sGeneral', 'sliders'], ['int', 'sInt', 'plug']].concat(P === 'knoc' ? [['disc', 'sDisc', 'radar']] : []).concat([ ['auth', 'sAuth', 'shield'], ['notif', 'sNotif', 'bell'], ['data', 'sData', 'db'], ['api', 'sApi', 'code'], ['about', 'sAbout', 'info']]);
+var SECT = [['general', 'sGeneral', 'sliders'], ['look', 'sLook', 'palette'], ['int', 'sInt', 'plug']].concat(P === 'knoc' ? [['disc', 'sDisc', 'radar']] : []).concat([ ['auth', 'sAuth', 'shield'], ['notif', 'sNotif', 'bell'], ['data', 'sData', 'db'], ['api', 'sApi', 'code'], ['contact', 'sContact', 'chat'], ['about', 'sAbout', 'info']]);
 function settings(sec, sub) {
   var nav = '<nav><h2>' + esc(t('settings')) + '</h2><p>' + esc(PR.name) + ' · v' + VERSION + '</p>' +
     SECT.map(function (s) { return '<button data-sec="' + s[0] + '" aria-current="' + (s[0] === sec) + '">' + svg(s[2]) + esc(t(s[1])) + '</button>'; }).join('') + '</nav>';
@@ -229,7 +231,7 @@ var SECTIONS = {
   general: function () {
     var tzs = ['America/Sao_Paulo', 'America/Argentina/Buenos_Aires', 'America/Bogota', 'America/Lima', 'America/Santiago', 'America/Mexico_City', 'America/Guayaquil', 'America/Montevideo', 'America/Toronto', 'UTC'];
     var spec = P === 'knoc'
-      ? '<section class="pf-sec"><h3>Orbinoc Sweep</h3>' + select(lang() === 'en' ? 'Sweep interval' : lang() === 'es' ? 'Intervalo del Sweep' : 'Intervalo do Sweep', 'sweep', [['5', '5 min'], ['15', '15 min'], ['60', '60 min']], S.sweep || '15') +
+      ? '<section class="pf-sec"><h3>Orbiscale Sweep</h3>' + select(lang() === 'en' ? 'Sweep interval' : lang() === 'es' ? 'Intervalo del Sweep' : 'Intervalo do Sweep', 'sweep', [['5', '5 min'], ['15', '15 min'], ['60', '60 min']], S.sweep || '15') +
         select(lang() === 'en' ? 'Mark status as stale after' : lang() === 'es' ? 'Estado viejo después de' : 'Status antigo depois de', 'stale', [['30', '30 min'], ['60', '60 min'], ['240', '4 h']], S.stale || '60') +
         row(lang() === 'en' ? 'Hide personal data in snapshot' : lang() === 'es' ? 'Ocultar datos personales en la copia' : 'Ocultar dados pessoais na cópia embutida', 'LGPD', sw('lgpdSnap', S.lgpdSnap !== false)) + '</section>'
       : '<section class="pf-sec"><h3>' + (lang() === 'en' ? 'Schedule' : lang() === 'es' ? 'Agenda' : 'Agenda das rotinas') + '</h3><div class="pf-grid2">' +
@@ -316,6 +318,126 @@ var SECTIONS = {
   }
 };
 
+
+/* ---------- 4b. Appearance: palettes + your own colours ---------- */
+var T3 = function (a, b, c) { return tx(L3(a, b, c)); };
+var PALS = [
+  ['signature', L3('Assinatura', 'Firma', 'Signature'), L3('Claro em vermelho vivo, escuro em floresta e dourado', 'Claro en rojo vivo, oscuro en bosque y dorado', 'Light in bold red, dark in forest and gold'), '', ['#E4000F', '#0058C9', '#FBD000'], ['#3FA66B', '#D9B44A', '#4F8FBF']],
+  ['classic', L3('Corporativo', 'Corporativo', 'Corporate'), L3('Azul sóbrio, fundos neutros', 'Azul sobrio, fondos neutros', 'Calm blue on neutral surfaces'), 'neutral', ['#1F5FD6', '#06B6D4', '#F59E0B'], ['#6E9BFF', '#22D3EE', '#FBBF24']],
+  ['graphite', L3('Grafite', 'Grafito', 'Graphite'), L3('Quase monocromático, para telas de NOC', 'Casi monocromático, para pantallas de NOC', 'Near-monochrome, for NOC walls'), 'neutral', ['#334155', '#0EA5E9', '#64748B'], ['#CBD5E1', '#38BDF8', '#94A3B8']],
+  ['ocean', L3('Oceano', 'Océano', 'Ocean'), L3('Azul-petróleo e azul profundo', 'Azul petróleo y azul profundo', 'Teal and deep blue'), 'neutral', ['#0E7490', '#2563EB', '#14B8A6'], ['#22D3EE', '#60A5FA', '#2DD4BF']],
+  ['forest', L3('Mata', 'Selva', 'Woodland'), L3('Verde e mostarda, fundos neutros', 'Verde y mostaza, fondos neutros', 'Green and mustard on neutral surfaces'), 'neutral', ['#15803D', '#CA8A04', '#0F766E'], ['#4ADE80', '#FACC15', '#2DD4BF']],
+  ['sunset', L3('Entardecer', 'Atardecer', 'Dusk'), L3('Laranja e violeta', 'Naranja y violeta', 'Orange and violet'), 'neutral', ['#C2410C', '#7C3AED', '#DB2777'], ['#FB923C', '#A78BFA', '#F472B6']],
+  ['contrast', L3('Alto contraste', 'Alto contraste', 'High contrast'), L3('Acessibilidade: bordas e textos mais fortes', 'Accesibilidad: bordes y textos más fuertes', 'Accessibility: stronger borders and text'), 'contrast', ['#000000', '#0047AB', '#B00020'], ['#FFE600', '#00E5FF', '#FF6E6E']]
+];
+function isDark() { var c = root.getAttribute('data-theme'); return c === 'dark' || (c !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+function hexOk(h) { return /^#[0-9a-f]{6}$/i.test(h || ''); }
+function lum(h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+var LOOK_VARS = ['--accent', '--accent-ink', '--accent-soft', '--pf-accent-2', '--pf-grad', '--pf-red'];
+function applyLook() {
+  var id = S.pal || 'signature', p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
+  root.dataset.pbase = p[3] || '';
+  root.dataset.palette = p[0];
+  var sw = dark ? p[5] : p[4], a = sw[0], b = sw[1];
+  if (S.myCol && hexOk(S.myA)) { a = S.myA; b = hexOk(S.myB) ? S.myB : b; }
+  if (p[0] === 'signature' && !(S.myCol && hexOk(S.myA))) { LOOK_VARS.forEach(function (v) { root.style.removeProperty(v); }); return; }
+  var ink = lum(a) > 0.4 ? '#0B0F14' : '#FFFFFF';
+  root.style.setProperty('--accent', a); root.style.setProperty('--accent-ink', ink);
+  root.style.setProperty('--accent-soft', 'color-mix(in srgb,' + a + ' ' + (dark ? '22%' : '12%') + ',var(--surface))');
+  root.style.setProperty('--pf-accent-2', b); root.style.setProperty('--pf-red', a);
+  root.style.setProperty('--pf-grad', 'linear-gradient(135deg,' + a + ' 0%,' + b + ' 120%)');
+}
+new MutationObserver(function (m) { if (m.some(function (x) { return x.attributeName === 'data-theme'; })) applyLook(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyLook); } catch (e) { /* old Safari */ } }
+
+SECTIONS.look = function () {
+  var cur = S.pal || 'signature', dark = isDark();
+  var cards = PALS.map(function (p) {
+    var dots = function (arr) { return arr.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join(''); };
+    return '<button class="pf-swatch" data-pal="' + p[0] + '" aria-pressed="' + (p[0] === cur) + '"><span class="pf-swatch-sw"><span class="l">' + dots(p[4]) + '</span><span class="d">' + dots(p[5]) + '</span></span><b>' + esc(tx(p[1])) + '</b><small>' + esc(tx(p[2])) + '</small></button>';
+  }).join('');
+  var p = PALS.filter(function (x) { return x[0] === cur; })[0] || PALS[0], def = dark ? p[5] : p[4];
+  return '<h1 class="pf-h">' + esc(t('sLook')) + '</h1><p class="pf-sub">' + esc(T3('Escolha uma paleta pronta ou use as cores da sua empresa. Vale para os dois produtos, claro e escuro, e fica salvo neste navegador.', 'Elige una paleta lista o usa los colores de tu empresa. Vale para los dos productos, claro y oscuro, y queda guardado en este navegador.', 'Pick a ready-made palette or use your company colours. Applies to both products, light and dark, and is saved in this browser.')) + '</p>' +
+    '<section class="pf-sec"><h3>' + esc(T3('Modo', 'Modo', 'Mode')) + '</h3>' + row(t('themeL'), T3('Auto segue o sistema operacional', 'Auto sigue el sistema operativo', 'Auto follows your operating system'), seg('theme', [['auto', t('auto')], ['light', t('light')], ['dark', t('dark')]], curTheme())) + '</section>' +
+    '<section class="pf-sec"><h3>' + esc(T3('Paletas', 'Paletas', 'Palettes')) + '</h3><div class="pf-swatches">' + cards + '</div></section>' +
+    '<section class="pf-sec"><h3>' + esc(T3('Minhas cores', 'Mis colores', 'My colours')) + '</h3>' +
+    row(T3('Usar as cores da minha marca', 'Usar los colores de mi marca', 'Use my brand colours'), T3('Substitui a cor principal e a secundária da paleta', 'Reemplaza el color principal y el secundario', 'Replaces the palette’s main and secondary colour'), sw('myCol', S.myCol)) +
+    '<div class="pf-grid2"><div class="pf-field"><label>' + esc(T3('Cor principal', 'Color principal', 'Main colour')) + '</label><input type="color" id="pfMyA" value="' + esc(hexOk(S.myA) ? S.myA : def[0]) + '"></div>' +
+    '<div class="pf-field"><label>' + esc(T3('Cor secundária', 'Color secundario', 'Secondary colour')) + '</label><input type="color" id="pfMyB" value="' + esc(hexOk(S.myB) ? S.myB : def[1]) + '"></div></div>' +
+    '<div class="pf-preview"><span class="pf-chip acc">' + esc(T3('Selecionado', 'Seleccionado', 'Selected')) + '</span><button class="pf-b pri" type="button">' + esc(T3('Botão principal', 'Botón principal', 'Primary button')) + '</button><span class="pf-prev-bar"></span></div>' +
+    '<p class="pf-note" id="pfContrast"></p>' +
+    '<button class="pf-b" data-act="lookreset" type="button">' + esc(T3('Voltar ao padrão', 'Volver al estándar', 'Back to default')) + '</button></section>';
+};
+function contrastNote() {
+  var n = $('#pfContrast'); if (!n) return; var a = getComputedStyle(root).getPropertyValue('--accent').trim();
+  if (!hexOk(a)) { n.textContent = ''; return; }
+  var bg = isDark() ? 0.02 : 0.95, L = lum(a), r = (Math.max(L, bg) + 0.05) / (Math.min(L, bg) + 0.05);
+  n.textContent = (r >= 3 ? '✓ ' : '! ') + T3('Contraste da cor principal com o fundo: ', 'Contraste del color principal con el fondo: ', 'Main colour contrast against the page: ') + r.toFixed(1) + ':1' + (r >= 3 ? '' : T3(' · baixo, botões e links podem ficar difíceis de ler', ' · bajo, botones y enlaces pueden ser difíciles de leer', ' · low, buttons and links may be hard to read'));
+}
+function lookWire(body) {
+  contrastNote();
+  body.onclick = function (e) {
+    var pc = e.target.closest('[data-pal]');
+    if (pc) { S.pal = pc.dataset.pal; saveS(); applyLook(); audit('palette · ' + S.pal); settings('look'); return; }
+    var s2 = e.target.closest('[data-sw="myCol"]');
+    if (s2) { S.myCol = s2.getAttribute('aria-checked') !== 'true'; s2.setAttribute('aria-checked', S.myCol); if (S.myCol) { S.myA = $('#pfMyA').value; S.myB = $('#pfMyB').value; } saveS(); applyLook(); contrastNote(); audit('my colours = ' + S.myCol); return; }
+    var g = e.target.closest('[data-seg="theme"] [data-v]');
+    if (g) { var tb = $('#theme [data-t="' + g.dataset.v + '"]'); if (tb) tb.click(); setTimeout(function () { settings('look'); }, 60); return; }
+    var a = e.target.closest('[data-act="lookreset"]');
+    if (a) { S.pal = 'signature'; S.myCol = false; delete S.myA; delete S.myB; saveS(); applyLook(); settings('look'); toast(T3('Cores padrão restauradas.', 'Colores estándar restaurados.', 'Default colours restored.')); }
+  };
+  body.oninput = function (e) {
+    if (e.target.id !== 'pfMyA' && e.target.id !== 'pfMyB') return;
+    S.myA = $('#pfMyA').value; S.myB = $('#pfMyB').value; S.myCol = true;
+    var s3 = body.querySelector('[data-sw="myCol"]'); if (s3) s3.setAttribute('aria-checked', 'true');
+    saveS(); applyLook(); contrastNote();
+  };
+}
+
+/* ---------- 4c. Contact, support and issue reports ---------- */
+var REPO = P === 'knoc' ? 'knoc-network-ops-console' : 'infra-backlog-dashboard';
+var CONTACT = { name: 'Ernesto (Neto) Rojas', linkedin: 'https://www.linkedin.com/in/netorojas/', github: 'https://github.com/netorojas', email: '' };
+SECTIONS.contact = function (sub) {
+  var gh = 'https://github.com/netorojas/' + REPO;
+  var card = function (ic, title, txt, href, cta) { return '<a class="pf-ccard" href="' + esc(href) + '" target="_blank" rel="noopener">' + svg(ic) + '<span><b>' + esc(title) + '</b><small>' + esc(txt) + '</small></span><em>' + esc(cta) + ' →</em></a>'; };
+  var kinds = [['bug', T3('Erro / algo quebrado', 'Error / algo roto', 'Bug / something broken')], ['idea', T3('Sugestão de melhoria', 'Sugerencia de mejora', 'Feature idea')], ['data', T3('Dado ou texto errado', 'Dato o texto incorrecto', 'Wrong data or text')], ['sec', T3('Falha de segurança', 'Falla de seguridad', 'Security issue')]];
+  return '<h1 class="pf-h">' + esc(t('sContact')) + '</h1><p class="pf-sub">' + esc(T3('Fale com quem constrói o ' + PR.name + ', reporte um problema ou peça uma licença comercial.', 'Habla con quien construye ' + PR.name + ', reporta un problema o pide una licencia comercial.', 'Talk to the people building ' + PR.name + ', report a problem or ask for a commercial licence.')) + '</p>' +
+    '<section class="pf-sec"><h3>' + esc(T3('Contato', 'Contacto', 'Contact')) + '</h3><div class="pf-ccards">' +
+      card('chat', 'LinkedIn', T3('Projetos, consultoria e parcerias', 'Proyectos, consultoría y alianzas', 'Projects, consulting and partnerships'), CONTACT.linkedin, T3('Mensagem', 'Mensaje', 'Message')) +
+      card('code', 'GitHub', T3('Código, discussões e releases', 'Código, discusiones y releases', 'Code, discussions and releases'), gh, T3('Abrir', 'Abrir', 'Open')) +
+      (CONTACT.email ? card('bell', 'E-mail', CONTACT.email, 'mailto:' + CONTACT.email, T3('Escrever', 'Escribir', 'Write')) : '') +
+      card('shield', T3('Licença comercial', 'Licencia comercial', 'Commercial licence'), T3('Uso sem as obrigações da AGPL, módulos enterprise e suporte', 'Uso sin las obligaciones AGPL, módulos enterprise y soporte', 'Use without AGPL obligations, enterprise modules and support'), gh + '/blob/main/COMMERCIAL.md', T3('Ver termos', 'Ver términos', 'See terms')) +
+    '</div></section>' +
+    '<section class="pf-sec" id="pfReport"><h3>' + esc(t('report')) + '</h3><p class="pf-note" style="margin-top:0">' + esc(T3('Abre um rascunho no GitHub com versão, tela e navegador já preenchidos. Nada é enviado sem você revisar. Não cole senhas, tokens nem dados de clientes.', 'Abre un borrador en GitHub con versión, pantalla y navegador ya completos. No se envía nada sin que lo revises. No pegues contraseñas, tokens ni datos de clientes.', 'Opens a GitHub draft with version, screen and browser filled in. Nothing is sent until you review it. Do not paste passwords, tokens or customer data.')) + '</p>' +
+      '<div class="pf-grid2">' + select(T3('Tipo', 'Tipo', 'Type'), 'repKind', kinds, S.repKind || 'bug') + field(T3('Título curto', 'Título corto', 'Short title'), '', false, T3('Ex.: cartão do mapa some ao dar zoom', 'Ej.: la tarjeta del mapa desaparece al hacer zoom', 'e.g. map card disappears when zooming'), 'pfRepT') + '</div>' +
+      '<div class="pf-field"><label>' + esc(T3('O que aconteceu e o que você esperava', 'Qué pasó y qué esperabas', 'What happened and what you expected')) + '</label><textarea id="pfRepB" rows="4"></textarea></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="pf-b pri" data-act="report" type="button">' + esc(T3('Abrir rascunho no GitHub', 'Abrir borrador en GitHub', 'Open draft on GitHub')) + '</button><span class="pf-note" id="pfRepNote"></span></div></section>' +
+    '<section class="pf-sec"><h3>' + esc(T3('Como funciona o suporte', 'Cómo funciona el soporte', 'How support works')) + '</h3><table class="pf-mx"><tr><th>' + esc(T3('Canal', 'Canal', 'Channel')) + '</th><th>' + esc(T3('Para quem', 'Para quién', 'For whom')) + '</th><th>' + esc(T3('Resposta', 'Respuesta', 'Response')) + '</th></tr>' +
+      '<tr><td>GitHub Issues</td><td>' + esc(T3('Comunidade (AGPL)', 'Comunidad (AGPL)', 'Community (AGPL)')) + '</td><td>' + esc(T3('Melhor esforço, em público', 'Mejor esfuerzo, en público', 'Best effort, in public')) + '</td></tr>' +
+      '<tr><td>' + esc(T3('Aviso privado de segurança', 'Aviso privado de seguridad', 'Private security advisory')) + '</td><td>' + esc(T3('Qualquer pessoa', 'Cualquier persona', 'Anyone')) + '</td><td>' + esc(T3('Confirmação em até 5 dias úteis (SECURITY.md)', 'Confirmación en hasta 5 días hábiles (SECURITY.md)', 'Acknowledged within 5 business days (SECURITY.md)')) + '</td></tr>' +
+      '<tr><td>' + esc(T3('Canal comercial', 'Canal comercial', 'Commercial channel')) + '</td><td>' + esc(T3('Clientes com licença', 'Clientes con licencia', 'Licensed customers')) + '</td><td>' + esc(T3('SLA definido em contrato', 'SLA definido en contrato', 'SLA set in the contract')) + '</td></tr></table></section>';
+};
+function contactWire(body, sub) {
+  if (sub === 'report') setTimeout(function () { var r = $('#pfReport'); if (r) r.scrollIntoView({ block: 'start', behavior: 'smooth' }); var i = $('#pfRepT'); if (i) i.focus(); }, 60);
+  body.onchange = function (e) { var s = e.target.closest('[data-sel="repKind"]'); if (s) { S.repKind = s.value; saveS(); } };
+  body.onclick = function (e) {
+    var a = e.target.closest('[data-act="report"]'); if (!a) return;
+    var kind = S.repKind || 'bug', title = ($('#pfRepT').value || '').trim(), txt = ($('#pfRepB').value || '').trim(), gh = 'https://github.com/netorojas/' + REPO;
+    if (kind === 'sec') { window.open(gh + '/security/advisories/new', '_blank', 'noopener'); audit('security advisory opened'); return; }
+    if (/(password|senha|contraseña|secret|token|apikey|api_key|-----BEGIN)/i.test(title + ' ' + txt)) { $('#pfRepNote').textContent = T3('Parece ter uma senha ou token no texto. Remova antes de enviar.', 'Parece haber una contraseña o token. Quítalo antes de enviar.', 'That looks like a password or token. Remove it before sending.'); return; }
+    var label = { bug: 'bug', idea: 'enhancement', data: 'data' }[kind];
+    var ctx = '\n\n---\n' + PR.name + ' v' + VERSION + ' · view: ' + PR.view() + ' · lang: ' + lang() + ' · theme: ' + (isDark() ? 'dark' : 'light') + ' · ' + navigator.userAgent.replace(/\s+/g, ' ').slice(0, 160);
+    var url = gh + '/issues/new?labels=' + encodeURIComponent(label) + '&title=' + encodeURIComponent((title || T3('Problema', 'Problema', 'Issue')).slice(0, 120)) + '&body=' + encodeURIComponent((txt || '') + ctx);
+    window.open(url, '_blank', 'noopener'); audit('issue draft · ' + kind); toast(T3('Rascunho aberto no GitHub.', 'Borrador abierto en GitHub.', 'Draft opened on GitHub.'));
+  };
+}
+function helpMenu(b) {
+  var m = popMenu(b, '<button data-x="faq">' + svg('help') + esc(t('faq')) + '</button><button data-x="tour">' + svg('play') + esc(t('tour')) + '</button><button data-x="log">' + svg('log') + esc(t('log')) + '</button><hr><button data-x="contact">' + svg('chat') + esc(t('sContact')) + '</button><button data-x="report">' + svg('bug') + esc(t('report')) + '</button>');
+  [].forEach.call(m.querySelectorAll('svg'), function (s) { s.setAttribute('width', 18); s.setAttribute('height', 18); s.style.cssText = 'stroke:var(--ink-3);fill:none;stroke-width:1.8'; });
+  m.onclick = function (e) { var x = e.target.closest('[data-x]'); if (!x) return; closeLayer(); var k = x.dataset.x;
+    if (k === 'faq') faq(); if (k === 'tour') tour(0); if (k === 'log') changelog(); if (k === 'contact') settings('contact'); if (k === 'report') settings('contact', 'report'); };
+}
+
 function intDetail(id) {
   var i = C.INT.filter(function (x) { return x[0] === id; })[0]; if (!i) return '';
   var cfg = (S.int && S.int[id]) || {}, st = cfg.status || i[7];
@@ -337,6 +459,8 @@ function intDetail(id) {
 
 function wire(body, sec, sub) {
   if (sec === 'disc') return discWire(body, sub);
+  if (sec === 'look') return lookWire(body);
+  if (sec === 'contact') return contactWire(body, sub);
   body.onclick = function (e) {
     var s = e.target.closest('[data-sw]');
     if (s && !s.disabled) {
@@ -390,8 +514,8 @@ function faq() {
 }
 function changelog(filter) {
   filter = filter || 'all';
-  var name = { knoc: 'Orbinoc', backlog: 'Infra Backlog', both: t('both') };
-  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'Orbinoc'], ['backlog', 'Infra Backlog']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
+  var name = { knoc: 'Orbiscale', backlog: 'Infra Backlog', both: t('both') };
+  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'Orbiscale'], ['backlog', 'Infra Backlog']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
     C.LOG.filter(function (e) { return filter === 'all' || e[0] === filter || e[0] === 'both'; }).map(function (e, i) {
       return '<article class="' + (i < 2 ? 'big' : '') + '" style="animation-delay:' + (i * 0.04) + 's"><div class="meta"><span class="pf-chip acc">' + esc(name[e[0]]) + ' ' + esc(e[1]) + '</span>' + esc(e[2]) + '</div><h4>' + esc(tx(e[3])) + '</h4><ul>' + e[4].map(function (b) { return '<li>' + esc(tx(b)) + '</li>'; }).join('') + '</ul></article>';
     }).join('') + '</div>';
@@ -407,7 +531,8 @@ function palette() {
       { g: t('actions'), l: t('sInt'), i: 'plug', run: function () { settings('int'); } },
       { g: t('actions'), l: t('sAuth'), i: 'shield', run: function () { settings('auth'); } },
       P === 'knoc' ? { g: t('actions'), l: 'Discovery · AWS · Azure · GCP · OCI · IBM · VMware · K8s', i: 'radar', run: function () { settings('disc'); } } : null,
-      { g: t('actions'), l: t('faq'), i: 'help', run: faq }, { g: t('actions'), l: t('log'), i: 'log', run: function () { changelog(); } },
+      { g: t('actions'), l: t('faq'), i: 'help', run: faq }, { g: t('actions'), l: t('sLook'), i: 'palette', run: function () { settings('look'); } },
+      { g: t('actions'), l: t('sContact'), i: 'chat', run: function () { settings('contact'); } }, { g: t('actions'), l: t('report'), i: 'bug', run: function () { settings('contact', 'report'); } }, { g: t('actions'), l: t('log'), i: 'log', run: function () { changelog(); } },
       { g: t('actions'), l: t('tour'), i: 'play', run: function () { tour(0); } }, { g: t('actions'), l: t('theme'), i: 'sun', run: toggleTheme },
       { g: t('actions'), l: t('lang') + ': PT · ES · EN', i: 'globe', run: function () { var o = ['pt', 'es', 'en'], n = o[(o.indexOf(lang()) + 1) % 3], b = $('#lang [data-l="' + n + '"]'); if (b) b.click(); setTimeout(refreshUtils, 80); } },
       { g: t('actions'), l: t('openOther') + ' ' + PR.other.name, i: 'grid', run: function () { location.href = PR.other.url; } },
@@ -477,7 +602,7 @@ function tour(i) {
 function endTour() { tourOn = false; store.set('tourSeen.' + P, 1); $$('.pf-tour,.pf-tour-hl').forEach(function (n) { n.remove(); }); audit('tour completed'); }
 if (P === 'backlog') window.BLT = { start: function () { tour(0); }, stop: endTour, steps: PR.tour.length };
 
-/* ---------- 8. View transitions, count-up, Orbinoc fit helpers ---------- */
+/* ---------- 8. View transitions, count-up, Orbiscale fit helpers ---------- */
 var lastView = null;
 function afterNav() {
   var v = PR.view(); root.dataset.view = v || ''; if (v === lastView) return; lastView = v; if (P === 'knoc') setTimeout(function () { fillPanel(false); }, 60);
@@ -521,6 +646,7 @@ document.addEventListener('click', function (e) {
 
 /* ---------- 10. Boot ---------- */
 function boot() {
+  applyLook();
   if (S.compact) root.classList.add('pf-compact'); if (S.nomotion) root.classList.add('pf-nomotion');
   mountUtils();
   var view = $('#view'); if (view) new MutationObserver(debounce(afterNav, 30)).observe(view, { childList: true });
@@ -540,7 +666,7 @@ function fillPanel(noScroll) {
   setTimeout(function () { var b = v === 'topo' ? $('#tfit') : $('#mhome'); if (b && PR.view() === v) b.click(); }, 120);
 }
 
-/* ---------- 8c. Discovery (Orbinoc) ---------- */
+/* ---------- 8c. Discovery (Orbiscale) ---------- */
 ICON.radar = 'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 12l6-6M12 12h.01';
 var DSCR = 'discovery/';
 function discCount(re) { var K = window.KNOC; if (!K || !K.S) return 0; var r = new RegExp(re, 'i'); return Object.keys(K.S.nodes).filter(function (k) { var n = K.S.nodes[k]; return r.test(n.provider || '') || r.test(n.vendor || ''); }).length; }
@@ -551,7 +677,7 @@ SECTIONS.disc = function (sub) {
     return '<button class="pf-b" data-dback>← ' + esc(t('sDisc')) + '</button><div class="pf-int-head" style="display:flex;gap:12px;align-items:center;margin:14px 0"><span class="lg" style="background:' + d[3] + ';width:42px;height:42px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800">' + d[4] + '</span><div><h1 class="pf-h" style="margin:0">' + esc(d[1]) + '</h1><p class="pf-sub" style="margin:2px 0 0">' + discCount(d[8]) + ' ' + esc(t('discFound')) + '</p></div></div>' +
       '<section class="pf-sec"><h3>' + esc(t('discSteps')) + '</h3><ol style="margin:0;padding-left:18px;line-height:1.8;font-size:13.5px;color:var(--ink-2)">' +
       '<li><b>' + esc(t('discId')) + ':</b> ' + esc(tx(d[6])) + '</li><li><b>' + esc(t('discWhat')) + ':</b> ' + esc(tx(d[7])) + '</li>' +
-      '<li><code>' + esc(DSCR + d[5]) + '</code> → <code>orbinoc-discovery/' + esc(d[0]) + '.orbinoc.json</code></li><li>' + esc(t('discImport')) + '</li></ol></section>' +
+      '<li><code>' + esc(DSCR + d[5]) + '</code> → <code>orbiscale-discovery/' + esc(d[0]) + '.orbiscale.json</code></li><li>' + esc(t('discImport')) + '</li></ol></section>' +
       '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="pf-b pri" data-dact="run" data-d="' + d[0] + '">' + esc(t('discRun')) + '</button><button class="pf-b" data-dact="script" data-d="' + d[0] + '">' + esc(t('discScript')) + '</button><button class="pf-b" data-dact="file">' + esc(t('discImport')) + '</button></div>' +
       '<div id="pfDiscOut" style="margin-top:12px"></div>';
   }
@@ -563,7 +689,7 @@ SECTIONS.disc = function (sub) {
         return '<button class="pf-int" data-disc="' + d[0] + '"><header><span class="lg" style="background:' + d[3] + '">' + d[4] + '</span><span><b>' + esc(d[1]) + '</b><small>' + esc(d[5]) + '</small></span></header><p>' + esc(tx(d[7])) + '</p><footer>' + (n ? '<span class="pf-chip ok"><i></i>' + n + ' ' + esc(t('discFound')) + '</span>' : '<span class="pf-chip">' + esc(t('available')) + '</span>') + '<span class="pf-chip acc">' + esc(t('configure')) + ' →</span></footer></button>'; }).join('') + '</div>'; }).join('');
 };
 function discImportDoc(doc, label) {
-  var K = window.KNOC; if (!K || !K.importDiscovery) { toast('Orbinoc not ready'); return; }
+  var K = window.KNOC; if (!K || !K.importDiscovery) { toast('Orbiscale not ready'); return; }
   try { var r = K.importDiscovery(doc); audit('discovery import · ' + (doc.source || label)); toast(t('discDone') + ': ' + r.nodes + ' · ' + r.sites + ' sites'); settings('disc'); }
   catch (e) { toast(e.message); }
 }
@@ -575,14 +701,14 @@ function discWire(body, sub) {
     if (e.target.closest('[data-dback]')) { settings('disc'); return; }
     var a = e.target.closest('[data-dact]'); if (!a) return; var act = a.dataset.dact, d = (C.DISC.filter(function (x) { return x[0] === a.dataset.d; })[0]) || null, out = $('#pfDiscOut');
     if (act === 'file') { fi.click(); return; }
-    if (act === 'sample') { fetch(DSCR + 'sample-import.orbinoc.json').then(function (r) { return r.json(); }).then(function (doc) { discImportDoc(doc, 'sample'); }).catch(function () { toast('sample-import.orbinoc.json not found'); }); return; }
+    if (act === 'sample') { fetch(DSCR + 'sample-import.orbiscale.json').then(function (r) { return r.json(); }).then(function (doc) { discImportDoc(doc, 'sample'); }).catch(function () { toast('sample-import.orbiscale.json not found'); }); return; }
     if (act === 'script' && d) { out.innerHTML = '<div class="pf-log">…</div>'; fetch(DSCR + d[5]).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }).then(function (txt) {
         out.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><code>' + esc(DSCR + d[5]) + '</code><button class="pf-b" data-dact="copy">Copy</button></div><pre class="pf-log" style="white-space:pre;overflow:auto;max-height:46vh">' + esc(txt) + '</pre>'; out.dataset.txt = txt; })
         .catch(function () { out.innerHTML = '<div class="pf-log">' + esc(DSCR + d[5]) + ' — open the repo folder /discovery</div>'; }); return; }
     if (act === 'copy') { try { navigator.clipboard.writeText(out.dataset.txt || ''); toast({ pt: 'Copiado', es: 'Copiado', en: 'Copied' }[lang()]); } catch (er) {} return; }
     if (act === 'run' && d) { a.disabled = true; out.innerHTML = '<div class="pf-log"></div>'; var log = out.firstChild, n = discCount(d[8]);
       var L = [['', '$ ' + (d[5].slice(-4) === '.ps1' ? 'pwsh ./' : './') + DSCR + d[5]], ['', 'identity · ' + tx(d[6])], ['', 'scope read-only ✓  writes: none  secrets: names only'],
-        ['', 'list · ' + tx(d[7])], ['ok', 'normalize.py ' + d[0] + ' → orbinoc-discovery/' + d[0] + '.orbinoc.json'], ['wa', n + ' ' + t('discFound') + ' (demo data)']];
+        ['', 'list · ' + tx(d[7])], ['ok', 'normalize.py ' + d[0] + ' → orbiscale-discovery/' + d[0] + '.orbiscale.json'], ['wa', n + ' ' + t('discFound') + ' (demo data)']];
       L.forEach(function (l, k) { setTimeout(function () { log.insertAdjacentHTML('beforeend', '<div class="' + l[0] + '">' + esc(l[1]) + '</div>'); if (k === L.length - 1) a.disabled = false; }, 360 * (k + 1)); });
       audit('discovery simulated · ' + d[0]); }
   };
@@ -599,7 +725,7 @@ function discWire(body, sub) {
     var box = el('<div class="pf-secret" aria-hidden="true"></div>'); for (var n = 0; n < 36; n++) { var c = document.createElement('i'); c.style.left = (Math.random() * 100) + 'vw'; c.style.animationDelay = (Math.random() * .9) + 's'; c.style.borderRadius = n % 3 ? '50%' : '2px'; box.appendChild(c); }
     document.body.appendChild(box); setTimeout(function () { box.remove(); }, 3600);
   });
-  try { console.log('%c' + (P === 'knoc' ? 'Orbinoc' : 'Infra Backlog') + ' · made by Neto Rojas', 'font:700 14px Inter,sans-serif;color:#E2B84B', '\n↑ ↑ ↓ ↓ ← → ← → B A'); } catch (e) {}
+  try { console.log('%c' + (P === 'knoc' ? 'Orbiscale' : 'Infra Backlog') + ' · made by Neto Rojas', 'font:700 14px Inter,sans-serif;color:#E2B84B', '\n↑ ↑ ↓ ↓ ← → ← → B A'); } catch (e) {}
 })();
 
 window.PF = { settings: settings, faq: faq, changelog: changelog, palette: palette, tour: tour, login: login, version: VERSION };

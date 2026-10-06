@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Orbinoc discovery — READ-ONLY. Copyright (C) 2026 Ernesto Athaualpa Rojas · SPDX-License-Identifier: AGPL-3.0-or-later
+# Orbiscale discovery — READ-ONLY. Copyright (C) 2026 Ernesto Athaualpa Rojas · SPDX-License-Identifier: AGPL-3.0-or-later
 # Needs: AWS CLI v2 + python3. Identity: a role/user with the AWS managed policy "ReadOnlyAccess" (or "ViewOnlyAccess").
 # Uses your current profile/SSO session (aws sso login). Nothing is created, changed or deleted. Secret VALUES are never read.
 set -euo pipefail
-OUT=${OUT:-orbinoc-discovery}; mkdir -p "$OUT"; RAW="$OUT/aws.raw.json"
+OUT=${OUT:-orbiscale-discovery}; mkdir -p "$OUT"; RAW="$OUT/aws.raw.json"
 REGIONS=${REGIONS:-$(aws ec2 describe-regions --query 'Regions[].RegionName' --output text)}   # ALTERE AQUI: REGIONS="us-east-1 sa-east-1"
 python3 - "$RAW" $REGIONS <<'PY'
 import json, subprocess, sys
@@ -20,5 +20,5 @@ for r in sys.argv[2:]:
     print('region', r, 'ok', file=sys.stderr)
 json.dump(raw, open(sys.argv[1], 'w'))
 PY
-python3 "$(dirname "$0")/normalize.py" aws "$RAW" > "$OUT/aws.orbinoc.json"
-echo "Import $OUT/aws.orbinoc.json in Orbinoc → Settings → Discovery → Import file"
+python3 "$(dirname "$0")/normalize.py" aws "$RAW" > "$OUT/aws.orbiscale.json"
+echo "Import $OUT/aws.orbiscale.json in Orbiscale → Settings → Discovery → Import file"

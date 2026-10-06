@@ -1,4 +1,4 @@
-# Orbinoc · Network Ops Console
+# Orbiscale · Network Ops Console
 # Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto)
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #!/usr/bin/env python3

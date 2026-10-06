@@ -1,6 +1,21 @@
 # Changelog
 
-All notable changes to Orbinoc (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
+All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
+
+## [4.0.0] - 2026-10-07
+### Added
+- Orbinoc is now **Orbiscale** (orbit + scale). Discovery files from v3 (`orbinoc-discovery/1`) still import.
+- **Live map**: floating site cards that never overlap each other, the markers or the controls. Drag them anywhere, pin, collapse or close; positions are remembered.
+- Level of detail on the map: blurred chip when far, summary when closer, full asset list up close; colliding labels blur until you hover them.
+- Minimap with "you are here" on the map and the topology; click or drag it to travel.
+- Rich hover tooltips, click ripples and an exploration progress chip.
+- Topology: drag assets to make room (not saved, "Re-arrange" undoes it), hover shows neighbours, zone and block titles shrink with an ellipsis instead of running into each other, secondary captions step aside when zoomed out.
+- **Settings › Look and colours**: 7 palettes (Signature, Corporate, Graphite, Ocean, Woodland, Dusk, High contrast) plus your own brand colours, with a contrast check.
+- **Settings › Contact and support**: contact, commercial licence, issue report that opens a pre-filled GitHub draft (blocks passwords and tokens), private security advisory.
+- `SECURITY.md` and GitHub issue templates.
+### Changed
+- New default palette: light "Ember" (signal red, royal blue, sun yellow on warm cream), dark "Grove" (night forest, moss green, old gold).
+- The help button opens a menu: FAQ, tour, what's new, contact, report a problem.
 
 ## [3.0.0] - 2026-10-07
 ### Added
@@ -11,7 +26,7 @@ All notable changes to Orbinoc (formerly KNOC). Format: [Keep a Changelog](https
 - On-prem platforms: VMware, Proxmox, Hyper-V, Nutanix, Docker, Kubernetes, Veeam, Commvault, NetApp.
 - Settings › Discovery: read-only collectors for 13 platforms + Terraform and Ansible, a tested normalizer and file import.
 - Map and topology fill the screen.
-- Themes: light *overworld* and dark *night-navy*; hidden easter egg.
+- New light and dark themes; hidden easter egg.
 - 10 more integrations; localhost kit (`serve.sh`, `serve.ps1`, Docker).
 ### Changed
 - Licence: AGPL-3.0-or-later (open-core) with a commercial licence available. v2.x and earlier remain MIT.

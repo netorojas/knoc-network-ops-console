@@ -1,11 +1,11 @@
-# Orbinoc discovery — READ-ONLY. Copyright (C) 2026 Ernesto Athaualpa Rojas · SPDX-License-Identifier: AGPL-3.0-or-later
+# Orbiscale discovery — READ-ONLY. Copyright (C) 2026 Ernesto Athaualpa Rojas · SPDX-License-Identifier: AGPL-3.0-or-later
 # Run on a Hyper-V host or management server with the Hyper-V module (Get-VM needs the "Hyper-V Administrators" group).
 # Only Get-* cmdlets are used.
 param(
   [string[]]$Hosts  = @($env:COMPUTERNAME),   # ALTERE AQUI: 'hv01','hv02'
   [string]$Site     = 'London Office',        # ALTERE AQUI
   [string]$Country  = 'GB',                   # ALTERE AQUI
-  [string]$Out      = 'orbinoc-discovery'
+  [string]$Out      = 'orbiscale-discovery'
 )
 $ErrorActionPreference = 'Stop'
 New-Item -ItemType Directory -Force -Path $Out | Out-Null
@@ -22,7 +22,7 @@ foreach ($h in $Hosts) {
     $links += [ordered]@{ a = $id; b = $hid; kind = 'host'; label = '' }
   }
 }
-[ordered]@{ schema = 'orbinoc-discovery/1'; source = 'hyperv'; generatedAt = (Get-Date).ToUniversalTime().ToString('o')
+[ordered]@{ schema = 'orbiscale-discovery/1'; source = 'hyperv'; generatedAt = (Get-Date).ToUniversalTime().ToString('o')
   sites = @([ordered]@{ id = $sid; name = $Site; kind = 'cpd'; country = $Country }); nodes = $nodes; links = $links } |
-  ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 "$Out/hyperv.orbinoc.json"
-Write-Host "OK: $($nodes.Count) resources -> $Out/hyperv.orbinoc.json"
+  ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 "$Out/hyperv.orbiscale.json"
+Write-Host "OK: $($nodes.Count) resources -> $Out/hyperv.orbiscale.json"
