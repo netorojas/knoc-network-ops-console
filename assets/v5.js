@@ -115,10 +115,10 @@
     var arg = V5.arg || '', fSite = arg.indexOf('site:') === 0 ? arg.slice(5) : '', fId = arg.indexOf('id:') === 0 ? arg.slice(3) : '', tab = V5.tab || 'dem', ch = V5.ch || '';
     var all = liveDemands(), fin = liveFindings();
     var h = K.head(L3('Operação', 'Operación', 'Operations'), L3('Demandas no mapa', 'Demandas en el mapa', 'Work on the map'),
-      esc(L3('Onde cada chamado, projeto, e-mail, reunião, conversa do Teams, mudança e alerta nasce — e em qual site ou recurso ele mora. Clique para ver no mapa ou abrir no Infra Backlog.',
-        'Dónde nace cada ticket, proyecto, correo, reunión, chat de Teams, cambio y alerta — y en qué sitio o recurso vive. Haz clic para verlo en el mapa o abrirlo en Infra Backlog.',
-        'Where every ticket, project, e-mail, meeting, Teams thread, change and alert is born — and which site or resource it lives on. Click to see it on the map or open it in Infra Backlog.')),
-      '<a class="btn" href="../infra-backlog-dashboard/" target="_blank" rel="noopener">Infra Backlog ↗</a>');
+      esc(L3('Onde cada chamado, projeto, e-mail, reunião, conversa do Teams, mudança e alerta nasce — e em qual site ou recurso ele mora. Clique para ver no mapa ou abrir no Orbiscale Flow.',
+        'Dónde nace cada ticket, proyecto, correo, reunión, chat de Teams, cambio y alerta — y en qué sitio o recurso vive. Haz clic para verlo en el mapa o abrirlo en Orbiscale Flow.',
+        'Where every ticket, project, e-mail, meeting, Teams thread, change and alert is born — and which site or resource it lives on. Click to see it on the map or open it in Orbiscale Flow.')),
+      '<a class="btn" href="flow/?nologin">Orbiscale Flow ↗</a>');
     h += '<div class="v5-tabs" role="tablist"><button type="button" role="tab" data-v5="tab" data-v="dem" aria-selected="' + (tab === 'dem') + '">' + L3('Demandas', 'Demandas', 'Work items') + ' <b>' + all.length + '</b></button><button type="button" role="tab" data-v5="tab" data-v="sec" aria-selected="' + (tab === 'sec') + '">🛡 ' + L3('Achados de segurança do discovery', 'Hallazgos de seguridad del discovery', 'Security findings from discovery') + ' <b>' + fin.length + '</b></button></div>';
     if (tab === 'sec') { el.innerHTML = h + secTab(fin); return; }
 
@@ -148,9 +148,9 @@
         '<div class="v5-cm"><span>' + esc(L3('Nasceu em', 'Nació en', 'Born in')) + ' <b>' + esc(d.origin) + '</b></span><span>' + esc(L3('Mora em', 'Vive en', 'Lives at')) + ' ' + badge(provOfSite(s), 1) + ' <b>' + esc(s.short || s.name) + '</b>' + (n ? ' · <a href="#" data-v5="node" data-v="' + esc(n.id) + '">' + esc(n.name) + '</a>' : '') + '</span>' +
         '<span>' + avatar(d.who) + ' ' + esc(D.people[d.who] || d.who) + '</span><span class="st ' + d.st + '">' + esc(stName(d.st)) + '</span><span>' + (d.age ? d.age + ' ' + L3('dias', 'días', 'days') : L3('hoje', 'hoy', 'today')) + '</span></div></div>' +
         '<div class="v5-ca"><button type="button" class="btn sm" data-v5="map" data-v="' + esc(d.site) + '">◎ ' + L3('Mapa', 'Mapa', 'Map') + '</button>' + (n ? '<button type="button" class="btn sm" data-v5="topo" data-v="' + esc(n.id) + '">' + L3('Topologia', 'Topología', 'Topology') + '</button>' : '') +
-        (d.bl ? '<a class="btn sm" target="_blank" rel="noopener" href="../infra-backlog-dashboard/?q=' + encodeURIComponent(d.bl) + '">Backlog ↗</a>' : '') + '</div></article>';
+        (d.bl ? '<a class="btn sm" href="flow/?nologin&q=' + encodeURIComponent(d.bl) + '">Flow ↗</a>' : '') + '</div></article>';
     }).join('') : '<div class="empty">' + esc(L3('Nada com esse filtro.', 'Nada con ese filtro.', 'Nothing with this filter.')) + '</div>') + '</div>';
-    h += '<p class="note">' + esc(L3('Como chega aqui: o Infra Backlog lê e-mail, Teams, a Daily e o ITSM; cada item ganha o site ou o recurso que ele afeta. O Orbiscale só lê — nada muda no ITSM sem aprovação.', 'Cómo llega aquí: Infra Backlog lee correo, Teams, la Daily y el ITSM; cada ítem recibe el sitio o recurso que afecta. Orbiscale solo lee — nada cambia en el ITSM sin aprobación.', 'How it gets here: Infra Backlog reads e-mail, Teams, the Daily and the ITSM; each item is tagged with the site or resource it affects. Orbiscale is read-only — nothing changes in the ITSM without approval.')) + '</p>';
+    h += '<p class="note">' + esc(L3('Como chega aqui: o Orbiscale Flow lê e-mail, Teams, a Daily e o ITSM; cada item ganha o site ou o recurso que ele afeta. O Orbiscale só lê — nada muda no ITSM sem aprovação.', 'Cómo llega aquí: Orbiscale Flow lee correo, Teams, la Daily y el ITSM; cada ítem recibe el sitio o recurso que afecta. Orbiscale solo lee — nada cambia en el ITSM sin aprobación.', 'How it gets here: Orbiscale Flow reads e-mail, Teams, the Daily and the ITSM; each item is tagged with the site or resource it affects. Orbiscale is read-only — nothing changes in the ITSM without approval.')) + '</p>';
     el.innerHTML = h;
   };
 

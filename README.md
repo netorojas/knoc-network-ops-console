@@ -13,6 +13,20 @@ Map, topology, inventory, health, telephony, partners, multicloud discovery, wor
 
 ---
 
+## ✨ v5.3 · Orbiscale Flow, profile and access administration
+
+- **Orbiscale Flow** — the team board (formerly Infra Backlog) is now a module: [live](https://netorojas.github.io/knoc-network-ops-console/flow/) · [code](flow/).
+- **My profile** — start page, cost persona, digest, quiet hours, my access, export or erase my data.
+- **Administration** — users, Entra ID groups, per-module permissions across both tools, PIM-style temporary elevation and audit.
+- **View as** — see the product through someone else's permissions.
+- [Benchmark and market positioning](docs/benchmark.md).
+
+| Module permissions | Temporary elevation |
+|---|---|
+| ![Permissions](docs/screenshots/v53-admin-permissions.png) | ![Elevation](docs/screenshots/v53-admin-elevation.png) |
+| **View as (Service Desk)** | **Orbiscale Flow** |
+| ![View as](docs/screenshots/v53-view-as.png) | ![Flow](docs/screenshots/v53-flow-board.png) |
+
 ## ✨ v5.2 · Security, lifecycle, business apps and voice intake
 
 - **Security:** one list for cloud, on-prem and endpoint vulnerabilities, with the tool that found each one and a *how to act* guide that links to the map, topology, inventory and the business apps affected.

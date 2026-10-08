@@ -2,6 +2,14 @@
 
 All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
 
+## [5.3.0] - 2026-10-08
+### Added
+- **Orbiscale Flow** (`/flow`): the former Infra Backlog now lives inside Orbiscale as its team board. Menu entry in Orbiscale, links both ways (work item ↔ map), shared language, theme, profile and permissions; a 🎙 shortcut to voice intake. The old Infra Backlog site forwards links.
+- **My profile** (Settings): start page per tool, cost persona, e-mail digest, quiet hours, alerts, *my access* with "ask for more", export and erase my data.
+- **Administration** (Settings): users and Entra ID groups (simulated SCIM), per-module permission matrix across Orbiscale and Flow (no access / read / operate / administer) with CSV export, PIM-style **temporary elevation** (justification, approval by someone else, expiry, revoke) and an audit view.
+- **View as**: simulate what a person sees; menus hide modules they cannot reach, read-only modules get an eye marker, and blocked pages offer an elevation request.
+- `docs/benchmark.md`: performance numbers and market positioning.
+
 ## [5.2.0] - 2026-10-08
 ### Added
 - **Security** screen: vulnerabilities and drift across clouds (Defender for Cloud, AWS Security Hub, Security Command Center, OCI Cloud Guard, IBM Security and Compliance Center), on-premises (Tenable Nessus, FortiAnalyzer, lifecycle) and endpoints (Intune, MaaS360, Jamf, VDI). Integrated-tools panel, risk by environment, filters, and a **how to act** drawer with steps, affected business applications, work at the same site, links to map/topology/inventory/lifecycle/endpoints and simulated ITSM/Teams drafts. Demo IDs are fictional, not CVEs.

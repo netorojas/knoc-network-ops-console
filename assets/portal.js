@@ -5,7 +5,7 @@
  * Commercial licence (no AGPL obligations, enterprise modules, support): see COMMERCIAL.md
  */
 /* ==========================================================================
-   Contoso Ops Suite — portal shell (shared by Orbiscale and Infra Backlog)
+   Contoso Ops Suite — portal shell (shared by Orbiscale and Orbiscale Flow)
    Adds: demo sign-in (SSO/social, simulated), settings + integrations,
    command palette, FAQ, changelog, 60-second tour, mobile drawer,
    view transitions, count-up KPIs, ripple. No network calls, no secrets.
@@ -15,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '5.2.0';
+var VERSION = '5.3.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -41,7 +41,7 @@ var ICON = {
   sun: 'M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z', globe: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z',
   out: 'M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10', arrow: 'M5 12h14M13 6l6 6-6 6',
   palette: 'M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.5-1.6 0-1-.9-1.4-.9-2.4 0-.9.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5c0-4.1-4-7.5-9-7.5zM7.5 11.5h.01M10 7.5h.01M15 7.5h.01',
-  chat: 'M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5', bug: 'M9 7a3 3 0 0 1 6 0M7 10h10v4a5 5 0 0 1-10 0zM12 10v9M4 12h3M17 12h3M5 7l2.5 2M19 7l-2.5 2M5 18l2.5-2M19 18l-2.5-2'
+  chat: 'M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5', user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6 8-6s8 2 8 6', key: 'M15 3a6 6 0 1 0 0 12 6 6 0 0 0 0-12zM10.5 13.5L3 21M6 18l2 2M15 7.5h.01', bug: 'M9 7a3 3 0 0 1 6 0M7 10h10v4a5 5 0 0 1-10 0zM12 10v9M4 12h3M17 12h3M5 7l2.5 2M19 7l-2.5 2M5 18l2.5-2M19 18l-2.5-2'
 };
 var svg = function (k) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON[k] + '"/></svg>'; };
 function audit(what) { var a = store.get('audit', []); a.unshift({ at: new Date().toISOString(), who: (store.get('session') || {}).name || 'guest', what: what }); store.set('audit', a.slice(0, 50)); }
@@ -55,7 +55,7 @@ var PROD = {
     hero: L3('Sua rede inteira em uma tela. De 1 país ao mundo.', 'Toda tu red en una pantalla. De 1 país al mundo.', 'Your whole network on one screen. One country or the world.'),
     heroP: L3('Mapa, topologia, inventário, telefonia e playbooks de troubleshooting, com status vindo de dentro da rede.', 'Mapa, topología, inventario, telefonía y playbooks, con estado que viene de dentro de la red.', 'Map, topology, inventory, telephony and troubleshooting playbooks, with status coming from inside the network.'),
     stats: [['1→195', L3('países, o seu tamanho', 'países, tu tamaño', 'countries, your size')], ['5', L3('nuvens + on-prem', 'nubes + on-prem', 'clouds + on-prem')], ['13', L3('plataformas no discovery', 'plataformas en discovery', 'discovery platforms')]],
-    other: { name: 'Infra Backlog', url: '../infra-backlog-dashboard/', color: 'linear-gradient(135deg,#0F8F7E,#6366F1)', s: 'IB', tag: L3('Painel de operação', 'Panel de operación', 'Ops board') },
+    other: { name: 'Orbiscale Flow', url: 'flow/?nologin', color: 'linear-gradient(135deg,#0F8F7E,#6366F1)', s: 'OF', tag: L3('Quadro do time', 'Tablero del equipo', 'Team board') },
     s: 'O', mount: '.tbar',
     view: function () { return (location.hash || '#home').slice(1) || 'home'; },
     go: function (v) { if (window.KNOC && KNOC.go) KNOC.go(v); },
@@ -75,19 +75,19 @@ var PROD = {
     ]
   },
   backlog: {
-    name: 'Infra Backlog', color: 'linear-gradient(135deg,#0F8F7E,#6366F1)', tag: L3('Painel de operação que se atualiza sozinho', 'Panel de operación que se actualiza solo', 'Self-updating ops board'),
+    name: 'Orbiscale Flow', color: 'linear-gradient(135deg,#0F8F7E,#6366F1)', tag: L3('Quadro do time que se atualiza sozinho · módulo do Orbiscale', 'Tablero del equipo que se actualiza solo · módulo de Orbiscale', 'Self-updating team board · an Orbiscale module'),
     hero: L3('O painel que o time nunca preenche.', 'El panel que el equipo nunca completa.', 'The board your team never types into.'),
     heroP: L3('E-mail, Teams, a Daily e o ServiceDesk viram prioridades com evidência: FATO, PROVÁVEL ou HIPÓTESE.', 'Correo, Teams, la Daily y el ServiceDesk se vuelven prioridades con evidencia.', 'E-mail, Teams, the Daily and the ServiceDesk become evidence-labelled priorities.'),
     stats: [['0', L3('digitação manual', 'digitación manual', 'manual typing')], ['4', L3('fontes lidas', 'fuentes leídas', 'sources read')], ['5', L3('formatos de exportação', 'formatos de exportación', 'export formats')]],
-    other: { name: 'Orbiscale', url: '../knoc-network-ops-console/', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'O', tag: L3('Console de rede', 'Consola de red', 'Network console') },
-    s: 'IB', mount: '.tools',
+    other: { name: 'Orbiscale', url: '../?nologin', color: 'linear-gradient(135deg,#2459E8,#06B6D4)', s: 'O', tag: L3('Console de operações', 'Consola de operaciones', 'Operations console') },
+    s: 'OF', mount: '.tools',
     view: function () { return (window.BL && BL.view && BL.view()) || 'board'; },
     go: function (v) { if (window.BL && BL.go) BL.go(v); },
     views: [['board', L3('Quadro', 'Tablero', 'Board')], ['sd', L3('Service Desk N1', 'Service Desk N1', 'Service Desk L1')], ['rep', L3('Relatórios', 'Reportes', 'Reports')],
       ['cap', L3('Capacidade', 'Capacidad', 'Capacity')], ['met', L3('Método', 'Método', 'Method')], ['daily', L3('Daily', 'Daily', 'Daily')], ['ai', L3('Assistente', 'Asistente', 'Assistant')],
       ['docs', L3('Documentação', 'Documentación', 'Docs')], ['status', L3('Status', 'Estado', 'Status')]],
     tour: [
-      [null, null, L3('Bem-vindo ao Infra Backlog', 'Bienvenido a Infra Backlog', 'Welcome to Infra Backlog'), L3('O painel que se atualiza sozinho. São 6 paradas rápidas.', 'El panel que se actualiza solo. Son 6 paradas rápidas.', 'The board that updates itself. Six quick stops.')],
+      [null, null, L3('Bem-vindo ao Orbiscale Flow', 'Bienvenido a Orbiscale Flow', 'Welcome to Orbiscale Flow'), L3('O painel que se atualiza sozinho. São 6 paradas rápidas.', 'El panel que se actualiza solo. Son 6 paradas rápidas.', 'The board that updates itself. Six quick stops.')],
       ['board', 'nav.main', L3('Abas', 'Pestañas', 'Tabs'), L3('Quadro, Service Desk, Relatórios, Capacidade, Método, Daily e Assistente.', 'Tablero, Service Desk, Reportes, Capacidad, Método, Daily y Asistente.', 'Board, Service Desk, Reports, Capacity, Method, Daily and Assistant.')],
       ['board', '.fcard', L3('Busca e filtros', 'Búsqueda y filtros', 'Search and filters'), L3('Combine analista, país, projeto e impacto. Os números mostram quanto sobra.', 'Combina analista, país, proyecto e impacto.', 'Combine analyst, country, project and impact. Counts show what is left.')],
       ['board', '.kpis', L3('Indicadores clicáveis', 'Indicadores clicables', 'Clickable KPIs'), L3('Cada cartão filtra o quadro ou abre a aba certa.', 'Cada tarjeta filtra el tablero o abre la pestaña correcta.', 'Each card filters the board or opens the right tab.')],
@@ -212,7 +212,7 @@ function saveS() { store.set('settings', S); }
 var SECT = [['general', 'sGeneral', 'sliders'], ['look', 'sLook', 'palette'], ['int', 'sInt', 'plug']].concat(P === 'knoc' ? [['disc', 'sDisc', 'radar']] : []).concat([ ['auth', 'sAuth', 'shield'], ['notif', 'sNotif', 'bell'], ['data', 'sData', 'db'], ['api', 'sApi', 'code'], ['contact', 'sContact', 'chat'], ['about', 'sAbout', 'info']]);
 function settings(sec, sub) {
   var nav = '<nav><h2>' + esc(t('settings')) + '</h2><p>' + esc(PR.name) + ' · v' + VERSION + '</p>' +
-    SECT.map(function (s) { return '<button data-sec="' + s[0] + '" aria-current="' + (s[0] === sec) + '">' + svg(s[2]) + esc(t(s[1])) + '</button>'; }).join('') + '</nav>';
+    SECT.map(function (s) { return '<button data-sec="' + s[0] + '" aria-current="' + (s[0] === sec) + '">' + svg(s[2]) + esc(s[3] ? s[3]() : t(s[1])) + '</button>'; }).join('') + '</nav>';
   var sh = el('<aside class="pf-sheet" role="dialog" aria-label="' + esc(t('settings')) + '">' + nav + '<div class="pf-body"><button class="pf-x" aria-label="close">×</button><div id="pfSecBody"></div></div></aside>');
   layer([sh]);
   sh.querySelector('.pf-x').onclick = closeLayer;
@@ -459,6 +459,7 @@ function intDetail(id) {
 }
 
 function wire(body, sec, sub) {
+  if (EXT[sec]) return EXT[sec](body, sub);
   if (sec === 'disc') return discWire(body, sub);
   if (sec === 'look') return lookWire(body);
   if (sec === 'contact') return contactWire(body, sub);
@@ -515,8 +516,8 @@ function faq() {
 }
 function changelog(filter) {
   filter = filter || 'all';
-  var name = { knoc: 'Orbiscale', backlog: 'Infra Backlog', both: t('both') };
-  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'Orbiscale'], ['backlog', 'Infra Backlog']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
+  var name = { knoc: 'Orbiscale', backlog: 'Orbiscale Flow', both: t('both') };
+  var html = '<div class="pf-filters" id="pfLogF">' + [['all', t('all')], ['knoc', 'Orbiscale'], ['backlog', 'Orbiscale Flow']].map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (f[0] === filter) + '">' + esc(f[1]) + '</button>'; }).join('') + '</div><div class="pf-tl">' +
     C.LOG.filter(function (e) { return filter === 'all' || e[0] === filter || e[0] === 'both'; }).map(function (e, i) {
       return '<article class="' + (i < 2 ? 'big' : '') + '" style="animation-delay:' + (i * 0.04) + 's"><div class="meta"><span class="pf-chip acc">' + esc(name[e[0]]) + ' ' + esc(e[1]) + '</span>' + esc(e[2]) + '</div><h4>' + esc(tx(e[3])) + '</h4><ul>' + e[4].map(function (b) { return '<li>' + esc(tx(b)) + '</li>'; }).join('') + '</ul></article>';
     }).join('') + '</div>';
@@ -733,8 +734,15 @@ function discWire(body, sub) {
     var box = el('<div class="pf-secret" aria-hidden="true"></div>'); for (var n = 0; n < 36; n++) { var c = document.createElement('i'); c.style.left = (Math.random() * 100) + 'vw'; c.style.animationDelay = (Math.random() * .9) + 's'; c.style.borderRadius = n % 3 ? '50%' : '2px'; box.appendChild(c); }
     document.body.appendChild(box); setTimeout(function () { box.remove(); }, 3600);
   });
-  try { console.log('%c' + (P === 'knoc' ? 'Orbiscale' : 'Infra Backlog') + ' · made by Neto Rojas', 'font:700 14px Inter,sans-serif;color:#E2B84B', '\n↑ ↑ ↓ ↓ ← → ← → B A'); } catch (e) {}
+  try { console.log('%c' + (P === 'knoc' ? 'Orbiscale' : 'Orbiscale Flow') + ' · made by Neto Rojas', 'font:700 14px Inter,sans-serif;color:#E2B84B', '\n↑ ↑ ↓ ↓ ← → ← → B A'); } catch (e) {}
 })();
 
-window.PF = { settings: settings, faq: faq, changelog: changelog, palette: palette, tour: tour, login: login, version: VERSION };
+/* ---------- extension points (access.js: profile, admin, permissions) ---------- */
+var EXT = {};
+function addSection(id, after, label, icon, render, wireFn) {
+  if (SECTIONS[id]) return; var at = after === '^' ? -1 : SECT.map(function (s) { return s[0]; }).indexOf(after);
+  SECT.splice(after === '^' ? 0 : at < 0 ? SECT.length : at + 1, 0, [id, id, icon, label]); SECTIONS[id] = render; EXT[id] = wireFn || function () {};
+}
+window.PF = { settings: settings, faq: faq, changelog: changelog, palette: palette, tour: tour, login: login, version: VERSION,
+  addSection: addSection, store: store, audit: audit, toast: toast, lang: lang, product: P, modal: modal, closeLayer: closeLayer, esc: esc, el: el, session: session, row: row, sw: sw, select: select, seg: seg };
 })();
