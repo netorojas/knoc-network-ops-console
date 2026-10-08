@@ -44,9 +44,9 @@
     ticket: { i: '🎫', pt: 'Chamados', es: 'Tickets', en: 'Tickets' }, project: { i: '📁', pt: 'Projetos', es: 'Proyectos', en: 'Projects' },
     email: { i: '✉', pt: 'E-mails', es: 'Correos', en: 'E-mails' }, meeting: { i: '📅', pt: 'Reuniões', es: 'Reuniones', en: 'Meetings' },
     teams: { i: '💬', pt: 'Teams', es: 'Teams', en: 'Teams' }, change: { i: '🔁', pt: 'Mudanças · CAB', es: 'Cambios · CAB', en: 'Changes · CAB' },
-    alert: { i: '⚡', pt: 'Alertas', es: 'Alertas', en: 'Alerts' }, finding: { i: '🛡', pt: 'Segurança', es: 'Seguridad', en: 'Security' }
+    alert: { i: '⚡', pt: 'Alertas', es: 'Alertas', en: 'Alerts' }, voice: { i: '🎙', pt: 'Voz · WhatsApp', es: 'Voz · WhatsApp', en: 'Voice · WhatsApp' }, finding: { i: '🛡', pt: 'Segurança', es: 'Seguridad', en: 'Security' }
   };
-  var CORD = ['ticket', 'project', 'email', 'meeting', 'teams', 'change', 'alert', 'finding'];
+  var CORD = ['ticket', 'project', 'email', 'meeting', 'teams', 'voice', 'change', 'alert', 'finding'];
   function chName(k) { var c = CH[k]; return c ? c[L()] || c.pt : k; }
   function liveDemands() { return D.demands.filter(function (d) { return site(d.site); }); }
   function liveFindings() { return D.findings.filter(function (f) { return site(f.site); }); }

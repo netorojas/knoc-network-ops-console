@@ -15,7 +15,7 @@
 var me = document.currentScript, P = (me && me.dataset.product) || 'knoc', C = window.PF_CONTENT;
 if (!C) return;
 var root = document.documentElement; root.dataset.product = P;
-var VERSION = '5.1.0';
+var VERSION = '5.2.0';
 
 /* ---------- helpers ---------- */
 var $ = function (s, r) { return (r || document).querySelector(s); };

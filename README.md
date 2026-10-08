@@ -13,6 +13,22 @@ Map, topology, inventory, health, telephony, partners, multicloud discovery, wor
 
 ---
 
+## ✨ v5.2 · Security, lifecycle, business apps and voice intake
+
+- **Security:** one list for cloud, on-prem and endpoint vulnerabilities, with the tool that found each one and a *how to act* guide that links to the map, topology, inventory and the business apps affected.
+- **Lifecycle & licences:** installed vs latest release, end of support and renewals for the next 12 months.
+- **Business applications:** where each system runs, what it depends on and what is at risk.
+- **Endpoints from several tools:** Intune, IBM MaaS360, Jamf, AWS WorkSpaces, Azure Virtual Desktop and IBM Cloud VDI side by side.
+- **Voice intake:** a WhatsApp-style voice note becomes a classified draft work item with a pin on the map ([design](docs/voice-intake.md)).
+
+| Security | How to act |
+|---|---|
+| ![Security](docs/screenshots/v52-security.png) | ![How to act](docs/screenshots/v52-security-guide.png) |
+| **Lifecycle & licences** | **Business applications** |
+| ![Lifecycle](docs/screenshots/v52-lifecycle.png) | ![Business applications](docs/screenshots/v52-apps.png) |
+| **Endpoints from several tools** | **Voice intake** |
+| ![Endpoints](docs/screenshots/v52-endpoints.png) | ![Voice intake](docs/screenshots/v52-voice-intake.png) |
+
 ## ✨ v5.1 · Smooth, readable, actionable
 
 - **Smooth:** zoom and pan move the map as one GPU layer and redraw once when you stop — up to 6× fewer janky frames in our benchmark.

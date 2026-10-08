@@ -2,6 +2,17 @@
 
 All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
 
+## [5.2.0] - 2026-10-08
+### Added
+- **Security** screen: vulnerabilities and drift across clouds (Defender for Cloud, AWS Security Hub, Security Command Center, OCI Cloud Guard, IBM Security and Compliance Center), on-premises (Tenable Nessus, FortiAnalyzer, lifecycle) and endpoints (Intune, MaaS360, Jamf, VDI). Integrated-tools panel, risk by environment, filters, and a **how to act** drawer with steps, affected business applications, work at the same site, links to map/topology/inventory/lifecycle/endpoints and simulated ITSM/Teams drafts. Demo IDs are fictional, not CVEs.
+- **Lifecycle & licences** (Management): installed vs latest vendor release, end of support, licence/contract renewals, 12-month calendar, by-vendor chips, CSV export.
+- **Business applications** (Knowledge): tiered applications with RTO/RPO, health, clouds involved, open risks and the dependency chain (entry → application → data → infra).
+- **Endpoints from several tools**: demo devices from Microsoft Intune, IBM MaaS360, Jamf Pro, AWS WorkSpaces, Azure Virtual Desktop and IBM Cloud VDI, with a management-tools strip (% compliant, filter by tool).
+- **Voice intake** in Demands: WhatsApp-style voice note, speech or text → classified draft work item (site, asset, application, type, priority, mood) with a map pin and a suggested reply. Runs in the browser; see `docs/voice-intake.md` for the production design.
+### Changed
+- Version comparison ignores product prefixes ("FortiOS 7.4.4" equals "7.4.4").
+- Calmer filter controls on the costs, security and lifecycle screens.
+
 ## [5.1.0] - 2026-10-07
 ### Added
 - **Management** group in the left menu: FinOps and a new **Resource costs** screen (filter by origin, family, owner and tag; sort; CSV export; hidden for the Analyst persona).
