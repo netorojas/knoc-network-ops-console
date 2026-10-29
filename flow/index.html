@@ -1248,5 +1248,6 @@ html[data-theme="dark"] #pf-splash{background:#0B1220}html[data-theme="light"] #
 (function(){function sync(){try{var l=localStorage.getItem('bl_lang');if(l)localStorage.setItem('knoc.lang',l);var t=localStorage.getItem('bl_theme');if(t)localStorage.setItem('knoc.theme',t)}catch(e){}}
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('a[href^="../"]'))sync()},true);
 var tools=document.querySelector('.tools');if(tools&&!document.getElementById('flowVoice')){var a=document.createElement('a');a.id='flowVoice';a.className='btn';a.href='../?nologin&voice#dem';a.title='Orbiscale · voice intake';a.textContent='🎙';tools.insertBefore(a,tools.firstChild)}})();</script>
+<link rel="stylesheet" href="../assets/console.css">
 </body>
 </html>

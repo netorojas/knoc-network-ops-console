@@ -1,0 +1,136 @@
+/*!
+ * Orbiscale · Console palette (Graphite + blue), the default look since 5.4.
+ * Neutral graphite surfaces, one blue accent, colour reserved for status.
+ * Copyright (C) 2026 Ernesto Athaualpa Rojas (Neto). SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* ---------- 1. Tokens: light ---------- */
+:root[data-product][data-pbase="console"]{
+  --ground:#F6F7F9;--surface:#FFFFFF;--surface-2:#F1F3F5;--surface-3:#E7EAEE;
+  --line:#E2E5EA;--line-soft:#ECEEF1;--ink:#0F1217;--ink-2:#4A525D;--ink-3:#69717D;
+  --accent:#2563EB;--accent-ink:#FFFFFF;--accent-soft:#EAF0FD;--pf-accent-2:#2563EB;
+  --pf-grad:linear-gradient(180deg,#2F6DF0 0%,#2563EB 100%);--pf-red:#2563EB;--pf-blue:#2563EB;--pf-gold:#D97706;
+  --ok:#15803D;--ok-bg:#E9F6EE;--warn:#B45309;--warn-bg:#FDF3E3;--crit:#C81E1E;--crit-bg:#FCEBEB;--unk:#69717D;--unk-bg:#EEF0F3;
+  --sea:#F1F3F6;--land:#DDE1E7;--land-k:#C9D3E2;--land-line:#FFFFFF;
+  --canvas:#0F1217;--canvas-node:#171B21;
+  --pf-glass:rgba(255,255,255,.86);--pf-scrim:rgba(15,18,23,.42);
+  --shadow:0 1px 2px rgba(15,18,23,.05);--pf-shadow-md:0 2px 6px rgba(15,18,23,.05),0 10px 24px rgba(15,18,23,.07);--pf-shadow-lg:0 24px 60px rgba(15,18,23,.18);
+  --tp-bg:#F6F7F9;--tp-dot:#DADEE4;--tp-node:#FFFFFF;--tp-line:#A9B1BC;--tp-ink:#0F1217;--tp-ink2:#5A626D;
+  --tp-zone:rgba(37,99,235,.03);--tp-zst:#CDD2D9;--tp-zl:#5A626D;--tp-halo:#FFFFFF;
+  --tp-land:#E9ECF0;--tp-landk:#DDE2E8;--tp-landl:#CDD2D9;--tp-bar:rgba(255,255,255,.95);--tp-barl:#DADEE4;
+  --tp-tb:#FFFFFF;--tp-tbl:#D3D8DE;--tp-tbi:#1A1F26;--tp-gcl:rgba(20,24,30,.14);
+  --display:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  --body:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  --pf-font:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  --r:10px;
+}
+
+/* ---------- 2. Tokens: dark (system preference and explicit) ---------- */
+@media (prefers-color-scheme:dark){:root[data-product][data-pbase="console"]:not([data-theme="light"]){
+  --ground:#0E1116;--surface:#151920;--surface-2:#1B2028;--surface-3:#232932;
+  --line:#272E38;--line-soft:#1F252D;--ink:#E8EBEF;--ink-2:#A4ADB9;--ink-3:#7F8895;
+  --accent:#5B9BFF;--accent-ink:#06101F;--accent-soft:#17233A;--pf-accent-2:#5B9BFF;
+  --pf-grad:linear-gradient(180deg,#6AA5FF 0%,#5B9BFF 100%);--pf-red:#5B9BFF;--pf-blue:#5B9BFF;--pf-gold:#F5B544;
+  --ok:#4ADE80;--ok-bg:#12261B;--warn:#F5B544;--warn-bg:#2B2212;--crit:#F87171;--crit-bg:#311819;--unk:#8E97A3;--unk-bg:#1C2128;
+  --sea:#11151B;--land:#1F252E;--land-k:#22324D;--land-line:#0E1116;
+  --canvas:#0B0E12;--canvas-node:#151920;
+  --pf-glass:rgba(21,25,32,.86);--pf-scrim:rgba(4,6,9,.64);
+  --shadow:0 1px 2px rgba(0,0,0,.4);--pf-shadow-md:0 8px 24px rgba(0,0,0,.42);--pf-shadow-lg:0 30px 80px rgba(0,0,0,.6);
+  --tp-bg:#0E1116;--tp-dot:#1F252D;--tp-node:#151920;--tp-line:#46505E;--tp-ink:#E8EBEF;--tp-ink2:#9AA3AF;
+  --tp-zone:rgba(91,155,255,.05);--tp-zst:#2D3440;--tp-zl:#9AA3AF;--tp-halo:#0E1116;
+  --tp-land:#151A21;--tp-landk:#1A2029;--tp-landl:#272E38;--tp-bar:rgba(14,17,22,.9);--tp-barl:#272E38;
+  --tp-tb:#151920;--tp-tbl:#2D3440;--tp-tbi:#D5DAE1;--tp-gcl:rgba(200,210,225,.10);
+}}
+:root[data-product][data-pbase="console"][data-theme="dark"]{
+  --ground:#0E1116;--surface:#151920;--surface-2:#1B2028;--surface-3:#232932;
+  --line:#272E38;--line-soft:#1F252D;--ink:#E8EBEF;--ink-2:#A4ADB9;--ink-3:#7F8895;
+  --accent:#5B9BFF;--accent-ink:#06101F;--accent-soft:#17233A;--pf-accent-2:#5B9BFF;
+  --pf-grad:linear-gradient(180deg,#6AA5FF 0%,#5B9BFF 100%);--pf-red:#5B9BFF;--pf-blue:#5B9BFF;--pf-gold:#F5B544;
+  --ok:#4ADE80;--ok-bg:#12261B;--warn:#F5B544;--warn-bg:#2B2212;--crit:#F87171;--crit-bg:#311819;--unk:#8E97A3;--unk-bg:#1C2128;
+  --sea:#11151B;--land:#1F252E;--land-k:#22324D;--land-line:#0E1116;
+  --canvas:#0B0E12;--canvas-node:#151920;
+  --pf-glass:rgba(21,25,32,.86);--pf-scrim:rgba(4,6,9,.64);
+  --shadow:0 1px 2px rgba(0,0,0,.4);--pf-shadow-md:0 8px 24px rgba(0,0,0,.42);--pf-shadow-lg:0 30px 80px rgba(0,0,0,.6);
+  --tp-bg:#0E1116;--tp-dot:#1F252D;--tp-node:#151920;--tp-line:#46505E;--tp-ink:#E8EBEF;--tp-ink2:#9AA3AF;
+  --tp-zone:rgba(91,155,255,.05);--tp-zst:#2D3440;--tp-zl:#9AA3AF;--tp-halo:#0E1116;
+  --tp-land:#151A21;--tp-landk:#1A2029;--tp-landl:#272E38;--tp-bar:rgba(14,17,22,.9);--tp-barl:#272E38;
+  --tp-tb:#151920;--tp-tbl:#2D3440;--tp-tbi:#D5DAE1;--tp-gcl:rgba(200,210,225,.10);
+}
+/* no coloured glow behind the page: the console stays flat */
+:root[data-product][data-pbase="console"] body{background-image:none!important;background:var(--ground)}
+
+/* ---------- 3. Type: one sans (Inter) + one mono, calmer labels ---------- */
+:root[data-pbase="console"] body{font-feature-settings:'cv11','ss01','tnum';-webkit-font-smoothing:antialiased}
+:root[data-pbase="console"] h1,:root[data-pbase="console"] h2,:root[data-pbase="console"] h3,:root[data-pbase="console"] h4{font-family:var(--body);letter-spacing:-.015em}
+:root[data-pbase="console"] main h1{font-size:clamp(22px,2.2vw,28px);font-weight:650;line-height:1.2}
+:root[data-pbase="console"] main h2{font-size:17px;font-weight:600}
+:root[data-pbase="console"] .eyebrow,:root[data-pbase="console"] .navg{font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+:root[data-pbase="console"] .vhead p,:root[data-pbase="console"] .vhead .sub{color:var(--ink-2);max-width:72ch}
+
+/* ---------- 4. Shell: sidebar and top bar ---------- */
+:root[data-pbase="console"] aside.side{background:var(--surface);border-right:1px solid var(--line)}
+:root[data-pbase="console"] .brand .logo{background:#0F1217;border:1px solid rgba(255,255,255,.10);border-radius:8px}
+:root[data-pbase="console"] .brand .logo svg{color:#FFFFFF}
+:root[data-pbase="console"] .brand b{font-family:var(--body);font-weight:700;letter-spacing:-.01em}
+:root[data-pbase="console"] .nav a{border-radius:7px;color:var(--ink-2);font-weight:500}
+:root[data-pbase="console"] .nav a:hover{background:var(--surface-2);color:var(--ink)}
+:root[data-pbase="console"] .nav a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);box-shadow:none;font-weight:600}
+:root[data-pbase="console"] .nav a[aria-current="page"] svg{color:var(--accent)}
+:root[data-pbase="console"] header.top{border-bottom:1px solid var(--line)}
+:root[data-pbase="console"] header.top::after{display:none}
+:root[data-pbase="console"] .gsearch input{background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
+:root[data-pbase="console"] .gsearch input:focus{background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+:root[data-pbase="console"] .pf-ib{border-radius:8px;border-color:var(--line);background:var(--surface)}
+:root[data-pbase="console"] .pf-ib:hover{background:var(--surface-2)}
+
+/* ---------- 5. Buttons, pills, tags ---------- */
+:root[data-pbase="console"] .btn{border-radius:8px;font-weight:550}
+:root[data-pbase="console"] .btn.pri,:root[data-pbase="console"] .btn.primary,:root[data-pbase="console"] .pf-btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 1px 2px rgba(15,18,23,.12)}
+:root[data-pbase="console"] .pill{border-radius:999px}
+:root[data-pbase="console"] .conf{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;border-radius:4px}
+
+/* ---------- 6. Panels and KPI cards: neutral numbers, colour only on the status mark ---------- */
+:root[data-pbase="console"] .panel,:root[data-pbase="console"] .ccard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+:root[data-pbase="console"] .grid.g-kpi{grid-auto-rows:1fr}
+:root[data-pbase="console"] .kpi{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px 14px 18px;text-align:left;transition:border-color .15s,box-shadow .15s}
+:root[data-pbase="console"] .kpi:hover{transform:none;border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:var(--pf-shadow-md)}
+:root[data-pbase="console"] .kpi::before{content:"";position:absolute;inset:auto;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--line);opacity:1}
+:root[data-pbase="console"] .kpi.acc::before{background:var(--accent)}
+:root[data-pbase="console"] .kpi.ok::before{background:var(--ok)}
+:root[data-pbase="console"] .kpi.warn::before{background:var(--warn)}
+:root[data-pbase="console"] .kpi.crit::before{background:var(--crit)}
+:root[data-pbase="console"] .kpi .n{order:1;color:var(--ink)!important;font-family:var(--body);font-size:28px;font-weight:650;letter-spacing:-.025em;line-height:1.1;font-variant-numeric:tabular-nums}
+:root[data-pbase="console"] .kpi .l{order:2;color:var(--ink);font-size:13px;font-weight:550;line-height:1.3}
+:root[data-pbase="console"] .kpi .x{order:3;color:var(--ink-3);font-size:12px;margin-top:2px}
+:root[data-pbase="console"] .score .n,:root[data-pbase="console"] .score b{font-variant-numeric:tabular-nums}
+
+/* ---------- 7. Tables: dense, thin rules, sticky header ---------- */
+:root[data-pbase="console"] table.t th,:root[data-pbase="console"] .t th{font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line)}
+:root[data-pbase="console"] table.t td,:root[data-pbase="console"] .t td{border-bottom:1px solid var(--line-soft)}
+:root[data-pbase="console"] table.t tbody tr:hover td{background:color-mix(in srgb,var(--accent) 4%,transparent)}
+
+/* ---------- 8. Notices: the demo banner becomes a quiet strip ---------- */
+:root[data-pbase="console"] .infobox{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);color:var(--ink-2);font-size:13px}
+:root[data-pbase="console"] .infobox b:first-child{color:var(--ink)}
+
+/* ---------- 9. Map: quieter country names, readable site labels ---------- */
+:root[data-pbase="console"] #msvg .cl{font-family:var(--body);font-weight:600;letter-spacing:.08em;opacity:.55}
+:root[data-pbase="console"] #msvg .ml,:root[data-pbase="console"] #msvg .mn{font-family:var(--body);font-weight:600;paint-order:stroke;stroke:var(--sea);stroke-width:.32em;stroke-linejoin:round}
+:root[data-pbase="console"] .mapwrap{border-radius:var(--r)}
+
+/* ---------- 10. Phone: one compact top row, no wrapped controls ---------- */
+@media (max-width:640px){
+  :root[data-pbase="console"] header.top{gap:8px;flex-wrap:nowrap}
+  :root[data-pbase="console"] header.top .gsearch{flex:1 1 auto;min-width:0}
+  :root[data-pbase="console"] header.top .gsearch kbd{display:none}
+  :root[data-pbase="console"] header.top .seg,:root[data-pbase="console"] header.top .tbar [data-pf="pal"],:root[data-pbase="console"] header.top .tbar .who{display:none}
+  :root[data-pbase="console"] .kpi{padding:12px 12px 12px 15px}
+  :root[data-pbase="console"] .kpi .n{font-size:24px}
+  :root[data-pbase="console"] main h1{font-size:22px}
+}
+
+/* ---------- 11. Fix: v7 severity fills (.s-high etc.) leaked onto FinOps KPI tiles and hid their text ---------- */
+.v5-kpi.s-crit,.v5-kpi.s-high,.v5-kpi.s-med,.v5-kpi.s-low{background:var(--surface);color:var(--ink);position:relative}
+.v5-kpi.s-crit{box-shadow:inset 3px 0 0 var(--crit)}
+.v5-kpi.s-high{box-shadow:inset 3px 0 0 var(--warn)}
+.v5-kpi.s-med{box-shadow:inset 3px 0 0 var(--accent)}
