@@ -322,7 +322,8 @@ var SECTIONS = {
 /* ---------- 4b. Appearance: palettes + your own colours ---------- */
 var T3 = function (a, b, c) { return tx(L3(a, b, c)); };
 var PALS = [
-  ['executive', L3('Executivo', 'Ejecutivo', 'Executive'), L3('Azul confiável e verde-água sobre fundos neutros. O padrão.', 'Azul confiable y verde agua sobre fondos neutros. El estándar.', 'Trusted blue and teal on neutral surfaces. The default.'), '', ['#2563EB', '#0EA5A4', '#0F172A'], ['#60A5FA', '#2DD4BF', '#E6ECF5'], 1],
+  ['console', L3('Console', 'Consola', 'Console'), L3('Grafite neutro e um azul; cor só para status. O padrão.', 'Grafito neutro y un azul; color solo para estados. El estándar.', 'Neutral graphite and one blue; colour only for status. The default.'), 'console', ['#2563EB', '#0F1217', '#69717D'], ['#5B9BFF', '#E8EBEF', '#7F8895'], 1],
+  ['executive', L3('Executivo', 'Ejecutivo', 'Executive'), L3('Azul confiável e verde-água sobre fundos neutros.', 'Azul confiable y verde agua sobre fondos neutros.', 'Trusted blue and teal on neutral surfaces.'), '', ['#2563EB', '#0EA5A4', '#0F172A'], ['#60A5FA', '#2DD4BF', '#E6ECF5'], 1],
   ['violet', L3('Grafite + violeta', 'Grafito + violeta', 'Graphite + violet'), L3('Neutro e moderno, estilo observabilidade', 'Neutro y moderno, estilo observabilidad', 'Neutral and modern, observability style'), 'neutral', ['#6D5DF6', '#0EA5E9', '#111827'], ['#A498FF', '#38BDF8', '#E5E7EB']],
   ['ocean', L3('Oceano', 'Océano', 'Ocean'), L3('Azul-petróleo e azul profundo', 'Azul petróleo y azul profundo', 'Teal and deep blue'), 'neutral', ['#0E7490', '#2563EB', '#14B8A6'], ['#22D3EE', '#60A5FA', '#2DD4BF']],
   ['graphite', L3('Grafite', 'Grafito', 'Graphite'), L3('Quase monocromático, para telas de NOC', 'Casi monocromático, para pantallas de NOC', 'Near-monochrome, for NOC walls'), 'neutral', ['#334155', '#0EA5E9', '#64748B'], ['#CBD5E1', '#38BDF8', '#94A3B8']],
@@ -336,7 +337,7 @@ function hexOk(h) { return /^#[0-9a-f]{6}$/i.test(h || ''); }
 function lum(h) { var c = [1, 3, 5].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
 var LOOK_VARS = ['--accent', '--accent-ink', '--accent-soft', '--pf-accent-2', '--pf-grad', '--pf-red'];
 function applyLook() {
-  var id = S.pal === 'signature' ? 'ember' : (S.pal || 'executive'), p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
+  var id = S.pal === 'signature' ? 'ember' : (S.pal || 'console'), p = PALS.filter(function (x) { return x[0] === id; })[0] || PALS[0], dark = isDark();
   root.dataset.pbase = p[3] || '';
   root.dataset.palette = p[0];
   var sw = dark ? p[5] : p[4], a = sw[0], b = sw[1];
@@ -352,7 +353,7 @@ new MutationObserver(function (m) { if (m.some(function (x) { return x.attribute
 if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyLook); } catch (e) { /* old Safari */ } }
 
 SECTIONS.look = function () {
-  var cur = S.pal === 'signature' ? 'ember' : (S.pal || 'executive'), dark = isDark();
+  var cur = S.pal === 'signature' ? 'ember' : (S.pal || 'console'), dark = isDark();
   var cards = PALS.map(function (p) {
     var dots = function (arr) { return arr.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join(''); };
     return '<button class="pf-swatch" data-pal="' + p[0] + '" aria-pressed="' + (p[0] === cur) + '"><span class="pf-swatch-sw"><span class="l">' + dots(p[4]) + '</span><span class="d">' + dots(p[5]) + '</span></span><b>' + esc(tx(p[1])) + '</b><small>' + esc(tx(p[2])) + '</small></button>';
@@ -385,7 +386,7 @@ function lookWire(body) {
     var g = e.target.closest('[data-seg="theme"] [data-v]');
     if (g) { var tb = $('#theme [data-t="' + g.dataset.v + '"]'); if (tb) tb.click(); setTimeout(function () { settings('look'); }, 60); return; }
     var a = e.target.closest('[data-act="lookreset"]');
-    if (a) { S.pal = 'executive'; S.myCol = false; delete S.myA; delete S.myB; saveS(); applyLook(); settings('look'); toast(T3('Cores padrão restauradas.', 'Colores estándar restaurados.', 'Default colours restored.')); }
+    if (a) { S.pal = 'console'; S.myCol = false; delete S.myA; delete S.myB; saveS(); applyLook(); settings('look'); toast(T3('Cores padrão restauradas.', 'Colores estándar restaurados.', 'Default colours restored.')); }
   };
   body.oninput = function (e) {
     if (e.target.id !== 'pfMyA' && e.target.id !== 'pfMyB') return;

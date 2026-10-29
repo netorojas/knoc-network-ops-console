@@ -2,6 +2,15 @@
 
 All notable changes to Orbiscale (formerly KNOC). Format: [Keep a Changelog](https://keepachangelog.com/), versions follow SemVer.
 
+## [5.4.0] - 2026-10-29
+### Changed
+- New default palette **Console**: neutral graphite surfaces, one blue accent, colour reserved for status (light and dark). The other palettes stay in Settings › Look and colours.
+- One sans (Inter) and one mono; calmer headings and labels; KPI cards show the number first with a status mark on the left.
+- Phone: the top bar fits in one row (language and theme stay in Settings and the avatar menu).
+- Map: quieter country names and outlined site labels; splash screen in the new style.
+### Fixed
+- FinOps: the "budget used" tile was filled orange and its text was unreadable.
+
 ## [5.3.0] - 2026-10-08
 ### Added
 - **Orbiscale Flow** (`/flow`): the former Infra Backlog now lives inside Orbiscale as its team board. Menu entry in Orbiscale, links both ways (work item ↔ map), shared language, theme, profile and permissions; a 🎙 shortcut to voice intake. The old Infra Backlog site forwards links.
